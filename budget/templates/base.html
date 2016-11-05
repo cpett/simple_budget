@@ -1,0 +1,52 @@
+<!doctype html>
+<head>
+  {% load staticfiles %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Django-Materialize -->
+  {% include 'material/includes/material_css.html' %}
+  <script src="{% static 'material/js/jquery-2.2.0.js' %}"></script>
+  {% include 'material/includes/material_js.html' %}
+  <!-- Local JS -->
+  <script src="{% static 'js/main_js.js' %}"></script>
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+  <!-- D3 -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <!-- TABLEAU -->
+  <script type="text/javascript" src="https://online.tableau.com/javascripts/api/tableau-2.0.0.min.js"></script>
+  <script src="https://public.tableau.com/javascripts/api/tableau-2.js"></script>
+
+  <!-- Materialize CSS -->
+  <!-- Compiled and minified CSS -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"> -->
+  <!-- Compiled and minified JavaScript -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> -->
+</head>
+<body>
+  {% block header %}
+    <header>
+      <nav>
+        <div class="nav-wrapper blue darken-3">
+          <a href="#!" class="brand-logo">SimpleBudget</a>
+          <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li>
+            <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}">Sign Up</a></li>
+            <li class="{% block class_tab_project %}{% endblock %}"><a href="#">Sign In</a></li>
+          </ul>
+          <ul class="white_text side-nav blue" id="small-screen">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'sign_up' %}">Sign Up</a></li>
+            <li><a href="#">Sign In</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+  {% endblock %}
+
+  {% block content %}
+  {% endblock %}
+</body>
+</html>
