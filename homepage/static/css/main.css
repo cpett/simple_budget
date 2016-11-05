@@ -5,3 +5,7 @@ body {
 .white_text a {
   color: #FFFFFF !important;
 }
+
+nav ul li a i {
+    display: inline !important;
+}

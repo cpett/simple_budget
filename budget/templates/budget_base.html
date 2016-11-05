@@ -21,19 +21,44 @@
 <body>
   {% block header %}
     <header>
-      <nav>
+      <ul id="dropdown1" class="dropdown-content">
+        <li><a href="#!">Settings</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'index' %}">Sign Out</a></li>
+      </ul>
+      <nav class="nav-extended">
         <div class="nav-wrapper blue darken-3">
           <a href="#!" class="brand-logo">SimpleBudget</a>
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
-          <ul class="right hide-on-med-and-down">
-            <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li>
-            <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
-            <li class="{% block class_tab_project %}{% endblock %}"><a href="#">Sign In</a></li>
+          <ul class="right">
+            <li class="{% block class_tab_home %}{% endblock %}">
+              <a href="{% url 'budget' %}">
+                <!-- <i class="material-icons">home</i> -->
+                Home
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-button" href="#!" data-activates="dropdown1">
+                <!-- <i class="material-icons">account_circle</i> -->
+                James
+              </a>
+            </li>
           </ul>
           <ul class="white_text side-nav blue" id="small-screen">
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
-            <li><a href="#">Sign In</a></li>
+            <li><a href="{% url 'index' %}">Envelopes</a></li>
+            <li><a href="{% url 'index' %}">Accounts</a></li>
+            <li><a href="{% url 'index' %}">Goals</a></li>
+            <li><a href="{% url 'index' %}">Progress</a></li>
+            <li><a href="{% url 'index' %}">My Spending</a></li>
+            <li><a href="{% url 'index' %}">Settings</a></li>
+          </ul>
+          <ul class="tabs tabs-transparent blue darken-3 white_text hide-on-med-and-down">
+            <li class="tab"><a href="#envelopes">Envelopes</a></li>
+            <li class="tab"><a href="#accounts">Accounts</a></li>
+            <li class="tab"><a href="#goals">Goals</a></li>
+            <li class="tab"><a href="#progress">Progress</a></li>
+            <li class="tab"><a href="#mySpending">My Spending</a></li>
+            <li class="tab"><a href="#settings">Settings</a></li>
           </ul>
         </div>
       </nav>

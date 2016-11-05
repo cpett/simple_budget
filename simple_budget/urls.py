@@ -18,7 +18,8 @@ from django.contrib import admin
 from material.frontend import urls as frontend_urls
 
 urlpatterns = [
-    url(r'^', include('budget.urls')),
+    url(r'^', include('homepage.urls')),
+    url(r'^budget/', include('budget.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include(frontend_urls)),
 ]

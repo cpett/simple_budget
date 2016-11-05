@@ -1,0 +1,24 @@
+<div class="modal-content">
+  <h4>Sign In</h4>
+  <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s10">
+          <i class="material-icons prefix">email</i>
+          <input id="email" type="email" class="validate">
+          <label for="email">Email Address</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s10">
+          <i class="material-icons prefix">lock_open</i>
+          <input id="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="modal-footer">
+  <a href="{% url 'budget' %}" class="modal-action modal-close waves-effect waves-blue btn-flat">Sign In</a>
+</div>

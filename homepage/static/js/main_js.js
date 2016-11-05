@@ -11,4 +11,15 @@ $(document).ready(function(){
         }
     });
   });
+
+  $('.btnSignIn').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: '/sign_in',
+        success: function(data) {
+          $('#modal').find('.modal_container').html(data);
+          $('#modal').openModal();
+        }
+    });
+  });
 });
