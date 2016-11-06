@@ -1,9 +1,12 @@
 from django.conf.urls import url
 
-from budget import views
+from . import views
 
 urlpatterns = [
-    url(r'^', views.budget, name='budget'),
-    # url(r'^sign_up/', views.sign_up, name='sign_up'),
-    # url(r'^sign_in/', views.sign_in, name='sign_in'),
+    url(r'^$', views.budget, name='budget'),
+    url(r'^envelopes/', views.envelopes, name='envelopes'),
+    url(r'^accounts/', views.accounts, name='accounts'),
+    url(r'^goals/', views.goals, name='goals'),
+    url(r'^my_spending/', views.my_spending, name='my_spending'),
+    # url(r'^envelopes/', views.envelopes, name='envelopes'),
 ]
