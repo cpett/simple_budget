@@ -39,12 +39,14 @@
       </nav>
     </header>
   {% endblock %}
-
+  <!-- <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'imgs/finance_header.jpg' %}"></div>
+  </div> -->
   {% block content %}
   {% endblock %}
 
   {% block modal %}
-    <div id="modal" class="modal modal-fixed-footer">
+    <div id="modal" class="modal">
       <span class="modal_container">
         <div class="modal-content">
           <h4>Modal Header</h4>

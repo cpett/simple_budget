@@ -9,3 +9,7 @@ body {
 nav ul li a i {
     display: inline !important;
 }
+
+.temp_fix {
+  padding-top: 3.25rem;
+}

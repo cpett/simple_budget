@@ -33,38 +33,62 @@
             <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right">
               <li>
+                <!-- <div><a href="#!" class="secondary-content"><i class="material-icons">home</i></a>Home</div> -->
                 <a href="{% url 'budget' %}">
-                  <!-- <i class="material-icons">home</i> -->
+                  <i class="material-icons left">home</i>
                   Home
                 </a>
               </li>
               <li>
                 <a class="dropdown-button" href="#!" data-activates="dropdown1">
-                  <!-- <i class="material-icons">account_circle</i> -->
+                  <i class="material-icons left">account_circle</i>
                   James
                 </a>
               </li>
             </ul>
             <ul class="white_text side-nav blue" id="small-screen">
-              <li><a href="{% url 'budget' %}">Progress</a></li>
-              <li><a href="{% url 'envelopes' %}">Envelopes</a></li>
-              <li><a href="{% url 'accounts' %}">Accounts</a></li>
-              <li><a href="{% url 'goals' %}">Goals</a></li>
-              <li><a href="{% url 'my_spending' %}">My Spending</a></li>
-              <li><a href="{% url 'index' %}">Settings</a></li>
+              <li class=""><a href="{% url 'budget' %}">
+                <i class="material-icons left">assessment</i>
+                Progress</a>
+              </li>
+              <li><a href="{% url 'envelopes' %}">
+                <i class="material-icons left">email</i>
+                Envelopes</a>
+              </li>
+              <li><a href="{% url 'accounts' %}">
+                <i class="material-icons left">account_balance</i>
+                Accounts</a>
+              </li>
+              <li><a href="{% url 'goals' %}">
+                <i class="material-icons left">assignment_turned_in</i>
+                Goals</a>
+              </li>
+              <li><a href="{% url 'my_spending' %}">
+                <i class="material-icons left">credit_card</i>
+                My Spending</a>
+              </li>
+              <li><a href="{% url 'index' %}">
+                <i class="material-icons left">settings</i>
+                Settings</a>
+              </li>
             </ul>
             <ul class="tabs tabs-transparent blue darken-3 white_text hide-on-med-and-down">
-              <li class="tab"><a class="{% block progress_tab %}{% endblock %}" target="_blank" href="{% url 'budget' %}">Progress</a></li>
+              <li class="tab">
+                <a class="{% block progress_tab %}{% endblock %}" target="_blank" href="{% url 'budget' %}">Progress</a>
+              </li>
               <li class="tab"><a class="{% block envelopes_tab %}{% endblock %}" target="_blank" href="{% url 'envelopes' %}">Envelopes</a></li>
               <li class="tab"><a class="{% block accounts_tab %}{% endblock %}" target="_blank" href="{% url 'accounts' %}">Accounts</a></li>
               <li class="tab"><a class="{% block goals_tab %}{% endblock %}" target="_blank" href="{% url 'goals' %}">Goals</a></li>
               <li class="tab"><a class="{% block spending_tab %}{% endblock %}" target="_blank" href="{% url 'my_spending' %}">My Spending</a></li>
-              <li class="tab"><a class="{% block settings_tab %}{% endblock %}" target="_blank" href="{% url 'budget' %}">Settings</a></li>
+              <li class="tab"><a class="{% block settings_tab %}{% endblock %}" target="_blank" href="{% url 'settings' %}">Settings</a></li>
             </ul>
           </div>
         </nav>
       </div>
     </header>
+    <!-- TODO: actually fix this problem :: Temp fix -->
+    <div class="hide-on-med-and-down temp_fix">
+    </div>
   {% endblock %}
 
   {% block content %}

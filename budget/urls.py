@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^accounts/', views.accounts, name='accounts'),
     url(r'^goals/', views.goals, name='goals'),
     url(r'^my_spending/', views.my_spending, name='my_spending'),
-    # url(r'^envelopes/', views.envelopes, name='envelopes'),
+    url(r'^settings/', views.settings, name='settings'),
 ]
