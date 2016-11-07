@@ -1,11 +1,11 @@
 $(document).ready(function(){
+  // Menu Init
   $(".button-collapse").sideNav();
 
-  // $('ul.tabs a').on('click', function(e){
-  //   if($(this).attr("target") ) {
-  //     window.location = $(this).attr("href");
-  //   }
-  // });
+  // PARALLAX INIT
+  $(document).ready(function(){
+        $('.parallax').parallax();
+  });
 
   $('.btnSignUp').click(function(e){
     e.preventDefault();

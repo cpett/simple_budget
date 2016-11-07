@@ -26,7 +26,7 @@
           <a href="#!" class="brand-logo">SimpleBudget</a>
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
-            <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li>
+            <!-- <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li> -->
             <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
             <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
           </ul>
@@ -39,9 +39,9 @@
       </nav>
     </header>
   {% endblock %}
-  <!-- <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'imgs/finance_header.jpg' %}"></div>
-  </div> -->
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'imgs/lady_mac1.jpg' %}"></div>
+  </div>
   {% block content %}
   {% endblock %}
 
