@@ -17,6 +17,8 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"> -->
   <!-- Compiled and minified JavaScript -->
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> -->
+  {% block extrajs %}
+  {% endblock %}
 </head>
 <body>
   {% block header %}
@@ -29,7 +31,7 @@
       <div class="navbar-fixed">
         <nav class="nav-extended">
           <div class="nav-wrapper blue darken-3">
-            <a href="#!" class="brand-logo">SimpliFi</a>
+            <a href="{% url 'budget' %}" class="brand-logo">SimpliFi</a>
             <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right">
               <li>
@@ -74,13 +76,13 @@
             </ul>
             <ul class="tabs tabs-transparent blue darken-3 white_text hide-on-med-and-down">
               <li class="tab">
-                <a class="{% block progress_tab %}{% endblock %}" target="_blank" href="{% url 'budget' %}">Progress</a>
+                <a class="{% block progress_tab %}{% endblock %}" target="_self" href="{% url 'budget' %}">Progress</a>
               </li>
-              <li class="tab"><a class="{% block envelopes_tab %}{% endblock %}" target="_blank" href="{% url 'envelopes' %}">Envelopes</a></li>
-              <li class="tab"><a class="{% block accounts_tab %}{% endblock %}" target="_blank" href="{% url 'accounts' %}">Accounts</a></li>
-              <li class="tab"><a class="{% block goals_tab %}{% endblock %}" target="_blank" href="{% url 'goals' %}">Goals</a></li>
-              <li class="tab"><a class="{% block spending_tab %}{% endblock %}" target="_blank" href="{% url 'my_spending' %}">My Spending</a></li>
-              <li class="tab"><a class="{% block settings_tab %}{% endblock %}" target="_blank" href="{% url 'settings' %}">Settings</a></li>
+              <li class="tab"><a class="{% block envelopes_tab %}{% endblock %}" target="_self" href="{% url 'envelopes' %}">Envelopes</a></li>
+              <li class="tab"><a class="{% block accounts_tab %}{% endblock %}" target="_self" href="{% url 'accounts' %}">Accounts</a></li>
+              <li class="tab"><a class="{% block goals_tab %}{% endblock %}" target="_self" href="{% url 'goals' %}">Goals</a></li>
+              <li class="tab"><a class="{% block spending_tab %}{% endblock %}" target="_self" href="{% url 'my_spending' %}">My Spending</a></li>
+              <li class="tab"><a class="{% block settings_tab %}{% endblock %}" target="_self" href="{% url 'settings' %}">Settings</a></li>
             </ul>
           </div>
         </nav>
@@ -95,13 +97,14 @@
   {% endblock %}
 
   {% block modal %}
-    <div id="modal" class="modal modal-fixed-footer">
-      <span class="modal_container">
-        <div class="modal-content">
-          <h4>Modal Header</h4>
-          <p>A bunch of text</p>
-        </div>
-      </span>
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <h4>Modal Header</h4>
+        <p>A bunch of text</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      </div>
     </div>
   {% endblock %}
 </body>

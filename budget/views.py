@@ -15,12 +15,28 @@ def envelopes(request):
     '''
     return render(request, 'envelopes.html')
 
-
+################################
+########## ACCOUNTS ###########
+###############################
 def accounts(request):
     '''
         Loads the accounts page
     '''
     return render(request, 'accounts.html')
+
+
+def accounts_add(request):
+    '''
+        Loads the the modal to add new account
+    '''
+    return render(request, 'accounts_add.html')
+
+
+def accounts_remove(request):
+    '''
+        Loads the the modal to add new account
+    '''
+    return render(request, 'accounts_remove.html')
 
 
 def goals(request):

@@ -13,3 +13,11 @@ nav ul li a i {
 .temp_fix {
   padding-top: 3.25rem;
 }
+
+.pbottom {
+  padding-bottom: .75em !important;
+}
+
+.ptop {
+  padding-top: .75em !important;
+}
