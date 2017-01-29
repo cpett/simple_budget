@@ -27,8 +27,12 @@
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
             <!-- <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li> -->
-            <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
-            <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+            {% if request.user.is_authenticated %}
+              <li class=""><a href="#" class="">Welcome, {{ request.user.first_name }}</a></li>
+            {% else %}
+              <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
+              <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+            {% endif %}
           </ul>
           <ul class="white_text side-nav blue" id="small-screen">
             <li><a href="{% url 'index' %}">Home</a></li>

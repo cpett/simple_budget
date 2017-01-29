@@ -1,36 +1,18 @@
+<head>
+  {% load staticfiles %}
+  {% load material_form %}
+  <script src="{% static 'js/accounts.js' %}"></script>
+</head>
 <div class="modal-content">
-  <h4 class="pbottom">Add Account</h4>
-  <div class="row">
-    <form class="col s12 center">
-      <div class="row">
-        <div class="input-field col s10">
-          <i class="material-icons prefix">verified_user</i>
-          <input id="username" type="text" class="validate">
-          <label for="username">User name</label>
-        </div>
+  <h4>Add Account</h4>
+  <form id="AddAccountForm" method="POST" class="viewform">{% csrf_token %}
+      {% form form=form %}
+          {% part form.acc_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+          {% part form.acc_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+      {% endform %}
+      <div class="modal-footer">
+        <button type="submit" name="_submit" class="btn waves-effect waves-blue btn blue btn-lg">Submit</button>
       </div>
-      <div class="row">
-        <div class="input-field col s10">
-          <i class="material-icons prefix">lock_open</i>
-          <input id="password" type="password" class="validate">
-          <label for="password">Password</label>
-        </div>
-      </div>
-    </form>
-  </div>
-  <form action="#" class="center ptop pbottom">
-    <div class="row">
-      <input name="group1" type="radio" id="test1" />
-      <label for="test1">Wells Fargo</label>
-
-      <input name="group1" type="radio" id="test2" />
-      <label for="test2">Chase</label>
-
-      <input class="group1" name="group1" type="radio" id="test3"  />
-      <label for="test3">Capitol One</label>
-
-      <input name="group1" type="radio" id="test4" />
-      <label for="test4">Bank of America</label>
-    </div>
   </form>
+
 </div>

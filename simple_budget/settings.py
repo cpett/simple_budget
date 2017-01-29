@@ -79,14 +79,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'simple_budget.wsgi.application'
 
+# Authentication user in models.py
+AUTH_USER_MODEL = 'homepage.User'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'mydatabase',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'simplifi',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

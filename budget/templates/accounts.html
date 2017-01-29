@@ -13,13 +13,150 @@
           <div class="card-content">
             <h4>Accounts</h4>
             <div class="row">
-
+              <p>
+                You have {{ account_count }} accounts linked, and 0 need your attention.
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class='row'>
+      <!-- CHECKING -->
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Checking</h5>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for checking in checkings %}
+                  <tr>
+                    <td>{{ checking.account_name }}</td>
+                    <td>{{ checking.amount }}</td>
+                    <td>
+                      <a class='btn btn-sm yellow darken-2'>
+                        <i class='material-icons'>mode_edit'</i>
+                      </a>
+                      <a class='btn btn-sm red'>
+                        <i class='material-icons'>delete'</i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Credit Card -->
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Credit Cards</h5>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for credit in credits %}
+                  <tr>
+                    <td>{{ credit.account_name }}</td>
+                    <td>{{ credit.amount }}</td>
+                    <td>
+                      <a class='btn btn-sm yellow darken-2'>
+                        <i class='material-icons'>mode_edit'</i>
+                      </a>
+                      <a class='btn btn-sm red'>
+                        <i class='material-icons'>delete'</i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- SAVINGS -->
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Savings</h5>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for saving in savings %}
+                  <tr>
+                    <td>{{ saving.account_name }}</td>
+                    <td>{{ saving.amount }}</td>
+                    <td>
+                      <a class='btn btn-sm yellow darken-2'>
+                        <i class='material-icons'>mode_edit'</i>
+                      </a>
+                      <a class='btn btn-sm red'>
+                        <i class='material-icons'>delete'</i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- Investments -->
+      <div class="col s12 m12 l6">
+        <div class="card">
+          <div class="card-content">
+            <h5>Investments</h5>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for invest in invests %}
+                  <tr>
+                    <td>{{ invest.account_name }}</td>
+                    <td>{{ invest.amount }}</td>
+                    <td>
+                      <a class='btn btn-sm yellow darken-2'>
+                        <i class='material-icons'>mode_edit'</i>
+                      </a>
+                      <a class='btn btn-sm red'>
+                        <i class='material-icons'>delete'</i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <!-- ACTION BUTTON -->
   <div class="fixed-action-btn">
     <a class="btn-floating btn-large orange tooltipped" data-position="left"
     data-delay="50" data-tooltip="Edit accounts">

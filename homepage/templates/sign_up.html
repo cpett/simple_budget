@@ -1,39 +1,20 @@
+<head>
+  {% load staticfiles %}
+  {% load material_form %}
+  <script src="{% static 'js/main_js.js' %}"></script>
+</head>
 <div class="modal-content">
   <h4>Create Account</h4>
-  <div class="row">
-    <form class="col s12">
-      <div class="row">
-        <div class="input-field col s10">
-          <i class="material-icons prefix">email</i>
-          <input id="email" type="email" class="validate">
-          <label for="email">Email Address</label>
+    <form id="signupForm" method="POST" class="viewform">{% csrf_token %}
+        {% form %}
+            {% part form.first_name prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+            {% part form.last_name prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+            {% part form.username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+            {% part form.email prefix %}<i class="material-icons prefix">email</i>{% endpart %}
+            {% part form.password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+        {% endform %}
+        <div class="modal-footer">
+          <button id="btnCreateUser" type="submit" name="_submit" class="btn waves-effect waves-blue btn blue btn-lg">Submit</button>
         </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s5">
-          <i class="material-icons prefix">account_circle</i>
-          <input id="icon_prefix" type="text" class="validate">
-          <label for="icon_prefix">First Name</label>
-        </div>
-        <div class="input-field col s5">
-          <input id="icon_telephone" type="text" class="validate">
-          <label for="icon_telephone">Last Name</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s5">
-          <i class="material-icons prefix">lock_open</i>
-          <input id="password" type="password" class="validate">
-          <label for="password">Password</label>
-        </div>
-        <div class="input-field col s5">
-          <input id="password" type="password" class="validate">
-          <label for="password">Confirm Password</label>
-        </div>
-      </div>
     </form>
-  </div>
-</div>
-<div class="modal-footer">
-  <a href="#!" class="modal-action modal-close waves-effect waves-blue btn blue">Submit</a>
 </div>
