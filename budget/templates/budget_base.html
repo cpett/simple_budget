@@ -29,7 +29,7 @@
         <li><a href="{% url 'sign_out' %}">Sign Out</a></li>
       </ul>
       <div class="navbar-fixed">
-        <nav class="nav-extended">
+        <nav class="nav-extended blue darken-3">
           <div class="nav-wrapper blue darken-3">
             <a href="{% url 'budget' %}" class="brand-logo">SimpliFi</a>
             <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -50,32 +50,6 @@
                 </a>
               </li>
             </ul>
-            <ul class="white_text side-nav blue" id="small-screen">
-              <li class=""><a href="{% url 'budget' %}">
-                <i class="material-icons left">assessment</i>
-                Progress</a>
-              </li>
-              <li><a href="{% url 'envelopes' %}">
-                <i class="material-icons left">email</i>
-                Envelopes</a>
-              </li>
-              <li><a href="{% url 'accounts' %}">
-                <i class="material-icons left">account_balance</i>
-                Accounts</a>
-              </li>
-              <li><a href="{% url 'goals' %}">
-                <i class="material-icons left">assignment_turned_in</i>
-                Goals</a>
-              </li>
-              <li><a href="{% url 'my_spending' %}">
-                <i class="material-icons left">credit_card</i>
-                My Spending</a>
-              </li>
-              <li><a href="{% url 'index' %}">
-                <i class="material-icons left">settings</i>
-                Settings</a>
-              </li>
-            </ul>
             <ul class="tabs tabs-transparent blue darken-3 white_text hide-on-med-and-down">
               <li class="tab">
                 <a class="{% block progress_tab %}{% endblock %}" target="_self" href="{% url 'budget' %}">Progress</a>
@@ -89,6 +63,32 @@
           </div>
         </nav>
       </div>
+      <ul class="white_text side-nav blue" id="small-screen">
+        <li class=""><a href="{% url 'budget' %}">
+          <i class="white-text material-icons left">assessment</i>
+          Progress</a>
+        </li>
+        <li><a href="{% url 'envelopes' %}">
+          <i class="white-text material-icons left">email</i>
+          Envelopes</a>
+        </li>
+        <li><a href="{% url 'accounts' %}">
+          <i class="white-text material-icons left">account_balance</i>
+          Accounts</a>
+        </li>
+        <li><a href="{% url 'goals' %}">
+          <i class="white-text material-icons left">assignment_turned_in</i>
+          Goals</a>
+        </li>
+        <li><a href="{% url 'my_spending' %}">
+          <i class="white-text material-icons left">credit_card</i>
+          My Spending</a>
+        </li>
+        <li><a href="{% url 'index' %}">
+          <i class="white-text material-icons left">settings</i>
+          Settings</a>
+        </li>
+      </ul>
     </header>
     <!-- TODO: actually fix this problem :: Temp fix -->
     <div class="hide-on-med-and-down temp_fix">

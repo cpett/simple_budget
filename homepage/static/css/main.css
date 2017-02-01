@@ -6,6 +6,10 @@ body {
   color: #FFFFFF !important;
 }
 
+i .white_icon {
+  color: #FFFFFF !important;
+}
+
 nav ul li a i {
     display: inline !important;
 }
