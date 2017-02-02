@@ -41,11 +41,13 @@
                     <td>{{ checking.account_name }}</td>
                     <td>{{ checking.amount }}</td>
                     <td>
-                      <a class='btn btn-sm yellow darken-2'>
-                        <i class='material-icons'>mode_edit'</i>
+                      <a id='{{ checking.id }}' class='btnEditAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Edit">
+                        <i class='material-icons yellow-text darken-2'>mode_edit</i>
                       </a>
-                      <a class='btn btn-sm red'>
-                        <i class='material-icons'>delete'</i>
+                      <a id='{{ checking.id }}' class='btnConfirmAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Delete">
+                        <i class='material-icons red-text'>delete</i>
                       </a>
                     </td>
                   </tr>
@@ -74,11 +76,13 @@
                     <td>{{ credit.account_name }}</td>
                     <td>{{ credit.amount }}</td>
                     <td>
-                      <a class='btn btn-sm yellow darken-2'>
-                        <i class='material-icons'>mode_edit'</i>
+                      <a id='{{ credit.id }}' class='btnEditAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Edit">
+                        <i class='material-icons yellow-text darken-2'>mode_edit</i>
                       </a>
-                      <a class='btn btn-sm red'>
-                        <i class='material-icons'>delete'</i>
+                      <a id='{{ credit.id }}' class='btnConfirmAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Delete">
+                        <i class='material-icons red-text'>delete</i>
                       </a>
                     </td>
                   </tr>
@@ -107,11 +111,13 @@
                     <td>{{ saving.account_name }}</td>
                     <td>{{ saving.amount }}</td>
                     <td>
-                      <a class='btn btn-sm yellow darken-2'>
-                        <i class='material-icons'>mode_edit'</i>
+                      <a id='{{ saving.id }}' class='btnEditAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Edit">
+                        <i class='material-icons yellow-text darken-2'>mode_edit</i>
                       </a>
-                      <a class='btn btn-sm red'>
-                        <i class='material-icons'>delete'</i>
+                      <a id='{{ saving.id }}' class='btnConfirmAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Delete">
+                        <i class='material-icons red-text'>delete</i>
                       </a>
                     </td>
                   </tr>
@@ -140,11 +146,13 @@
                     <td>{{ invest.account_name }}</td>
                     <td>{{ invest.amount }}</td>
                     <td>
-                      <a class='btn btn-sm yellow darken-2'>
-                        <i class='material-icons'>mode_edit'</i>
+                      <a id='{{ invest.id }}' class='btnEditAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Edit">
+                        <i class='material-icons yellow-text darken-2'>mode_edit</i>
                       </a>
-                      <a class='btn btn-sm red'>
-                        <i class='material-icons'>delete'</i>
+                      <a id='{{ invest.id }}' class='btnConfirmAccount tooltipped' data-position="bottom"
+                        data-delay="50" data-tooltip="Delete">
+                        <i class='material-icons red-text'>delete</i>
                       </a>
                     </td>
                   </tr>
@@ -157,7 +165,7 @@
     </div>
   </div>
   <!-- ACTION BUTTON -->
-  <div class="fixed-action-btn">
+  <div class="fixed-action-btn left">
     <a class="btn-floating btn-large orange tooltipped" data-position="left"
     data-delay="50" data-tooltip="Edit accounts">
       <i class="large material-icons">mode_edit</i>
@@ -171,9 +179,9 @@
         </a>
       </li>
       <li>
-        <a class="btn-floating red tooltipped" id="btnRemoveAccounts" data-position="left"
+        <a class="btn-floating red tooltipped" id="btnbtnRemoveAccounts" data-position="left"
           data-delay="50" data-tooltip="Remove accounts"
-          href="{% url 'accounts_remove' %}">
+          href="">
           <i class="material-icons">delete</i>
         </a>
       </li>

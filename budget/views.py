@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from homepage import forms as frm
 from homepage import models as mod
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
+
 
 @login_required(login_url='/')
 def budget(request):
@@ -57,12 +59,9 @@ def accounts_add(request):
     '''
     if request.user.is_authenticated():
         user = request.user
-        print(user)
     if request.method == "POST":
         form = frm.AccountForm(request.POST)
-        print('POSTED!')
         if form.is_valid():
-            print('VALID!')
             account = form.save(commit=False)
             account.user = user
             account.account_name = form.cleaned_data['account_name']
@@ -81,10 +80,65 @@ def accounts_add(request):
 
 
 @login_required(login_url='/')
-def accounts_remove(request):
+def accounts_edit(request, account_id):
+    '''
+        Loads the the modal to edit an account
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    try:
+        account = mod.Account.objects.get(user=user.id, pk=account_id)
+    except ObjectDoesNotExist:
+        context = {'error': 'error'}
+        return render(request, 'accounts_edit.html', context)
+    if request.method == "POST":
+        form = frm.AccountForm(request.POST, instance=account)
+        if form.is_valid():
+            account = form.save(commit=False)
+            account.user = user
+            account.account_name = form.cleaned_data['account_name']
+            account.acc_type = form.cleaned_data['acc_type']
+            # Need to see how to best handle 3rd party credentials
+            account.acc_password = form.cleaned_data['acc_password']
+            account.acc_username = form.cleaned_data['acc_username']
+            account.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.AccountForm(instance=account)
+    context = {'form': form,
+               'account_id': account_id
+              }
+    return render(request, 'accounts_edit.html', context)
+
+@login_required(login_url='/')
+def accounts_remove_confirm(request, account_id):
     '''
         Loads the the modal to add new account
     '''
+    try:
+        account = mod.Account.objects.get(user=request.user.id, pk=account_id)
+        context = {'account': account}
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        error = 'Error'
+        context = {'error': error}
+    return render(request, 'accounts_remove.html', context)
+
+
+@login_required(login_url='/')
+def accounts_remove(request, account_id):
+    '''
+        Loads the the modal to add new account
+    '''
+    try:
+        account = mod.Account.objects.get(user=request.user.id, pk=account_id)
+        account.delete()
+        return HttpResponse('success')
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        return HttpResponse('error')
     return render(request, 'accounts_remove.html')
 
 
