@@ -156,6 +156,34 @@ def goals(request):
                     .count()
     goals = mod.Goal.objects.all() \
                     .filter(user=user)
+    context = {'goals': goals,
+              }
+    return render(request, 'goals.html', context)
+
+@login_required(login_url='/')
+def goals_add(request):
+    '''
+        Loads the the modal to add new goal
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    if request.method == "POST":
+        form = frm.GoalForm(request.POST)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = user
+            goal.goal_name = form.cleaned_data['goal_name']
+            goal.amount = form.cleaned_data['amount']
+            goal.goal_date = form.cleaned_data['goal_date']
+            goal.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.GoalForm()
+    context = {'form': form}
+    return render(request, 'goals_add.html', context)
+>>>>>>> e8bbd7a791863418b3014ba9d40a5f07430a4104
 
     context = {'goals': goals,
               }

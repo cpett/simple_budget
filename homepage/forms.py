@@ -60,6 +60,7 @@ class AccountForm(ModelForm):
                              )
                     )
 
+<<<<<<< HEAD
 class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
@@ -70,6 +71,8 @@ class TransactionForm(ModelForm):
                         Row('original_description')
                    )
 
+=======
+>>>>>>> e8bbd7a791863418b3014ba9d40a5f07430a4104
 class GoalForm(ModelForm):
     class Meta:
         model = Goal
