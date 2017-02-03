@@ -1,4 +1,8 @@
 {% extends "budget_base.html" %}
+{% load staticfiles %}
+{% block extrajs %}
+  <script src="{% static 'js/goals.js' %}"></script>
+{% endblock %}
 {% load material_form %}
 {% block goals_tab %}active{% endblock %}
 {% block content %}
@@ -9,11 +13,43 @@
           <div class="card-content">
             <h4>Goals</h4>
             <div class="row">
-              [Insert Goals]
+              {% if goal_count > 0 %}
+                <p>
+                  You have {{ goal_count }} goals created!
+                </p>
+              {% else %}
+                  <p>
+                    Get started and create a goal!
+                  </p>
+                  <a class="btnAddGoals green btn">Add Goal</a>
+              {% endif %}
               <i class="material-icons large">insert_chart</i>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- ACTION BUTTON -->
+  <div class="fixed-action-btn left">
+    <a class="btn-floating btn-large orange tooltipped" data-position="left"
+    data-delay="50" data-tooltip="Edit goals">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+      <li>
+        <a class="btn-floating green tooltipped" id="btnAddGoals" data-position="left"
+          data-delay="50" data-tooltip="Add goals"
+          href="{% url 'goals_add' %}">
+          <i class="material-icons">add</i>
+        </a>
+      </li>
+      <li>
+        <a class="btn-floating red tooltipped" class="btnbtnRemoveGoals" data-position="left"
+          data-delay="50" data-tooltip="Remove goals"
+          href="">
+          <i class="material-icons">delete</i>
+        </a>
+      </li>
+    </ul>
   </div>
 {% endblock %}

@@ -141,13 +141,49 @@ def accounts_remove(request, account_id):
         return HttpResponse('error')
     return render(request, 'accounts_remove.html')
 
-
+################################
+############ GOALS ############
+###############################
 @login_required(login_url='/')
 def goals(request):
     '''
         Loads the goals page
     '''
-    return render(request, 'goals.html')
+    if request.user.is_authenticated():
+        user = request.user
+    goal_count = mod.Goal.objects.all() \
+                    .filter(user=user) \
+                    .count()
+    goals = mod.Goal.objects.all() \
+                    .filter(user=user)
+
+    context = {'goals': goals,
+              }
+    return render(request, 'goals.html', context)
+
+@login_required(login_url='/')
+def goals_add(request):
+    '''
+        Loads the the modal to add new goal
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    if request.method == "POST":
+        form = frm.GoalForm(request.POST)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = user
+            goal.goal_name = form.cleaned_data['goal_name']
+            goal.amount = form.cleaned_data['amount']
+            goal.goal_date = form.cleaned_data['goal_date']
+            goal.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.GoalForm()
+    context = {'form': form}
+    return render(request, 'goals_add.html', context)
 
 
 @login_required(login_url='/')

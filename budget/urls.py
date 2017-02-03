@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^accounts_remove_confirm/(\d+)', views.accounts_remove_confirm, name='accounts_remove_confirm'),
     url(r'^accounts_remove/(\d+)', views.accounts_remove, name='accounts_remove'),
     url(r'^accounts/', views.accounts, name='accounts'),
+    url(r'^goals_add/', views.goals_add, name='goals_add'),
     url(r'^goals/', views.goals, name='goals'),
     url(r'^transactions/', views.transactions, name='transactions'),
     url(r'^settings/', views.settings, name='settings'),
