@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm, PasswordInput, RadioSelect
-from homepage.models import User, Account
+from homepage.models import User, Account, Goal
 from material import *
 
 
@@ -58,4 +58,20 @@ class AccountForm(ModelForm):
                                 Row('acc_username'),
                                 Row('acc_password')
                              )
+                    )
+
+class GoalForm(ModelForm):
+    class Meta:
+        model = Goal
+        fields = ('goal_name', 'amount', 'goal_date')
+        labels = {
+                    'goal_name': 'Goal Name',
+                    'amount': 'Amount',
+                    'goal_date': 'Date'
+        }
+    layout = Layout(
+                    Fieldset("Goal Information",
+                            Row('goal_name'),
+                            Row('amount', 'goal_date')
+                        )
                     )

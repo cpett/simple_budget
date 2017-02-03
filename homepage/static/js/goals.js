@@ -4,7 +4,7 @@ $(document).ready(function(){
   // initialize dropdown select input element
   $('select').material_select();
 
-  $('#btnAddGoals').click(function(e){
+  $('.btnAddGoals').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
