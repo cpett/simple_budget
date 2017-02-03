@@ -17,6 +17,37 @@
                 <p>
                   You have {{ goal_count }} goals created!
                 </p>
+                <h5>Checking</h5>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Amount</th>
+                      <th>Date</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for goal in goals %}
+                      <tr>
+                        <td>{{ goal.goal_name }}</td>
+                        <td>{{ goal.amount }}</td>
+                        <td>{{ goal.goal_date }}</td>
+                        <td>
+                          <a id='{{ goal.id }}' class='btnEditGoal tooltipped' data-position="bottom"
+                            data-delay="50" data-tooltip="Edit">
+                            <i class='material-icons yellow-text darken-2'>mode_edit</i>
+                          </a>
+                          <a id='{{ goal.id }}' class='btnConfirmGoal tooltipped' data-position="bottom"
+                            data-delay="50" data-tooltip="Delete">
+                            <i class='material-icons red-text'>delete</i>
+                          </a>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
               {% else %}
                   <p>
                     Get started and create a goal!
@@ -39,12 +70,12 @@
       <li>
         <a class="btn-floating green tooltipped" id="btnAddGoals" data-position="left"
           data-delay="50" data-tooltip="Add goals"
-          href="{% url 'goals_add' %}">
+          href="">
           <i class="material-icons">add</i>
         </a>
       </li>
       <li>
-        <a class="btn-floating red tooltipped" class="btnbtnRemoveGoals" data-position="left"
+        <a class="btn-floating red tooltipped btnRemoveGoals" id="" data-position="left"
           data-delay="50" data-tooltip="Remove goals"
           href="">
           <i class="material-icons">delete</i>
