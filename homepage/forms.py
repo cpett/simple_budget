@@ -1,5 +1,4 @@
 from django import forms
-<<<<<<< HEAD
 from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput
 from homepage.models import User, Account, Transaction, Goal
 
