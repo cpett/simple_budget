@@ -1,5 +1,10 @@
+html {
+  font-family: "Roboto", sans serif;
+  font-weight: 300;
+}
+
 body {
-  background-color: #2196f3;
+  background-color: #eeeeee;
 }
 
 .white_text a {

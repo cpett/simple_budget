@@ -151,11 +151,23 @@ def goals(request):
 
 
 @login_required(login_url='/')
-def my_spending(request):
+def transactions(request):
     '''
         Loads the my spending page
     '''
-    return render(request, 'my_spending.html')
+    if request.user.is_authenticated():
+        user = request.user
+    user_accounts = mod.Account.objects.all().filter(user=user)
+    transaction_count = mod.Transaction.objects.all() \
+                    .filter(account__in=user_accounts) \
+                    .count()
+    transactions = mod.Transaction.objects.all() \
+                    .filter(account__in=user_accounts)
+
+    context = {'transaction_count': transaction_count,
+               'transactions': transactions,
+              }
+    return render(request, 'transactions.html', context)
 
 
 @login_required(login_url='/')

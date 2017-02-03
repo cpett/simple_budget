@@ -32,12 +32,22 @@ class Account(models.Model):
     acc_password = models.CharField(max_length=45, null=False, blank=False)
 
 class Transaction(models.Model):
-	user = models.ForeignKey(User, null=True)
-	date = models.DateField(null=True, blank=True)
-	description = models.TextField(max_length=75, null=True, blank=True)
-	original_description = models.TextField(max_length=75, null=True, blank=True)
-	amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
-	transaction_type = models.TextField(max_length=75, null=True, blank=True)
-	category = models.TextField(max_length=75, null=True, blank=True)
-	account = models.ForeignKey(Account, null=True)
-	account_name = models.TextField(max_length=75, null=True, blank=True)
+    account = models.ForeignKey(Account, null=True)
+    category_choices = (
+                            ('rent', 'Rent'),
+                            ('groceries', 'Groceries'),
+                            ('gas', 'Gas'),
+                            ('restaurant', 'Restaurant'),
+                            ('entertainment', 'Entertainment'),
+                            ('movies', 'Movies'),
+                            ('utilities', 'Utilities'),
+                            ('insurance', 'Insurance'),
+                            ('electronics', 'Electronics'),
+                            ('shopping', 'Shopping'),
+                            ('misc', 'Misc.'),
+                       )
+    category = models.CharField(max_length=20, choices=category_choices, default='misc')
+    date = models.DateField(null=True, blank=True)
+    description = models.TextField(max_length=75, null=True, blank=True)
+    original_description = models.TextField(max_length=75, null=True, blank=True)
+    amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
