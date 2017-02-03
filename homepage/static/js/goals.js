@@ -4,7 +4,7 @@ $(document).ready(function(){
   // initialize dropdown select input element
   $('select').material_select();
 
-  $('.btnAddGoals').click(function(e){
+  $('#btnAddGoals').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
@@ -40,35 +40,35 @@ $(document).ready(function(){
       });
   });
   ////////////////////////////////
-  /// Edit Accounts /////////////
+  /// Edit Goals /////////////
   //////////////////////////////
-  $('.btnEditAccount').click(function(e){
+  $('.btnEditGoal').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     console.log('herehehrerhe')
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/accounts_edit/' + id,
+        url: '/budget/goals_edit/' + id,
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
         }
     });
   });
-  $('#EditAccountsForm').on('submit', function(e){
+  $('#EditGoalsForm').on('submit', function(e){
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
-      var dest = '/budget/accounts_edit/' + id;
+      var dest = '/budget/goals_edit/' + id;
       $.ajax({
           url : dest,
           type: 'POST',
-          data: $('#EditAccountsForm').serialize(),
+          data: $('#EditGoalsForm').serialize(),
           success : function(data) {
             // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               $('#modal').modal('close');
-              window.location.replace('/budget/accounts/')
+              window.location.replace('/budget/goals/')
             }else {
               $('#modal').find('.modal-content').html(data);
             }
@@ -82,12 +82,12 @@ $(document).ready(function(){
   });
 
   // Button on accounts.html (initiate delete)
-  $('.btnConfirmAccount').click(function(e){
+  $('.btnConfirmGoal').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/accounts_remove_confirm/' + id + '/',
+        url: '/budget/goals_remove_confirm/' + id + '/',
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
@@ -96,17 +96,17 @@ $(document).ready(function(){
   });
 
   // Button in the modal (Confirm delete)
-  $('.btnRemoveAccount').click(function(e){
+  $('.btnRemoveGoal').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/accounts_remove/' + id + '/',
+        url: '/budget/goals_remove/' + id + '/',
         success : function(data) {
           // TODO: FIX THIS HACK of AJAX success
           if (data === "success") {
             $('#modal').modal('close');
-            window.location.replace('/budget/accounts/')
+            window.location.replace('/budget/goals/')
           }else {
             $('#modal').find('.modal-content').html(data);
           }

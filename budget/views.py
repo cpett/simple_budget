@@ -185,6 +185,7 @@ def goals_add(request):
     return render(request, 'goals_add.html', context)
 
     context = {'goals': goals,
+                'goal_count': goal_count
               }
     return render(request, 'goals.html', context)
 
@@ -211,6 +212,67 @@ def goals_add(request):
         form = frm.GoalForm()
     context = {'form': form}
     return render(request, 'goals_add.html', context)
+
+@login_required(login_url='/')
+def goals_edit(request, goal_id):
+    '''
+        Loads the the modal to edit a goal
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    try:
+        goal = mod.Goal.objects.get(user=user.id, pk=goal_id)
+    except ObjectDoesNotExist:
+        context = {'error': 'error'}
+        return render(request, 'goals_edit.html', context)
+    if request.method == "POST":
+        form = frm.GoalForm(request.POST, instance=goal)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = user
+            goal.goal_name = form.cleaned_data['goal_name']
+            goal.amount = form.cleaned_data['amount']
+            goal.goal_date = form.cleaned_data['goal_date']
+            goal.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.GoalForm(instance=goal)
+    context = {'form': form,
+               'goal_id': goal_id
+              }
+    return render(request, 'goals_edit.html', context)
+
+@login_required(login_url='/')
+def goals_remove_confirm(request, goal_id):
+    '''
+        Loads the the modal to remove goal
+    '''
+    try:
+        goal = mod.Goal.objects.get(user=request.user.id, pk=goal_id)
+        context = {'goal': goal}
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        error = 'Error'
+        context = {'error': error}
+    return render(request, 'goals_remove.html', context)
+
+
+@login_required(login_url='/')
+def goals_remove(request, goal_id):
+    '''
+        Loads the the modal to remove goal
+    '''
+    try:
+        goal = mod.Goal.objects.get(user=request.user.id, pk=goal_id)
+        goal.delete()
+        return HttpResponse('success')
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        return HttpResponse('error')
+    return render(request, 'goals_remove.html')
+
 
 
 @login_required(login_url='/')
