@@ -183,7 +183,6 @@ def goals_add(request):
         form = frm.GoalForm()
     context = {'form': form}
     return render(request, 'goals_add.html', context)
->>>>>>> e8bbd7a791863418b3014ba9d40a5f07430a4104
 
     context = {'goals': goals,
               }
