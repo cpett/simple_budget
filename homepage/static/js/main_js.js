@@ -1,6 +1,8 @@
 $(document).ready(function(){
   // Menu Init
-  $(".button-collapse").sideNav();
+  $(".button-collapse").sideNav({
+    menuWidth:200,
+  });
   // initialize modal
   $('.modal').modal();
   // PARALLAX INIT
