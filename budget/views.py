@@ -157,6 +157,7 @@ def goals(request):
     goals = mod.Goal.objects.all() \
                     .filter(user=user)
     context = {'goals': goals,
+                'goal_count' : goal_count,
               }
     return render(request, 'goals.html', context)
 
