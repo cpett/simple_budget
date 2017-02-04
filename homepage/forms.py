@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput
-from homepage.models import User, Account, Goal
+from homepage.models import User, Account, Transaction, Goal
+
 from material import *
 
 class UserForm(ModelForm):
@@ -58,6 +59,16 @@ class AccountForm(ModelForm):
                                 Row('acc_password')
                              )
                     )
+
+class TransactionForm(ModelForm):
+    class Meta:
+        model = Transaction
+        fields = ('category','date','description','original_description','amount')
+    layout = Layout(
+                        Row('date', 'amount', 'category'),
+                        Row('description'),
+                        Row('original_description')
+                   )
 
 class GoalForm(ModelForm):
     class Meta:

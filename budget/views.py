@@ -156,6 +156,33 @@ def goals(request):
                     .count()
     goals = mod.Goal.objects.all() \
                     .filter(user=user)
+    context = {'goals': goals,
+              }
+    return render(request, 'goals.html', context)
+
+@login_required(login_url='/')
+def goals_add(request):
+    '''
+        Loads the the modal to add new goal
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    if request.method == "POST":
+        form = frm.GoalForm(request.POST)
+        if form.is_valid():
+            goal = form.save(commit=False)
+            goal.user = user
+            goal.goal_name = form.cleaned_data['goal_name']
+            goal.amount = form.cleaned_data['amount']
+            goal.goal_date = form.cleaned_data['goal_date']
+            goal.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.GoalForm()
+    context = {'form': form}
+    return render(request, 'goals_add.html', context)
 
     context = {'goals': goals,
                 'goal_count': goal_count
@@ -249,11 +276,23 @@ def goals_remove(request, goal_id):
 
 
 @login_required(login_url='/')
-def my_spending(request):
+def transactions(request):
     '''
         Loads the my spending page
     '''
-    return render(request, 'my_spending.html')
+    if request.user.is_authenticated():
+        user = request.user
+    user_accounts = mod.Account.objects.all().filter(user=user)
+    transaction_count = mod.Transaction.objects.all() \
+                    .filter(account__in=user_accounts) \
+                    .count()
+    transactions = mod.Transaction.objects.all() \
+                    .filter(account__in=user_accounts)
+
+    context = {'transaction_count': transaction_count,
+               'transactions': transactions,
+              }
+    return render(request, 'transactions.html', context)
 
 
 @login_required(login_url='/')

@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^goals_remove_confirm/(\d+)', views.goals_remove_confirm, name='goals_remove_confirm'),
     url(r'^goals_remove/(\d+)', views.goals_remove, name='goals_remove'),
     url(r'^goals/', views.goals, name='goals'),
-    url(r'^my_spending/', views.my_spending, name='my_spending'),
+    url(r'^transactions/', views.transactions, name='transactions'),
     url(r'^settings/', views.settings, name='settings'),
 ]

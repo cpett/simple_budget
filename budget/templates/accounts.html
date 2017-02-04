@@ -4,9 +4,8 @@
   <script src="{% static 'js/accounts.js' %}"></script>
 {% endblock %}
 {% load material_form %}
-{% block accounts_tab %}active{% endblock %}
+{% block title %}Accounts{% endblock %}
 {% block content %}
-  <div class="container">
     <div class="row">
       <div class="col m12">
         <div class="card">
@@ -27,7 +26,7 @@
         <div class="card">
           <div class="card-content">
             <h5>Checking</h5>
-            <table>
+            <table class='highlight'>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -62,7 +61,7 @@
         <div class="card">
           <div class="card-content">
             <h5>Credit Cards</h5>
-            <table>
+            <table class='highlight'>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -97,7 +96,7 @@
         <div class="card">
           <div class="card-content">
             <h5>Savings</h5>
-            <table>
+            <table class='highlight'>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -132,7 +131,7 @@
         <div class="card">
           <div class="card-content">
             <h5>Investments</h5>
-            <table>
+            <table class='highlight'>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -163,12 +162,11 @@
         </div>
       </div>
     </div>
-  </div>
   <!-- ACTION BUTTON -->
   <div class="fixed-action-btn left">
     <a class="btn-floating btn-large orange tooltipped" data-position="left"
-    data-delay="50" data-tooltip="Edit accounts">
-      <i class="large material-icons">mode_edit</i>
+    data-delay="50" data-tooltip="Manage accounts">
+      <i class="large material-icons">build</i>
     </a>
     <ul>
       <li>
