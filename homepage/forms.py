@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput
+from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput, ModelChoiceField, extras
 from homepage.models import User, Account, Transaction, Goal
 
 from material import *
@@ -63,8 +63,12 @@ class AccountForm(ModelForm):
 class TransactionForm(ModelForm):
     class Meta:
         model = Transaction
-        fields = ('category','date','description','original_description','amount')
+        fields = ('account','category','date','description','original_description','amount')
+        widgets = {
+            'date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
+        }
     layout = Layout(
+                        Row('account'),
                         Row('date', 'amount', 'category'),
                         Row('description'),
                         Row('original_description')
@@ -75,7 +79,7 @@ class GoalForm(ModelForm):
         model = Goal
         fields = ('goal_name', 'amount', 'goal_date')
         widgets = {
-            'goal_date': DateInput(),
+            'goal_date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
         }
         labels = {
                     'goal_name': 'Goal Name',

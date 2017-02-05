@@ -41,11 +41,11 @@
                   <td>{{ transaction.category }}</td>
                   <td>{{ transaction.amount }}</td>
                   <td>
-                    <a id='{{ transaction.id }}' class='btnEditAccount tooltipped' data-position="bottom"
+                    <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped' data-position="bottom"
                       data-delay="50" data-tooltip="Edit">
                       <i class='material-icons yellow-text darken-2'>mode_edit</i>
                     </a>
-                    <a id='{{ transaction.id }}' class='btnConfirmAccount tooltipped' data-position="bottom"
+                    <a id='{{ transaction.id }}' class='btnConfirm tooltipped' data-position="bottom"
                       data-delay="50" data-tooltip="Delete">
                       <i class='material-icons red-text'>delete</i>
                     </a>
@@ -57,5 +57,28 @@
         </div>
       </div>
     </div>
+  </div>
+  <!-- ACTION BUTTON -->
+  <div class="fixed-action-btn left">
+    <a class="btn-floating btn-large orange tooltipped" data-position="left"
+    data-delay="50" data-tooltip="Manage transactions">
+      <i class="large material-icons">build</i>
+    </a>
+    <ul>
+      <li>
+        <a class="btn-floating green tooltipped" id="btnAddTransactions" data-position="left"
+          data-delay="50" data-tooltip="Add transactions"
+          href="{% url 'transactions_add' %}">
+          <i class="material-icons">add</i>
+        </a>
+      </li>
+      <li>
+        <a class="btn-floating red tooltipped" id="btnbtnRemoveAccounts" data-position="left"
+          data-delay="50" data-tooltip="Remove transactions"
+          href="">
+          <i class="material-icons">delete</i>
+        </a>
+      </li>
+    </ul>
   </div>
 {% endblock %}

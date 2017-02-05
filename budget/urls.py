@@ -16,5 +16,9 @@ urlpatterns = [
     url(r'^goals_remove/(\d+)', views.goals_remove, name='goals_remove'),
     url(r'^goals/', views.goals, name='goals'),
     url(r'^transactions/', views.transactions, name='transactions'),
+    url(r'^transactions_add/', views.transactions_add, name='transactions_add'),
+    url(r'^transactions_edit/(\d+)', views.transactions_edit, name='transactions_edit'),
+    url(r'^transactions_remove_confirm/(\d+)', views.transactions_remove_confirm, name='transactions_remove_confirm'),
+    url(r'^transactions_remove/(\d+)', views.transactions_remove, name='transactions_remove'),
     url(r'^settings/', views.settings, name='settings'),
 ]

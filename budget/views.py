@@ -275,7 +275,9 @@ def goals_remove(request, goal_id):
     return render(request, 'goals_remove.html')
 
 
-
+################################
+######## Transactions #########
+###############################
 @login_required(login_url='/')
 def transactions(request):
     '''
@@ -294,6 +296,99 @@ def transactions(request):
                'transactions': transactions,
               }
     return render(request, 'transactions.html', context)
+
+
+@login_required(login_url='/')
+def transactions_add(request):
+    '''
+        Loads the the modal to add new transaction
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    if request.method == "POST":
+        form = frm.TransactionForm(request.POST)
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            transaction.account = form.cleaned_data['account']
+            transaction.category = form.cleaned_data['category']
+            transaction.description = form.cleaned_data['description']
+            transaction.original_description = form.cleaned_data['original_description']
+            transaction.date = form.cleaned_data['date']
+            transaction.amount = form.cleaned_data['amount']
+            transaction.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.TransactionForm()
+    context = {'form': form}
+    return render(request, 'transactions_add.html', context)
+
+
+@login_required(login_url='/')
+def transactions_edit(request, transaction_id):
+    '''
+        Loads the the modal to edit an account
+    '''
+    if request.user.is_authenticated():
+        user = request.user
+    try:
+        trans = mod.Transaction.objects.get(id=transaction_id)
+    except ObjectDoesNotExist:
+        context = {'error': 'error'}
+        return render(request, 'transactions_edit.html', context)
+    if request.method == "POST":
+        print('>>>>>>>>>>>>> POST')
+        form = frm.TransactionForm(request.POST, instance=trans)
+        if form.is_valid():
+            print('>>>>>>>>>>> VALID')
+            transaction = form.save(commit=False)
+            transaction.account = form.cleaned_data['account']
+            transaction.category = form.cleaned_data['category']
+            transaction.description = form.cleaned_data['description']
+            transaction.original_description = form.cleaned_data['original_description']
+            transaction.date = form.cleaned_data['date']
+            transaction.amount = form.cleaned_data['amount']
+            transaction.save()
+            # TODO: fix this hack -- passes success to the AJAX success function
+            # if it completed successfully
+            return HttpResponse("success")
+    else:
+        form = frm.TransactionForm(instance=trans)
+    context = {'form': form,
+               'transaction_id': transaction_id
+              }
+    return render(request, 'transactions_edit.html', context)
+
+
+@login_required(login_url='/')
+def transactions_remove_confirm(request, transaction_id):
+    '''
+        Loads the the modal to add new account
+    '''
+    try:
+        transaction = mod.Transaction.objects.get(id=transaction_id)
+        context = {'transaction': transaction}
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        error = 'Error'
+        context = {'error': error}
+    return render(request, 'transactions_remove.html', context)
+
+
+@login_required(login_url='/')
+def transactions_remove(request, transaction_id):
+    '''
+        Loads the the modal to add new account
+    '''
+    try:
+        transaction = mod.Transaction.objects.get(id=transaction_id)
+        transaction.delete()
+        return HttpResponse('success')
+    except ObjectDoesNotExist:
+        print('The selected object does not exist')
+        return HttpResponse('error')
+    return render(request, 'transactions_remove.html')
 
 
 @login_required(login_url='/')

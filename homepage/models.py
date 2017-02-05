@@ -31,6 +31,9 @@ class Account(models.Model):
     acc_username = models.CharField(max_length=45, null=False, blank=False)
     acc_password = models.CharField(max_length=45, null=False, blank=False)
 
+    def __str__(self):
+        return self.account_name
+
 class Goal(models.Model):
     user = models.ForeignKey(User, null=True)
     goal_name = models.CharField(max_length=75, null=True, blank=True)
