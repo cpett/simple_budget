@@ -39,6 +39,12 @@ class Goal(models.Model):
     goal_name = models.CharField(max_length=75, null=True, blank=True)
     amount = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     goal_date = models.DateField(null=True, blank=True)
+    type_choices = (
+                        ('Savings', 'Saving for'),
+                        ('Budget', 'Budget item'),
+                   )
+    goal_type = models.CharField(max_length=7, choices=type_choices, default='Savings')
+    description = models.TextField(max_length=255, null=True, blank=True)
 
 class Transaction(models.Model):
     account = models.ForeignKey(Account, null=True)

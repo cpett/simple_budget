@@ -8,11 +8,11 @@ $(document).ready(function(){
       $('.search-toggle').click(function() {
         if ($('.hiddensearch').css('display') == 'none') {
           $('.hiddensearch').slideDown();
-          $(".search-toggle").html('<i class="material-icons">close</i>');
+          $(".search-toggle").html('<i class="white-text material-icons">close</i>');
         }
         else {
           $('.hiddensearch').slideUp();
-          $(".search-toggle").html('<i class="material-icons">search</i>');
+          $(".search-toggle").html('<i class="white-text material-icons">search</i>');
         }
       });
 

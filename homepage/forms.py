@@ -55,8 +55,7 @@ class AccountForm(ModelForm):
                                 Row('account_name', 'acc_type')
                              ),
                      Fieldset("Account Credentials",
-                                Row('acc_username'),
-                                Row('acc_password')
+                                Row('acc_username', 'acc_password')
                              )
                     )
 
@@ -81,18 +80,22 @@ class TransactionForm(ModelForm):
 class GoalForm(ModelForm):
     class Meta:
         model = Goal
-        fields = ('goal_name', 'amount', 'goal_date')
+        fields = ('goal_name', 'amount', 'goal_date', 'goal_type', 'description')
         widgets = {
             'goal_date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
+            'goal_type': forms.RadioSelect(),
         }
         labels = {
                     'goal_name': 'Goal Name',
                     'amount': 'Amount',
-                    'goal_date': 'Date'
+                    'goal_date': 'Completion Date',
+                    'goal_type': 'Type of Goal',
+                    'description': 'Notes'
         }
     layout = Layout(
                     Fieldset("Goal Information",
-                            Row('goal_name'),
-                            Row('amount', 'goal_date')
+                            Row('goal_name', 'goal_type'),
+                            Row('amount', 'goal_date'),
+                            Row('description')
                         )
                     )

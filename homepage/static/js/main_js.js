@@ -1,7 +1,7 @@
 $(document).ready(function(){
   // Menu Init
   $(".button-collapse").sideNav({
-    menuWidth:200,
+    menuWidth:150,
   });
   // initialize modal
   $('.modal').modal();

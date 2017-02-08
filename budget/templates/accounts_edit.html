@@ -4,7 +4,7 @@
   <script src="{% static 'js/accounts.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Add Account</h4>
+  <h4>Edit Account</h4>
   {% if error %}
     <p>
       We are having some trouble finding this account to edit. Please refresh the page and try again.
@@ -12,11 +12,12 @@
   {% else %}
     <form id="EditAccountsForm" method="POST" class="viewform">{% csrf_token %}
         {% form form=form %}
+          <h4>TEST</h4>
             {% part form.acc_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
             {% part form.acc_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
         {% endform %}
         <div class="modal-footer">
-          <button type="submit" name="_submit" id='{{ account_id }}' class="submit_button btn waves-effect waves-blue btn blue btn-lg">Submit</button>
+          <button type="submit" name="_submit" id='{{ account_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
         </div>
     </form>
   {% endif %}

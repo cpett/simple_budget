@@ -2,84 +2,91 @@
 {% load staticfiles %}
 {% block extrajs %}
   <script src="{% static 'js/goals.js' %}"></script>
+  <script src="{% static 'js/filtercards.js' %}"></script>
 {% endblock %}
 {% load material_form %}
 {% block title %}Goals{% endblock %}
 {% block content %}
-    <div class="row">
-      <div class="col m12">
-        <div class="card">
-          <div class="card-content">
-            <h4>Goals</h4>
-            <div class="row">
-              {% if goal_count > 0 %}
-                <p>
-                  You have {{ goal_count }} goals created!
-                </p>
-                <h5>Goals</h5>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Amount</th>
-                      <th>Date</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for goal in goals %}
-                      <tr>
-                        <td>{{ goal.goal_name }}</td>
-                        <td>{{ goal.amount }}</td>
-                        <td>{{ goal.goal_date }}</td>
-                        <td>
-                          <a id='{{ goal.id }}' class='btnEditGoal tooltipped' data-position="bottom"
-                            data-delay="50" data-tooltip="Edit">
-                            <i class='material-icons yellow-text darken-2'>mode_edit</i>
-                          </a>
-                          <a id='{{ goal.id }}' class='btnConfirmGoal tooltipped' data-position="bottom"
-                            data-delay="50" data-tooltip="Delete">
-                            <i class='material-icons red-text'>delete</i>
-                          </a>
-                        </td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-              {% else %}
-                  <p>
-                    Get started and create a goal!
-                  </p>
-                  <a class="btnAddGoals green btn">Add Goal</a>
+  <div class="row">
+    <div id="admin" class="col s12">
+      <div class="card material-table">
+        <div class="card-content">
+          <div class="table-header">
+            <h4 class="">My Goals</h4>
+            <div class="actions">
+              {% if goals|length >= 1 %}
+                <div id="filter_input" class="input-field">
+                  <select id="filter_list" class="col m12">
+                    <option value="" disabled selected>Filter goals</option>
+                    <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
+                    <option value="Savings" id="button" class="filter" data-filter="Savings" role="button">Savings</option>
+                    <option value="Budget" id="button" class="filter" data-filter="Budget" role="button">Budget</option>
+                  </select>
+                </div>
               {% endif %}
-              <i class="material-icons large">insert_chart</i>
+              <a href="#"
+                class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddGoals"
+                data-position="bottom" data-delay="50" data-tooltip="Add goal">
+                <i class="white-text material-icons">add</i>
+              </a>
+            </div>
+          </div>
+          <div class="row boxes" id="sort-me">
+            <div class="col s12 m6 l6 mix">
+              <div class="card small grey">
+                <div class="card-content white-text">
+                  <span class="card-title">Add New Goal</span>
+                  <p>Create a goal and start saving!</p>
+                </div>
+                <div class="card-action grey darken-1">
+                  <a class="btnAddGoals">
+                    Add Goal
+                  </a>
+                </div>
+              </div>
+            </div>
+            {% for goal in goals %}
+              <div class="col s12 m6 l6 mix">
+                <div class="card small
+                  {% if goal.goal_type == 'Budget' %}
+                    purple lighten-3
+                  {% elif goal.goal_type == 'Savings' %}
+                    cyan lighten-3
+                  {% endif %}">
+                  <div class="card-content white-text">
+                    <span class="card-title activator">{{ goal.goal_name }}<i class="material-icons right">more_vert</i></span>
+                    <span class="card_subtitle">
+                      ${{ goal.amount }}
+                      <span class="right">{{ goal.goal_date }}</span>
+                    </span>
+                  </div>
+                  <div class="card-action grey darken-3">
+                    <a id='{{ goal.id }}' class='btnEditGoal white-text'>
+                      Edit Goal
+                    </a>
+                    <a id='{{ goal.id }}' class='btnConfirmGoal white-text'>
+                      Remove Goal
+                    </a>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title grey-text text-darken-4">{{ goal.goal_name }}<i class="material-icons right">close</i></span>
+                    {% if goal.description %}
+                      <p>{{ goal.description }}</p>
+                    {% else %}
+                      <p>
+                        It looks like you haven't entered any more information about this goal.
+                         Add more information in the
+                         <a id="{{ goal.id }}" class="btnEditGoal" style="cursor: pointer">Notes</a>
+                         section to help keep yourself motivated!
+                       </p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- ACTION BUTTON -->
-  <div class="fixed-action-btn left">
-    <a class="btn-floating btn-large orange tooltipped" data-position="left"
-    data-delay="50" data-tooltip="Edit goals">
-      <i class="large material-icons">build</i>
-    </a>
-    <ul>
-      <li>
-        <a class="btn-floating green tooltipped btnAddGoals" data-position="left"
-          data-delay="50" data-tooltip="Add goals"
-          href="">
-          <i class="material-icons">add</i>
-        </a>
-      </li>
-      <li>
-        <a class="btn-floating red tooltipped btnRemoveGoals" id="" data-position="left"
-          data-delay="50" data-tooltip="Remove goals"
-          href="">
-          <i class="material-icons">delete</i>
-        </a>
-      </li>
-    </ul>
   </div>
 {% endblock %}

@@ -30,25 +30,9 @@ def accounts(request):
     '''
     if request.user.is_authenticated():
         user = request.user
-    account_count = mod.Account.objects.all() \
-                    .filter(user=user) \
-                    .count()
-    checkings = mod.Account.objects.all() \
-                    .filter(user=user, acc_type='CH')
-    credits = mod.Account.objects.all() \
-                    .filter(user=user, acc_type='CC')
-    invests = mod.Account.objects.all() \
-                    .filter(user=user, acc_type='IN')
-    savings = mod.Account.objects.all() \
-                    .filter(user=user, acc_type='SV')
-    loans = mod.Account.objects.all() \
-                    .filter(user=user, acc_type='LN')
-    context = {'checkings': checkings,
-               'account_count': account_count,
-               'credits': credits,
-               'invests': invests,
-               'savings': savings,
-              }
+    accounts = mod.Account.objects.all() \
+                    .filter(user=user)
+    context = {'accounts': accounts}
     return render(request, 'accounts.html', context)
 
 

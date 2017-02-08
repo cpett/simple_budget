@@ -4,7 +4,7 @@ $(document).ready(function(){
   // initialize dropdown select input element
   $('select').material_select();
 
-  $('#btnAddAccounts').click(function(e){
+  $('.btnAddAccounts').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
