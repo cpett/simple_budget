@@ -12,7 +12,10 @@ def index(request):
     '''
         Loads the index/home page
     '''
-    return render(request, 'index.html')
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/budget')
+    else:
+        return render(request, 'index.html')
 
 @csrf_protect
 def sign_up(request):
