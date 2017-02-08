@@ -14,6 +14,10 @@ i .white_icon {
 nav ul li a i {
     display: inline !important;
 }
+nav {
+  background: none;
+  background-color: transparent;
+}
 .temp_fix {
   padding-top: 1.5rem;
 }
@@ -25,4 +29,15 @@ nav ul li a i {
 }
 .title_bar {
   font-size: 2rem;
+}
+.parallax-container {
+    height: 450px;
+}
+.outline {
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }

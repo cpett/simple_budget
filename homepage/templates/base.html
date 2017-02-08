@@ -22,7 +22,7 @@
   {% block header %}
     <header>
       <nav>
-        <div class="nav-wrapper blue">
+        <div class="nav-wrapper green ">
           <a href="#!" class="brand-logo">SimpliFi</a>
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
@@ -34,11 +34,14 @@
               <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
             {% endif %}
           </ul>
-          <ul class="white_text side-nav blue" id="small-screen">
+          <ul class="white_text side-nav green " id="small-screen">
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
             <li><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
           </ul>
+        </div>
+        <div>
+          <h2 class='outline'>Super Duper Catchy<br> Supporting Title</h2>
         </div>
       </nav>
     </header>
