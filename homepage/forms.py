@@ -73,6 +73,10 @@ class TransactionForm(ModelForm):
                         Row('description'),
                         Row('original_description')
                    )
+    def __init__(self, user, *args, **kwargs):
+        super(TransactionForm, self).__init__(*args, **kwargs)
+        accounts = Account.objects.filter(user=user).values_list('account_name', flat=True)
+        self.fields['account'].queryset = Account.objects.filter(account_name__in=accounts)
 
 class GoalForm(ModelForm):
     class Meta:

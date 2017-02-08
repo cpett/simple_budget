@@ -306,7 +306,7 @@ def transactions_add(request):
     if request.user.is_authenticated():
         user = request.user
     if request.method == "POST":
-        form = frm.TransactionForm(request.POST)
+        form = frm.TransactionForm(user, request.POST)
         if form.is_valid():
             transaction = form.save(commit=False)
             transaction.account = form.cleaned_data['account']
@@ -320,7 +320,7 @@ def transactions_add(request):
             # if it completed successfully
             return HttpResponse("success")
     else:
-        form = frm.TransactionForm()
+        form = frm.TransactionForm(user)
     context = {'form': form}
     return render(request, 'transactions_add.html', context)
 
