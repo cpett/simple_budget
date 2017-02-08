@@ -11,7 +11,7 @@ $(document).ready(function(){
     closeOnSelect: true
   });
 
-  $('#btnAddGoals').click(function(e){
+  $('.btnAddGoals').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
