@@ -22,26 +22,33 @@
   {% block header %}
     <header>
       <nav>
-        <div class="nav-wrapper blue darken-3">
-          <a href="#!" class="brand-logo">SimpleBudget</a>
+        <div class="nav-wrapper green ">
+          <a href="#!" class="brand-logo">SimpliFi</a>
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
-            <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li>
-            <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
-            <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+            <!-- <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li> -->
+            {% if request.user.is_authenticated %}
+              <li class=""><a href="#" class="">Welcome, {{ request.user.first_name }}</a></li>
+            {% else %}
+              <li class="{% block class_tab_dashboards %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
+              <li class="{% block class_tab_project %}{% endblock %}"><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+            {% endif %}
           </ul>
-          <ul class="white_text side-nav blue" id="small-screen">
+          <ul class="white_text side-nav green " id="small-screen">
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
             <li><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
           </ul>
         </div>
+        <div>
+          <h2 class='outline'>Super Duper Catchy<br> Supporting Title</h2>
+        </div>
       </nav>
     </header>
   {% endblock %}
-  <!-- <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'imgs/finance_header.jpg' %}"></div>
-  </div> -->
+  <div class="parallax-container">
+    <div class="parallax"><img src="{% static 'imgs/lady_mac1.jpg' %}"></div>
+  </div>
   {% block content %}
   {% endblock %}
 

@@ -1,15 +1,43 @@
-body {
-  background-color: #2196f3;
+html {
+  font-family: "Roboto", sans serif;
+  font-weight: 300;
 }
-
+body {
+  background-color: #eeeeee;
+}
 .white_text a {
   color: #FFFFFF !important;
 }
-
+i .white_icon {
+  color: #FFFFFF !important;
+}
 nav ul li a i {
     display: inline !important;
 }
-
+nav {
+  background: none;
+  background-color: transparent;
+}
 .temp_fix {
-  padding-top: 3.25rem;
+  padding-top: 1.5rem;
+}
+.pbottom {
+  padding-bottom: .75em !important;
+}
+.ptop {
+  padding-top: .75em !important;
+}
+.title_bar {
+  font-size: 2rem;
+}
+.parallax-container {
+    height: 450px;
+}
+.outline {
+    color: white;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
 }
