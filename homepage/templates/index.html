@@ -3,39 +3,11 @@
 {% block class_tab_home %}active{% endblock %}
 {% block content %}
 {% load staticfiles %}
-  <!-- <div class="container">
-    <div class="row">
-      <div class="col m12">
-        <div class="card">
-          <div class="card-content">
-            <h4>SimpliFi</h4>
-            <div class="row">
-              <div class="col s12 m4 l4 center-align">
-                <i class="material-icons medium">account_balance</i>
-                <p>Securely connect your acounts</p>
-              </div>
-              <div class="col s12 m4 l4 center-align">
-                <i class="material-icons medium">create</i>
-                <p>Create goals</p>
-              </div>
-              <div class="col s12 m4 l4 center-align">
-                <i class="material-icons medium">check_circle</i>
-                <p>Keep your goals</p>
-              </div>
-            </div>
-          </div>
-          <div class="card-action">
-            <a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up Now</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
   <!-- First Section -->
   <div class="section green lighten-5">
     <div class="row container">
-      <h4>SimpliFi</h4>
+      <h4>Security</h4>
       <div class="row">
         <div class="col s12 m6 l6 center-align">
           <i class="material-icons medium">account_balance</i>
@@ -54,7 +26,7 @@
   <!-- Second Section -->
   <div class="section" id='gradient'>
     <div class="row container">
-      <h4>SimpliFi</h4>
+      <h4>Goals</h4>
       <div class="row">
         <div class="col s12 m6 m6 center-align">
           <p>Ipsum Dolorum and lots of other latiny words will fill this in so that it will look better and be more like what we actually will look like :)</p>
@@ -63,9 +35,6 @@
           <i class="material-icons medium">create</i>
           <p>Create goals</p>
         </div>
-      </div>
-      <div class="center">
-        <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn blue">Sign Up Now</a>
       </div>
     </div>
   </div>
@@ -78,7 +47,7 @@
   <!-- Third Section -->
   <div class="section green lighten-5">
     <div class="row container">
-      <h4>SimpliFi</h4>
+      <h4>Progress</h4>
       <div class="row">
         <div class="col s12 m6 l6 center-align">
           <p>Earn badges and watch your funds increase as you save money and work towards your goals</p>
@@ -89,7 +58,23 @@
         </div>
       </div>
       <div class="center">
-        <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn blue">Sign Up Now</a>
+        <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn green">Sign Up Now</a>
+      </div>
+    </div>
+  </div>
+  <!-- Footer Section -->
+  <div class="section grey darken-3">
+    <div class="row container">
+      <div class="col s12 m12 l12 center-align">
+
+        <p class='white-text'>Download the mobile app!</p>
+
+      </div>
+      <div class="center">
+        <a href=""><img style='height:50px; width:150px'src='{% static 'imgs/apple-button.png' %}'/><a/>
+      </div>
+      <div class="col s12 m12 l12 center-align" style='margin-bottom:-30px'>
+        <p class='white-text'>Copyright &copy; 2017 SimpliFi, LLC. All rights reserved.</p>
       </div>
     </div>
   </div>

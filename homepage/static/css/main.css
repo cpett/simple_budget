@@ -5,6 +5,11 @@ html {
 body {
   background-color: #eeeeee;
 }
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-style: normal;
+}
 .white_text a {
   color: #FFFFFF !important;
 }
@@ -17,6 +22,7 @@ nav ul li a i {
 nav {
   background: none;
   background-color: transparent;
+  height:500px;
 }
 .temp_fix {
   padding-top: 1.5rem;
@@ -31,7 +37,7 @@ nav {
   font-size: 2rem;
 }
 .parallax-container {
-    height: 450px;
+    height: 500px;
 }
 .outline {
     color: white;
@@ -44,6 +50,11 @@ nav {
 #gradient {
   width: 100%;
   height: 300px;
-  padding: 10px;
+  padding: 50px;
   margin: 0px;
+}
+.transbox {
+  background-color: #ffffff;
+  opacity: 0.9;
+  filter: alpha(opacity=90); /* For IE8 and earlier */
 }
