@@ -46,7 +46,7 @@
               </div>
             </div>
             {% for goal in goals %}
-              <div class="col s12 m6 l6 mix">
+              <div class="col s12 m6 l6 mix {{ goal.goal_type }}" data-category="{{ goal.goal_type }}">
                 <div class="card small
                   {% if goal.goal_type == 'Budget' %}
                     purple lighten-3
