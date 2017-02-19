@@ -23,13 +23,36 @@
 </head>
 <body>
   {% block header %}
-    <header>
-      <nav>
-        <div class="nav-wrapper green ">
+
+  <!-- sub-nav -->
+  <div class='navbar-fixed' id='sub-nav' >
+    <nav class='cyan darken-2' style='height:75px'>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">SimpliFi</a>
+        <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          {% if request.user.is_authenticated %}
+            <li class=""><a href="#" class="">Welcome, {{ request.user.first_name }}</a></li>
+          {% else %}
+            <li class=""><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
+            <li class=""><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+          {% endif %}
+        </ul>
+        <ul class="white_text side-nav cyan darken-2 " id="small-screen">
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
+          <li><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="parallax-container transbox">
+    <div class="parallax"><img src="{% static 'imgs/lady_mac1.jpg' %}"></div>
+      <nav id='top-nav'>
+        <div class="nav-wrapper">
           <a href="#!" class="brand-logo">SimpliFi</a>
           <a href="#" data-activates="small-screen" class="button-collapse"><i class="material-icons">menu</i></a>
           <ul class="right hide-on-med-and-down">
-            <!-- <li class="{% block class_tab_home %}{% endblock %}"><a class="active" href="{% url 'index' %}">Home</a></li> -->
             {% if request.user.is_authenticated %}
               <li class=""><a href="#" class="">Welcome, {{ request.user.first_name }}</a></li>
             {% else %}
@@ -42,16 +65,18 @@
             <li><a href="{% url 'sign_up' %}" class="btnSignUp">Sign Up</a></li>
             <li><a href="{% url 'sign_up' %}" class="btnSignIn">Sign In</a></li>
           </ul>
-        </div>
-        <div>
-          <h2 class='outline'>Super Duper Catchy<br> Supporting Title</h2>
-        </div>
-      </nav>
-    </header>
+          <div class='row center' style='margin-top: 120px'>
+            <div class='col s12 m6 l6'>
+            <h1 class=''>Changing behavior, one budget at a time</h1>
+            </div>
+            <div class='col s12 m6 l6'></div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
   {% endblock %}
-  <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'imgs/lady_mac1.jpg' %}"></div>
-  </div>
+
   {% block content %}
   {% endblock %}
 

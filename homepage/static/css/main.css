@@ -5,6 +5,11 @@ html {
 body {
   background-color: #eeeeee;
 }
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-style: normal;
+}
 .white_text a {
   color: #FFFFFF !important;
 }
@@ -14,9 +19,14 @@ i .white_icon {
 nav ul li a i {
     display: inline !important;
 }
-nav {
+#top-nav{
   background: none;
   background-color: transparent;
+  height:500px;
+}
+#sub-nav{
+   position: fixed;
+   display: none;
 }
 .temp_fix {
   padding-top: 1.5rem;
@@ -114,4 +124,39 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 #LoginForm .row,
 #signupForm .row {
   margin-bottom: 0px !important;
+}
+#gradient {
+  width: 100%;
+  height: 300px;
+  padding: 50px;
+  margin: 0px;
+}
+.transbox {
+  background-color: #ffffff;
+  opacity: 0.9;
+  filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+.copyright {
+  font-size: 10px;
+}
+.nav-wrapper {
+  transition-duration: 1s;
+  margin:0px 100px 0px 100px;
+  padding:5px;
+}
+#apple-button {
+  height:50px;
+  width:150px
+}
+.notifications {
+  margin-top:-15px;
+  margin-bottom:-21px;
+}
+#map {
+  height:340px;
+  width:101.65%
+}
+#progress {
+  height:370px;
+  width:101.65%;
 }
