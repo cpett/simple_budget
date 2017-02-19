@@ -4,78 +4,126 @@
 {% block content %}
 {% load staticfiles %}
 
-  <!-- First Section -->
-  <div class="section green lighten-5">
-    <div class="row container">
-      <h4>Security</h4>
-      <div class="row">
-        <div class="col s12 m6 l6 center-align">
-          <i class="material-icons medium">account_balance</i>
-          <p>Securely connect your acounts</p>
-        </div>
-        <div class="col s12 m6 l6 center-align">
-          <p>Pull in all your transactions using a PLAID api which uses the latest encrytion methods to ensure your data is secure.</p>
-        </div>
+<!-- First Section -->
+<div class="section green lighten-2">
+  <div class="row container">
+    <div class="row">
+      <div class="col s12 m2 l2 center-align">
+
       </div>
-      <div class="center">
-        <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn green">Sign Up Now</a>
+      <div class="col s12 m8 l8 center-align">
+        <h4>Start saving now</h4>
+        <p>
+          Sign up for our simple budgeting tool to manage your finances using the envelope methodolgy help
+          keep you from overspending on your budget.
+        </p>
+      </div>
+      <div class='col s12 m2 l2'></div>
+    </div>
+    <div class="center">
+      <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn cyan darken-2">Sign Up Now</a>
+    </div>
+  </div>
+</div>
+
+<!-- Second Section -->
+<div class="section white">
+  <div class="row container">
+    <h4>Security</h4>
+    <div class="row">
+      <div class="col s12 m6 l6 center-align">
+        <p>Pull in all your transactions using a PLAID api which uses the latest encryption methods to ensure your data is secure.</p>
+      </div>
+      <div class="col s12 m6 l6 center-align">
+        <i class="material-icons medium">account_balance</i>
+        <p>Securely connect your acounts</p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Second Section -->
-  <div class="section" id='gradient'>
-    <div class="row container">
-      <h4>Goals</h4>
-      <div class="row">
-        <div class="col s12 m6 m6 center-align">
-          <p>Ipsum Dolorum and lots of other latiny words will fill this in so that it will look better and be more like what we actually will look like :)</p>
+<!-- Third Section -->
+<div class="section cyan darken-2 white-text ">
+  <div class='row notifications'>
+    <div class='col s12 m6 l6'>
+      <div class='row center'>
+        <h4>Notifications</h4>
+      </div>
+      <div class='row center'>
+        <i class="material-icons medium">location_on</i>
+        <p>Geolocation</p>
+      </div>
+      <div class="row center-align">
+        <div class='col m2 l2'></div>
+        <div class='col m8 l8'>
+          <p>Connect through our mobile app to receive alerts of how much money is left in your budget to help keep you proactive in keeping your budget.</p>
         </div>
-        <div class="col s12 m6 l6 center-align">
-          <i class="material-icons medium">create</i>
-          <p>Create goals</p>
+      </div>
+    </div>
+    <div class='col s12 m6 l6'>
+      <img id='map' src='{% static 'imgs/map.jpg' %}'/>
+    </div>
+  </div>
+</div>
+
+<!-- Third Section -->
+<div class="section white" id=''>
+  <div class="row container">
+    <h4>Goals</h4>
+    <div class="row">
+      <div class="col s12 m6 m6 center-align">
+        <p>Work towards your goals and track your progress. Whether you are saving up for that new big toy or vacation, or if is it simply to start saving, SimpliFi can help.</p>
+      </div>
+      <div class="col s12 m6 l6 center-align">
+        <i class="material-icons medium">create</i>
+        <p>Create goals</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fourth Section -->
+<div class="section green lighten-2 ">
+  <div class='row notifications'>
+    <div class='col s12 m6 l6'>
+      <img id='map' src='{% static 'imgs/map.jpg' %}'/>
+    </div>
+    <div class='col s12 m6 l6'>
+      <div class='row center'>
+        <h4>Progress</h4>
+      </div>
+      <div class='row center'>
+        <i class="material-icons medium">check_circle</i>
+        <p>Keep your goals</p>
+      </div>
+      <div class="row center-align">
+        <div class='col m2 l2'></div>
+        <div class='col m8 l8'>
+          <p>Earn badges and watch your funds increase as you save money and work towards your goals.</p>
+        </div>
+        <div class="center">
+          <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn cyan darken-2">Sign Up Now</a>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Second Picture -->
-  <div class="parallax-container">
-    <div class="parallax"><img src="{% static 'imgs/work_table.jpg' %}"></div>
-  </div>
 
-  <!-- Third Section -->
-  <div class="section green lighten-5">
-    <div class="row container">
-      <h4>Progress</h4>
-      <div class="row">
-        <div class="col s12 m6 l6 center-align">
-          <p>Earn badges and watch your funds increase as you save money and work towards your goals</p>
-        </div>
-        <div class="col s12 m6 l6 center-align">
-          <i class="material-icons medium">check_circle</i>
-          <p>Keep your goals</p>
-        </div>
-      </div>
-      <div class="center">
-        <a href="{% url 'sign_up' %}" class="btnSignUp waves-effect waves-blue btn green">Sign Up Now</a>
-      </div>
+<!-- Footer Section -->
+<div class="section grey darken-4">
+  <div class="row container">
+    <div class="col s12 m12 l12 center-align">
+
+      <p class='white-text'>Download the mobile app!</p>
+
+    </div>
+    <div class="center">
+      <a href=""><img id='apple-button' src='{% static 'imgs/apple-button.png' %}'/><a/>
+    </div>
+    <div class="col s12 m12 l12 center-align" style='margin-bottom:-30px'>
+      <p class='white-text copyright'>Copyright &copy; 2017 SimpliFi, LLC. All rights reserved.</p>
     </div>
   </div>
-  <!-- Footer Section -->
-  <div class="section grey darken-3">
-    <div class="row container">
-      <div class="col s12 m12 l12 center-align">
-
-        <p class='white-text'>Download the mobile app!</p>
-
-      </div>
-      <div class="center">
-        <a href=""><img style='height:50px; width:150px'src='{% static 'imgs/apple-button.png' %}'/><a/>
-      </div>
-      <div class="col s12 m12 l12 center-align" style='margin-bottom:-30px'>
-        <p class='white-text'>Copyright &copy; 2017 SimpliFi, LLC. All rights reserved.</p>
-      </div>
-    </div>
-  </div>
+</div>
 {% endblock %}

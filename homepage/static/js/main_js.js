@@ -141,4 +141,13 @@ $(document).ready(function(){
   }
 
   setInterval(updateGradient,10);
+
+  $(window).scroll(function () {
+    if ( $(this).scrollTop() > 100 ) {
+      $('#sub-nav').fadeIn(500);
+    } else if ( $(this).scrollTop() <= 100 ) {
+      $('#sub-nav').fadeOut(500);
+    }
+  });
+
 });
