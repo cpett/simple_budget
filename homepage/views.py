@@ -6,15 +6,19 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django import forms
 from material import *
+import urllib
+import requests
+import json
 
 @csrf_protect
 def index(request):
     '''
         Loads the index/home page
     '''
-    if request.user.is_authenticated():
+    if request.session.get('api_token'):
         return HttpResponseRedirect('/budget')
     else:
+        token = request.session.get('api_token')
         return render(request, 'index.html')
 
 @csrf_protect
@@ -44,25 +48,28 @@ def sign_up(request):
     return render(request, 'sign_up.html', context)
 
 @csrf_protect
-def sign_in(request):
+def login(request):
     '''
         Loads the modal for logging in
     '''
-    form = AuthenticationForm()
+    form = frm.LoginForm()
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = frm.LoginForm(data=request.POST)
         if form.is_valid():
-            user = authenticate(username=form.cleaned_data['username'],
-                                password=form.cleaned_data['password'])
-            if user is not None:
-                login(request, user)
+            request.session['api_token'] = form.cleaned_data['token']
+            request.session['first_name'] = form.cleaned_data['first_name']
+            if request.session.get('api_token') is not None:
                 # TODO: FIX this hack with the AJAX success function
                 return HttpResponse('success')
-
     context = {'form': form}
-    return render(request, 'sign_in.html', context)
+    return render(request, 'login.html', context)
 
 
 def sign_out(request):
-    logout(request)
+    token = request.session.get('api_token')
+    token = 'Token token=' + token
+    path = 'https://simplifiapi.herokuapp.com/logout'
+    req = requests.get(path, headers={'Authorization': token})
+    del request.session['api_token']
+    del request.session['first_name']
     return HttpResponseRedirect('/')

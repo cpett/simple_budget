@@ -16,7 +16,23 @@ $(document).ready(function(){
             .addClass('is-animated').fadeIn();
         });
     }
-
   });
 
+  $('#sort_list').change(function() {
+    var filter_val = $(this).val();
+      var $wrapper = $('.boxes');
+    if (filter_val == 'alph') {
+      $wrapper.find('.mix').sort(function(a, b) {
+          return String.prototype.localeCompare.call(a.getAttribute('data-category').toLowerCase(),
+            b.getAttribute('data-category').toLowerCase());
+      })
+      .appendTo($wrapper);
+    } else {
+      $wrapper.find('.mix').sort(function(a, b) {
+          return +a.getAttribute('data-value') - +b.getAttribute('data-value');
+      })
+      .appendTo($wrapper);
+    }
+
+  });
 });

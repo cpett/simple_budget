@@ -7,12 +7,11 @@
   <h4>Add Account</h4>
   <form id="AddAccountForm" method="POST" class="viewform">{% csrf_token %}
       {% form form=form %}
-          {% part form.acc_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
-          {% part form.acc_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+          {% part form.account_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+          {% part form.account_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
       {% endform %}
       <div class="modal-footer">
         <button type="submit" name="_submit" class="btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
       </div>
   </form>
-
 </div>

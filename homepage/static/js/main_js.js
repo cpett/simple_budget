@@ -48,7 +48,7 @@ $(document).ready(function(){
     e.preventDefault();
     e.stopImmediatePropagation();
     $.ajax({
-        url: '/sign_in',
+        url: '/login',
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
@@ -58,7 +58,7 @@ $(document).ready(function(){
   $('#LoginForm').on('submit', function(e){
       e.preventDefault();
       e.stopImmediatePropagation();
-      var dest = '/sign_in/';
+      var dest = '/login/';
       $.ajax({
           url : dest,
           type: 'POST',

@@ -13,17 +13,28 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
   <!-- Local JS -->
   <script src="{% static 'js/main_js.js' %}"></script>
+  <script src="{% static 'js/fakeLoader.min.js' %}"></script>
   <!-- Local CSS -->
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/fakeLoader.css' %}">
   <link rel="stylesheet" href="{% static 'css/budget.css' %}">
   <link rel="stylesheet" href="{% static 'css/materialsort.css' %}">
   <link rel="stylesheet" href="{% static 'css/filtercards.css' %}">
-  <!-- Data Tables -->
-  <script src="http://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+
   {% block extrajs %}
   {% endblock %}
 </head>
 <body>
+<div id="fakeLoader"></div>
+<script type="text/javascript">
+  $("#fakeLoader").fakeLoader({
+        timeToHide:1500, //Time in milliseconds for fakeLoader disappear
+        zIndex:1000, // Default zIndex
+        spinner:"spinner" + (Math.floor(Math.random() * 6) + 1),//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#00C853" //Hex, RGB or RGBA colors
+        // imagePath:"yourPath/customizedImage.gif" //If you want can you insert your custom image
+  });
+</script>
 {% block header %}
   <header>
     <ul id="dropdown1" class="dropdown-content">
@@ -46,9 +57,7 @@
             <li>
               <a class="dropdown-button" href="#!" data-activates="dropdown1">
                 <i class="material-icons left">account_circle</i>
-                {% if request.user.is_authenticated %}
-                  {{ request.user.first_name }}
-                {% endif %}
+                {{ request.session.first_name }}
               </a>
             </li>
           </ul>

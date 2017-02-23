@@ -1,6 +1,8 @@
 from django import forms
 from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput, ModelChoiceField, extras
 from homepage.models import User, Account, Transaction, Goal
+import urllib
+import json
 
 from material import *
 
@@ -21,41 +23,54 @@ class UserForm(ModelForm):
         )
 
 class LoginForm(forms.Form):
-    username = forms.CharField()
+    email = forms.EmailField()
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    # def clean(self):
-    #     user = authenticate(username=self.cleaned_data['username'], password=self.cleaned_data['password'])
-    #     if user == None:
-    #         raise forms.ValidationError('Something went wrong.  Please try again.')
-    #     return self.cleaned_data
-
-account_types = (
-                    ('CH', 'Checking'),
-                    ('CC', 'Credit Card'),
-                    ('in', 'Investments'),
-                    ('LN', 'Loans'),
-                    ('SV', 'Savings'),
-                )
-class AccountForm(ModelForm):
-    class Meta:
-        model = Account
-        fields = ('account_name', 'acc_type', 'acc_username', 'acc_password')
-        widgets = {
-            'acc_password': PasswordInput(),
+    token = forms.CharField(required=False)
+    first_name = forms.CharField(required=False)
+    def clean(self):
+        email = self.cleaned_data['email']
+        password = self.cleaned_data['password']
+        review = {
+            'email': email,
+            'password': password
         }
-        labels = {
-                    'acc_username':'Username',
-                    'acc_password': 'Password',
-                    'account_name': 'Institution name',
-                    'acc_type': 'Type of account'
-                 }
+        mydata = urllib.parse.urlencode(review)
+        mydata = mydata.encode('utf-8')
+        path = 'https://simplifiapi.herokuapp.com/login'
+        req = urllib.request.Request(path, mydata)
+        try:
+            response = urllib.request.urlopen(req)
+            data = response.read().decode('utf-8')
+            data = json.loads(data)
+            self.cleaned_data['token'] = data['token']
+            self.cleaned_data['first_name'] = data['first_name']
+            return self.cleaned_data
+        except:
+            raise forms.ValidationError("Please check your credentials, and try again.")
+    layout = Layout(
+         Row('email'),
+         Row('password')
+        )
 
+class AccountForm(forms.Form):
+    account_name = forms.CharField(max_length=25)
+    account_types = (
+                        ('checking', 'Checking'),
+                        ('credit', 'Credit Card'),
+                        ('investment', 'Investments'),
+                        ('loan', 'Loan'),
+                        ('savings', 'Savings'),
+                    )
+    account_type = forms.ChoiceField(choices=account_types)
+    account_username = forms.CharField(help_text="Username for the financial institution")
+    account_password = forms.CharField(help_text="Password for the financial institution",
+                                       widget=forms.PasswordInput)
     layout = Layout(
                      Fieldset("Account Information",
-                                Row('account_name', 'acc_type')
+                                Row('account_name', 'account_type')
                              ),
                      Fieldset("Account Credentials",
-                                Row('acc_username', 'acc_password')
+                                Row('account_username', 'account_password')
                              )
                     )
 
@@ -77,25 +92,18 @@ class TransactionForm(ModelForm):
         accounts = Account.objects.filter(user=user).values_list('account_name', flat=True)
         self.fields['account'].queryset = Account.objects.filter(account_name__in=accounts)
 
-class GoalForm(ModelForm):
-    class Meta:
-        model = Goal
-        fields = ('goal_name', 'amount', 'goal_date', 'goal_type', 'description')
-        widgets = {
-            'goal_date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
-            'goal_type': forms.RadioSelect(),
-        }
-        labels = {
-                    'goal_name': 'Goal Name',
-                    'amount': 'Amount',
-                    'goal_date': 'Completion Date',
-                    'goal_type': 'Type of Goal',
-                    'description': 'Notes'
-        }
+class GoalForm(forms.Form):
+    goal_name = forms.CharField(max_length=25, label="Name")
+    goal_amount = forms.DecimalField(decimal_places=2, label="Amount")
+    goal_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
+    goal_notes = forms.CharField(max_length=255, required=False)
+    # widgets = {
+    #     'goal_date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
+    #     'goal_type': forms.RadioSelect(),
+    # }
+
     layout = Layout(
-                    Fieldset("Goal Information",
-                            Row('goal_name', 'goal_type'),
-                            Row('amount', 'goal_date'),
-                            Row('description')
-                        )
+                    Row('goal_name'),
+                    Row('goal_amount', 'goal_date'),
+                    Row('goal_notes')
                     )

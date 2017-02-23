@@ -7,14 +7,15 @@
   <h4>Edit Goal</h4>
   {% if error %}
     <p>
-      We are having some trouble finding this account to edit. Please refresh the page and try again.
+      We're sorry, but that didn't seem to work. Please refresh the page and try again.
     </p>
   {% else %}
     <form id="EditGoalsForm" method="POST" class="viewform">{% csrf_token %}
         {% form form=form %}
-            {% part form.goal_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}
-            {% part form.amount prefix %}<i class="material-icons prefix">attach_money</i>{% endpart %}
-            {% part form.goal_date prefix %}<i class="material-icons prefix">today</i>{% endpart %}
+        {% part form.goal_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}
+        {% part form.goal_amount prefix %}<i class="material-icons prefix">attach_moneyx</i>{% endpart %}
+        {% part form.goal_date prefix %}<i class="material-icons prefix">today</i>{% endpart %}
+        {% part form.goal_notes prefix %}<i class="material-icons prefix"></i>{% endpart %}
         {% endform %}
         <div class="modal-footer">
           <button type="submit" name="_submit" id='{{ goal_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>

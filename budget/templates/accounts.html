@@ -19,10 +19,11 @@
                 <select id="filter_list" class="col m12">
                   <option value="" disabled selected>Filter accounts</option>
                   <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
-                  <option value="CH" id="button" class="filter" data-filter="CH" role="button">Checking</option>
-                  <option value="CC" id="button" class="filter" data-filter="CC" role="button">Credit Cards</option>
-                  <option value="IN" id="button" class="filter" data-filter="IN" role="button">Investments</option>
-                  <option value="SV" id="button" class="filter" data-filter="SV" role="button">Savings</option>
+                  <option value="checking" id="button" class="filter" data-filter="checking" role="button">Checking</option>
+                  <option value="credit" id="button" class="filter" data-filter="credit" role="button">Credit Cards</option>
+                  <option value="investment" id="button" class="filter" data-filter="investment" role="button">Investments</option>
+                  <option value="savings" id="button" class="filter" data-filter="savings" role="button">Savings</option>
+                  <option value="loan" id="button" class="filter" data-filter="loan" role="button">Loan</option>
                 </select>
               </div>
             {% endif %}
@@ -48,24 +49,26 @@
             </div>
           </div>
           {% for account in accounts %}
-            <div class="col s12 m6 l6 mix {{ account.acc_type }}" data-category="{{ account.acc_type }}">
+            <div class="col s12 m6 l6 mix {{ account.account_type }}" data-category="{{ account.account_type }}">
               <div class="card small
-                {% if account.acc_type == 'CH' %}
+                {% if account.account_type == 'checking' %}
                   purple lighten-3
-                {% elif account.acc_type == 'CC' %}
-                  cyan lighten-3
-                {% elif account.acc_type == 'IN' %}
+                {% elif account.account_type == 'credit' %}
+                  orange lighten-3
+                {% elif account.account_type == 'investment' %}
                   teal accent-3
-                {% elif account.acc_type == 'SV' %}
+                {% elif account.account_type == 'savings' %}
                   light-blue lighten-3
+                {% elif account.account_type == 'loan' %}
+                  pink lighten-3
                 {% endif %}">
                 <div class="card-content white-text">
                   <span class="card-title no_margin">
-                    {{ account.account_name }}
+                    {{ account.institution_name }}
                     <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
                   </span>
                   <span class="card_subtitle">
-                    {{ account.get_acc_type_display }}
+                    {{ account.account_type|capfirst }}
                     <span class="right">Balance</span>
                   </span>
                 </div>

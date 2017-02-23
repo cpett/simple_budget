@@ -7,7 +7,7 @@
   <h4>Sign In</h4>
   <form id="LoginForm" method="POST" class="viewform">{% csrf_token %}
       {% form %}
-          {% part form.username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+          {% part form.email prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
           {% part form.password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
       {% endform %}
       <div class="modal-footer">
