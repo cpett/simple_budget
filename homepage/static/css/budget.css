@@ -76,3 +76,5 @@ main, footer {
 #EditAccountsForm .row  {
   margin-bottom: 0px !important;
 }
+.help-block {padding-left: 4em;}
+#id_account_username, #id_account_password {margin-bottom: 0px;}

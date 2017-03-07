@@ -29,18 +29,10 @@ def sign_up(request):
     if request.method == "POST":
         form = frm.UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.username = form.cleaned_data['username']
-            user.first_name = form.cleaned_data['first_name']
-            user.last_name = form.cleaned_data['last_name']
-            user.email = form.cleaned_data['email']
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            # go ahead and authenticate the new user
-            user = authenticate(username=form.cleaned_data['username'],
-                                password=form.cleaned_data['password'])
-            if user is not None:
-                login(request, user)
+            request.session['api_token'] = form.cleaned_data['token']
+            request.session['first_name'] = form.cleaned_data['first_name']
+            if request.session.get('api_token') is not None:
+                # TODO: FIX this hack with the AJAX success function
                 return HttpResponse('success')
     else:
         form = frm.UserForm()

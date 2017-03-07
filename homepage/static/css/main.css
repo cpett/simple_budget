@@ -54,6 +54,12 @@ nav ul li a i {
 .dropdown-content li>a, .dropdown-content li>span {
   color: #00c853;
 }
+/*FORM ERRORS*/
+.error {color: #F44336;}
+.has-error {color: #F44336 !important;}
+.input-field .has-error label {color: #F44336 !important;}
+.ivalid {color: #F44336 !important;}
+
 /*FORMS MATERIALIZE OVER RIDE*/
 input:not([type]):focus:not([readonly]),
 input[type=text]:focus:not([readonly]),

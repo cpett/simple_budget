@@ -2,34 +2,73 @@ from django import forms
 from django.forms import ModelForm, PasswordInput, RadioSelect, DateInput, ModelChoiceField, extras
 from homepage.models import User, Account, Transaction, Goal
 import urllib
-import json
+import json, requests
 
 from material import *
 
-class UserForm(ModelForm):
-    class Meta:
-        model = User
-        # password = CharField(widget=forms.PasswordInput)
-        fields = ('first_name', 'last_name', 'username', 'email', 'password')
-        widgets = {
-            'password': PasswordInput(),
-        }
+class UserForm(forms.Form):
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    password = forms.CharField(required=True, label='Password', widget=forms.PasswordInput, min_length=8)
+    password_confirmation = forms.CharField(required=True, label='Confirm password', widget=forms.PasswordInput, min_length=8)
+    email = forms.EmailField(required=True)
+    token = forms.CharField(required=False)
+
+    def clean(self):
+        cleaned_data = super(UserForm, self).clean()
+        password = self.cleaned_data.get('password')
+        password_confirmation = self.cleaned_data.get('password_confirmation')
+        first_name = self.cleaned_data.get('first_name')
+        last_name = self.cleaned_data.get('last_name')
+        email = self.cleaned_data.get('email')
+
+        if password != password_confirmation:
+            msg = "Both passwords must match"
+            self.add_error('password', msg)
+            self.add_error('password_confirmation', msg)
+        if password:
+            if str(first_name).lower() in str(password).lower() or str(last_name).lower() in str(password).lower():
+                            msg = "Passwords should not contain your name"
+                            self.add_error('password', msg)
+                            self.add_error('password_confirmation', msg)
+        data = {
+                  "user": {
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "email": email,
+                            "password": password,
+                            "password_confirmation": password_confirmation
+                          }
+                 }
+        path = 'https://simplifiapi.herokuapp.com/users'
+        header = {'Content-type': 'application/json'}
+        req = requests.post(path, data=json.dumps(data), headers=header)
+        data = req.json()
+        if req.ok is True:
+            self.cleaned_data['token'] = data['token']
+        if 'email' in data:
+            if data['email'][0] == "has already been taken":
+                msg = 'It looks like we already have an account with this email'
+                self.add_error('email', msg)
 
     layout = Layout(
-         Row('first_name', 'last_name'),
-         Row('username'),
-         Row('email'),
-         Row('password')
-        )
+                    Fieldset("Create Account",
+                             Row('first_name', 'last_name'),
+                             Row('email'),
+                             Row('password', 'password_confirmation')
+                            )
+                    )
 
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     token = forms.CharField(required=False)
     first_name = forms.CharField(required=False)
+
     def clean(self):
-        email = self.cleaned_data['email']
-        password = self.cleaned_data['password']
+        cleaned_data = super(LoginForm, self).clean()
+        email = self.cleaned_data.get('email')
+        password = self.cleaned_data.get('password')
         review = {
             'email': email,
             'password': password
@@ -48,9 +87,11 @@ class LoginForm(forms.Form):
         except:
             raise forms.ValidationError("Please check your credentials, and try again.")
     layout = Layout(
-         Row('email'),
-         Row('password')
-        )
+                    Fieldset("Sign In",
+                             Row('email'),
+                             Row('password')
+                            )
+                    )
 
 class AccountForm(forms.Form):
     account_name = forms.CharField(max_length=25)
@@ -82,10 +123,12 @@ class TransactionForm(ModelForm):
             'date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
         }
     layout = Layout(
-                        Row('account'),
-                        Row('date', 'amount', 'category'),
-                        Row('description'),
-                        Row('original_description')
+                    Fieldset("Transaction Information",
+                             Row('account'),
+                             Row('date', 'amount', 'category'),
+                             Row('description'),
+                             Row('original_description')
+                            )
                    )
     def __init__(self, user, *args, **kwargs):
         super(TransactionForm, self).__init__(*args, **kwargs)
@@ -103,7 +146,9 @@ class GoalForm(forms.Form):
     # }
 
     layout = Layout(
-                    Row('goal_name'),
-                    Row('goal_amount', 'goal_date'),
-                    Row('goal_notes')
+                    Fieldset("Goal Information",
+                             Row('goal_name'),
+                             Row('goal_amount', 'goal_date'),
+                             Row('goal_notes')
+                            )
                     )

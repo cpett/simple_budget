@@ -4,7 +4,6 @@
   <script src="{% static 'js/goals.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Add Goal</h4>
   <form id="AddGoalForm" method="POST" class="viewform">{% csrf_token %}
       {% form form=form %}
         {% part form.goal_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}

@@ -4,7 +4,6 @@
   <script src="{% static 'js/accounts.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Edit Account</h4>
   {% if error %}
     <p>
       We're sorry, but that didn't seem to work. Please refresh the page and try again.
@@ -12,7 +11,7 @@
   {% else %}
     <form id="EditAccountsForm" method="POST" class="viewform">{% csrf_token %}
         {% form form=form %}
-          <h4>TEST</h4>
+            {% part form.account_name prefix %}<i class="material-icons prefix">account_balance</i>{% endpart %}
             {% part form.account_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
             {% part form.account_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
         {% endform %}
