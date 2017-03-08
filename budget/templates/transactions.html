@@ -43,7 +43,7 @@
             <tbody>
               {% for transaction in transactions %}
                 <tr>
-                  <td>{{ transaction.date }}</td>
+                  <td>{{ transaction.transaction_date }}</td>
                   <td>{{ transaction.description }}</td>
                   <td>{{ transaction.original_description }}</td>
                   <td>{{ transaction.account.account_name }}</td>

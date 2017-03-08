@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 import requests
 import json
+import datetime
 
 
 def parser(json_data):
@@ -168,6 +169,8 @@ def accounts_remove(request, account_id):
         return render(request, 'accounts_remove.html', {'error': req.status_code})
     else:
         return HttpResponse("success")
+
+
 ################################
 ############ GOALS ############
 ###############################
@@ -312,14 +315,12 @@ def transactions(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/transactions'
+    path = 'https://simplifiapi.herokuapp.com/account_transactions'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['goal_name'].upper())
+    data = sorted(data, key=lambda x:x['transaction_date'].upper())
     load_data = parser(data)
-    context = {'transaction_count': transaction_count,
-               'transactions': transactions,
-              }
+    context = {'transactions': load_data['data']}
     return render(request, 'transactions.html', context)
 
 
