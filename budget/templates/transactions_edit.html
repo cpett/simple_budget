@@ -1,0 +1,20 @@
+<head>
+  {% load staticfiles %}
+  {% load material_form %}
+  <script src="{% static 'js/transactions.js' %}"></script>
+</head>
+<div class="modal-content">
+  {% if error %}
+    <p>
+      We are having some trouble finding this account to edit. Please refresh the page and try again.
+    </p>
+  {% else %}
+    <form id="EditTransactionsForm" method="POST" class="viewform">{% csrf_token %}
+        {% form form=form %}
+        {% endform %}
+        <div class="modal-footer">
+          <button type="submit" name="_submit" id='{{ transaction_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
+        </div>
+    </form>
+  {% endif %}
+</div>

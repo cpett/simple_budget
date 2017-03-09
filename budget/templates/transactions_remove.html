@@ -1,0 +1,24 @@
+<head>
+  {% load staticfiles %}
+  {% load material_form %}
+  <script src="{% static 'js/transactions.js' %}"></script>
+</head>
+<div class="modal-content">
+  <h5>Remove Account</h5>
+  <div class="row">
+  {% if transaction %}
+    <p>
+      Are you sure you want to remove <span class='red-text'>{{ transaction.description}}</span>?
+      You may manually add this transaction later.
+    </p>
+  </div>
+  <div class="modal-footer">
+    <a id='{{ transaction.id }}' class="btnRemove waves-effect waves-red btn red">Remove Account</a>
+  </div>
+  {% else %}
+    <p>
+      It looks like that transaction doesn't exist. Please refresh the page and try again.
+    </p>
+  </div>
+  {% endif %}
+</div>

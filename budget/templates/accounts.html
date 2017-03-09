@@ -1,0 +1,91 @@
+{% extends "budget_base.html" %}
+{% load staticfiles %}
+{% block extrajs %}
+  <script src="{% static 'js/accounts.js' %}"></script>
+  <script src="{% static 'js/filtercards.js' %}"></script>
+{% endblock %}
+{% load material_form %}
+{% block title %}Accounts{% endblock %}
+{% block content %}
+<div class="row">
+  <div id="admin" class="col s12">
+    <div class="card material-table">
+      <div class="card-content">
+        <div class="table-header">
+          <h4 class="">My Accounts</h4>
+          <div class="actions">
+            {% if accounts|length >= 1 %}
+              <div id="filter_input" class="input-field">
+                <select id="filter_list" class="col m12">
+                  <option value="" disabled selected>Filter accounts</option>
+                  <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
+                  <option value="checking" id="button" class="filter" data-filter="checking" role="button">Checking</option>
+                  <option value="credit" id="button" class="filter" data-filter="credit" role="button">Credit Cards</option>
+                  <option value="investment" id="button" class="filter" data-filter="investment" role="button">Investments</option>
+                  <option value="savings" id="button" class="filter" data-filter="savings" role="button">Savings</option>
+                  <option value="loan" id="button" class="filter" data-filter="loan" role="button">Loan</option>
+                </select>
+              </div>
+            {% endif %}
+            <a href="#"
+              class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+              data-position="bottom" data-delay="50" data-tooltip="Add account">
+              <i class="white-text material-icons">add</i>
+            </a>
+          </div>
+        </div>
+        <div class="row boxes" id="sort-me">
+          <div class="col s12 m6 l6 mix">
+            <div class="card small grey">
+              <div class="card-content white-text">
+                <span class="card-title">Add New Account</span>
+                <p>Securely link your financial institutions here.</p>
+              </div>
+              <div class="card-action grey darken-1">
+                <a class="btnAddAccounts">
+                  Add Account
+                </a>
+              </div>
+            </div>
+          </div>
+          {% for account in accounts %}
+            <div class="col s12 m6 l6 mix {{ account.account_type }}" data-category="{{ account.account_type }}">
+              <div class="card small
+                {% if account.account_type == 'checking' %}
+                  purple lighten-3
+                {% elif account.account_type == 'credit' %}
+                  orange lighten-3
+                {% elif account.account_type == 'investment' %}
+                  teal accent-3
+                {% elif account.account_type == 'savings' %}
+                  light-blue lighten-3
+                {% elif account.account_type == 'loan' %}
+                  pink lighten-3
+                {% endif %}">
+                <div class="card-content white-text">
+                  <span class="card-title no_margin">
+                    {{ account.institution_name }}
+                    <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
+                  </span>
+                  <span class="card_subtitle">
+                    {{ account.account_type|capfirst }}
+                    <span class="right">Balance</span>
+                  </span>
+                </div>
+                <div class="card-action grey darken-3">
+                  <a id='{{ account.id }}' class='btnEditAccount white-text'>
+                    Edit Account
+                  </a>
+                  <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
+                    Remove Account
+                  </a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
