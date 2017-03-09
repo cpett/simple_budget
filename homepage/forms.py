@@ -120,6 +120,7 @@ class TransactionForm(forms.Form):
     transaction_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
     transaction_notes = forms.CharField(max_length=255, required=False)
 
+
 class GoalForm(forms.Form):
     goal_name = forms.CharField(max_length=25, label="Name")
     goal_amount = forms.DecimalField(decimal_places=2, label="Amount")
