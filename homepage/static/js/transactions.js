@@ -8,7 +8,11 @@ $(document).ready(function(){
     selectYears: 15, // Creates a dropdown of 15 years to control year
     container: 'body',
     format: 'yyyy-mm-dd',
-    closeOnSelect: true
+    onSet: function( arg ){
+        if ( 'select' in arg ){ //prevent closing on selecting month/year
+            this.close();
+        }
+    }
   });
 
   $('#btnAddTransactions').click(function(e){

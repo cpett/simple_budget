@@ -8,7 +8,11 @@ $(document).ready(function(){
     selectYears: 15, // Creates a dropdown of 15 years to control year
     container: 'body',
     format: 'yyyy-mm-dd',
-    closeOnSelect: true
+    onSet: function( arg ){
+        if ( 'select' in arg ){ //prevent closing on selecting month/year
+            this.close();
+        }
+    }
   });
 
   $('.btnAddGoals').click(function(e){
@@ -52,7 +56,6 @@ $(document).ready(function(){
   $('.btnEditGoal').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
-    console.log('herehehrerhe')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/goals_edit/' + id,

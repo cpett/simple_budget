@@ -40,9 +40,11 @@ div.material-table .table-header .actions {
   margin-left: auto;
 }
 
+.btnConfirm, .btnEditTransactions,
 div.material-table .table-header .btn-flat {
     min-width: 36px;
     padding: 0 8px;
+    margin-left: 5px;
 }
 
 div.material-table .table-header input {
@@ -188,6 +190,13 @@ div.material-table table th {
 div.material-table table th.sorting_asc,
 div.material-table table th.sorting_desc {
   color: rgba(0, 0, 0, 0.87);
+}
+div.material-table table th.no_sort {
+  cursor: default !important;
+}
+div.material-table table th.no_sort:after {
+  content: none !important;
+  cursor: default !important;
 }
 
 div.material-table table th.sorting:after,

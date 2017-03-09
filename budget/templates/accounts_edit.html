@@ -4,19 +4,19 @@
   <script src="{% static 'js/accounts.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Add Account</h4>
   {% if error %}
     <p>
-      We are having some trouble finding this account to edit. Please refresh the page and try again.
+      We're sorry, but that didn't seem to work. Please refresh the page and try again.
     </p>
   {% else %}
     <form id="EditAccountsForm" method="POST" class="viewform">{% csrf_token %}
         {% form form=form %}
-            {% part form.acc_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
-            {% part form.acc_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+            {% part form.account_name prefix %}<i class="material-icons prefix">account_balance</i>{% endpart %}
+            {% part form.account_username prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+            {% part form.account_password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
         {% endform %}
         <div class="modal-footer">
-          <button type="submit" name="_submit" id='{{ account_id }}' class="submit_button btn waves-effect waves-blue btn blue btn-lg">Submit</button>
+          <button type="submit" name="_submit" id='{{ account_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
         </div>
     </form>
   {% endif %}

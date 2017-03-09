@@ -5,6 +5,11 @@ html {
 body {
   background-color: #eeeeee;
 }
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway";
+  font-weight: 500;
+  font-style: normal;
+}
 .white_text a {
   color: #FFFFFF !important;
 }
@@ -14,9 +19,14 @@ i .white_icon {
 nav ul li a i {
     display: inline !important;
 }
-nav {
+#top-nav{
   background: none;
   background-color: transparent;
+  height:500px;
+}
+#sub-nav{
+   position: fixed;
+   display: none;
 }
 .temp_fix {
   padding-top: 1.5rem;
@@ -31,7 +41,7 @@ nav {
   font-size: 2rem;
 }
 .parallax-container {
-    height: 450px;
+    height: 475px;
 }
 .outline {
     color: white;
@@ -40,4 +50,119 @@ nav {
     1px -1px 0 #000,
     -1px 1px 0 #000,
     1px 1px 0 #000;
+}
+.dropdown-content li>a, .dropdown-content li>span {
+  color: #00c853;
+}
+/*FORM ERRORS*/
+.error {color: #F44336;}
+.has-error {color: #F44336 !important;}
+.input-field .has-error label {color: #F44336 !important;}
+.ivalid {color: #F44336 !important;}
+
+/*FORMS MATERIALIZE OVER RIDE*/
+input:not([type]):focus:not([readonly]),
+input[type=text]:focus:not([readonly]),
+input[type=password]:focus:not([readonly]),
+input[type=email]:focus:not([readonly]),
+input[type=url]:focus:not([readonly]),
+input[type=time]:focus:not([readonly]),
+input[type=date]:focus:not([readonly]),
+input[type=datetime]:focus:not([readonly]),
+input[type=datetime-local]:focus:not([readonly]),
+input[type=tel]:focus:not([readonly]),
+input[type=number]:focus:not([readonly]),
+input[type=search]:focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+  border-bottom: 1px solid #00c853;
+  box-shadow: 0 1px 0 0 #00c853;
+}
+input:not([type]):focus:not([readonly]) + label,
+input[type=text]:focus:not([readonly]) + label,
+input[type=password]:focus:not([readonly]) + label,
+input[type=email]:focus:not([readonly]) + label,
+input[type=url]:focus:not([readonly]) + label,
+input[type=time]:focus:not([readonly]) + label,
+input[type=date]:focus:not([readonly]) + label,
+input[type=datetime]:focus:not([readonly]) + label,
+input[type=datetime-local]:focus:not([readonly]) + label,
+input[type=tel]:focus:not([readonly]) + label,
+input[type=number]:focus:not([readonly]) + label,
+input[type=search]:focus:not([readonly]) + label,
+textarea.materialize-textarea:focus:not([readonly]) + label {
+  color: #00c853;
+}
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:before,
+[type="radio"].with-gap:checked + label:after {
+  border: 2px solid #00c853;
+}
+[type="radio"]:checked + label:after,
+[type="radio"].with-gap:checked + label:after {
+  background-color: #00c853;
+}
+.input-field .prefix.active {
+  color: #00c853;
+}
+.picker__date-display {
+  background-color: #00c853;
+}
+.picker__weekday-display {
+  background-color: #00c853;
+}
+.picker__day--selected,
+.picker__day--selected:hover,
+.picker--focused .picker__day--selected {
+  border-radius: 50%;
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+  background-color: #00c853;
+  color: #ffffff;
+}
+.picker__day.picker__day--today {
+  color: #00c853;
+}
+.picker__close, .picker__today {
+  font-size: 1.1rem;
+  padding: 0 1rem;
+  color: #00c853;
+}
+#LoginForm .row,
+#signupForm .row {
+  margin-bottom: 0px !important;
+}
+#gradient {
+  width: 100%;
+  height: 300px;
+  padding: 50px;
+  margin: 0px;
+}
+.transbox {
+  background-color: #ffffff;
+  opacity: 0.9;
+  filter: alpha(opacity=90); /* For IE8 and earlier */
+}
+.copyright {
+  font-size: 10px;
+}
+.landing-nav {
+  transition-duration: 1s;
+  margin:0px 100px 0px 100px;
+  padding:5px;
+}
+#apple-button {
+  height:50px;
+  width:150px
+}
+.notifications {
+  margin-top:-15px;
+  margin-bottom:-21px;
+}
+#map {
+  height:340px;
+  width:101.65%
+}
+#progress {
+  height:370px;
+  width:101.65%;
 }

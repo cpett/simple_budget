@@ -4,7 +4,6 @@
   <script src="{% static 'js/transactions.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Add Account</h4>
   {% if error %}
     <p>
       We are having some trouble finding this account to edit. Please refresh the page and try again.
@@ -14,9 +13,8 @@
         {% form form=form %}
         {% endform %}
         <div class="modal-footer">
-          <button type="submit" name="_submit" id='{{ transaction_id }}' class="submit_button btn waves-effect waves-blue btn blue btn-lg">Submit</button>
+          <button type="submit" name="_submit" id='{{ transaction_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
         </div>
     </form>
   {% endif %}
-
 </div>

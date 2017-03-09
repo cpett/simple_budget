@@ -4,12 +4,12 @@
   <script src="{% static 'js/transactions.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Remove Account</h4>
+  <h5>Remove Account</h5>
   <div class="row">
   {% if transaction %}
     <p>
       Are you sure you want to remove <span class='red-text'>{{ transaction.description}}</span>?
-      This is final, and cannot be undone.
+      You may manually add this transaction later.
     </p>
   </div>
   <div class="modal-footer">

@@ -4,16 +4,16 @@
   <script src="{% static 'js/accounts.js' %}"></script>
 </head>
 <div class="modal-content">
-  <h4>Remove Account</h4>
+  <h5>Remove Account</h5>
   <div class="row">
   {% if account %}
     <p>
-      Are you sure you want to remove <span class='red-text'>{{ account.account_name}}</span>?
-      This is final, and cannot be undone.
+      Are you sure you want to remove <span class='red-text'>{{ account}}</span>?
+      This will remove all history associated with this account. You may add it again later if you change your mind.
     </p>
   </div>
   <div class="modal-footer">
-    <a id='{{ account.id }}' class="btnRemoveAccount waves-effect waves-red btn red">Remove Account</a>
+    <a id='{{ account_id }}' class="btnRemoveAccount waves-effect waves-red btn red">Remove Account</a>
   </div>
   {% else %}
     <p>

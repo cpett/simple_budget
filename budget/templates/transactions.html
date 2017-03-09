@@ -1,8 +1,8 @@
 {% extends "budget_base.html" %}
 {% load staticfiles %}
 {% block extrajs %}
+  <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
   <script src="{% static 'js/transactions.js' %}"></script>
-  <!-- <script src="{% static 'js/sorttable.js' %}"></script> -->
   <script src="{% static 'js/materialsort.js' %}"></script>
 {% endblock %}
 {% load material_form %}
@@ -16,7 +16,16 @@
             <h4>My Spending</h4>
             <!-- <span class="table-title">My Spending</span> -->
             <div class="actions">
-              <a href="#" class="search-toggle waves-effect btn-flat nopadding"><i class="material-icons">search</i></a>
+              <a href="#" id="btnAddTransactions"
+                class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped"
+                data-position="bottom" data-delay="50" data-tooltip="Add transaction">
+                  <i class="white-text material-icons">add</i>
+              </a>
+              <a href="#"
+                class="search-toggle waves-effect btn-flat orange darken-2 nopadding tooltipped"
+                data-position="bottom" data-delay="50" data-tooltip="Search transactions">
+                  <i class="white-text material-icons">search</i>
+              </a>
             </div>
           </div>
           <table id="datatable">
@@ -28,24 +37,24 @@
                 <th>Account</th>
                 <th>Category</th>
                 <th>Amount</th>
-                <th>Actions</th>
+                <th class="no_sort">Actions</th>
               </tr>
             </thead>
             <tbody>
               {% for transaction in transactions %}
                 <tr>
-                  <td>{{ transaction.date }}</td>
+                  <td>{{ transaction.transaction_date }}</td>
                   <td>{{ transaction.description }}</td>
                   <td>{{ transaction.original_description }}</td>
                   <td>{{ transaction.account.account_name }}</td>
                   <td>{{ transaction.category }}</td>
                   <td>{{ transaction.amount }}</td>
                   <td>
-                    <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped' data-position="bottom"
+                    <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
                       data-delay="50" data-tooltip="Edit">
-                      <i class='material-icons yellow-text darken-2'>mode_edit</i>
+                      <i class='material-icons yellow-text darken-4'>mode_edit</i>
                     </a>
-                    <a id='{{ transaction.id }}' class='btnConfirm tooltipped' data-position="bottom"
+                    <a id='{{ transaction.id }}' class='btnConfirm tooltipped btn-flat nopadding' data-position="bottom"
                       data-delay="50" data-tooltip="Delete">
                       <i class='material-icons red-text'>delete</i>
                     </a>
@@ -59,7 +68,7 @@
     </div>
   </div>
   <!-- ACTION BUTTON -->
-  <div class="fixed-action-btn left">
+  <!-- <div class="fixed-action-btn left">
     <a class="btn-floating btn-large orange tooltipped" data-position="left"
     data-delay="50" data-tooltip="Manage transactions">
       <i class="large material-icons">build</i>
@@ -80,5 +89,5 @@
         </a>
       </li>
     </ul>
-  </div>
+  </div> -->
 {% endblock %}
