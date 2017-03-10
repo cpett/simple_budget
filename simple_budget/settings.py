@@ -25,7 +25,7 @@ SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'dr=no()42dlf+0*700y0iamw%3xaji+0v0c&tm$r!)8bo=mg-0'
 
-DEBUG = False
+DEBUG = True
 
 # Application definition
 INSTALLED_APPS = [

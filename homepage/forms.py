@@ -20,35 +20,39 @@ class UserForm(forms.Form):
         first_name = self.cleaned_data.get('first_name')
         last_name = self.cleaned_data.get('last_name')
         email = self.cleaned_data.get('email')
+        clean = True
 
         if password != password_confirmation:
             msg = "Both passwords must match"
             self.add_error('password', msg)
             self.add_error('password_confirmation', msg)
+            clean = False
         if password:
             if str(first_name).lower() in str(password).lower() or str(last_name).lower() in str(password).lower():
                             msg = "Passwords should not contain your name"
                             self.add_error('password', msg)
                             self.add_error('password_confirmation', msg)
-        data = {
-                  "user": {
-                            "first_name": first_name,
-                            "last_name": last_name,
-                            "email": email,
-                            "password": password,
-                            "password_confirmation": password_confirmation
-                          }
-                 }
-        path = 'https://simplifiapi.herokuapp.com/users'
-        header = {'Content-type': 'application/json'}
-        req = requests.post(path, data=json.dumps(data), headers=header)
-        data = req.json()
-        if req.ok is True:
-            self.cleaned_data['token'] = data['token']
-        if 'email' in data:
-            if data['email'][0] == "has already been taken":
-                msg = 'It looks like we already have an account with this email'
-                self.add_error('email', msg)
+                            clean = False
+        if clean == True:
+            data = {
+                      "user": {
+                                "first_name": first_name,
+                                "last_name": last_name,
+                                "email": email,
+                                "password": password,
+                                "password_confirmation": password_confirmation
+                              }
+                     }
+            path = 'https://simplifiapi.herokuapp.com/users'
+            header = {'Content-type': 'application/json'}
+            req = requests.post(path, data=json.dumps(data), headers=header)
+            data = req.json()
+            if req.ok is True:
+                self.cleaned_data['token'] = data['token']
+            if 'email' in data:
+                if data['email'][0] == "has already been taken":
+                    msg = 'It looks like we already have an account with this email'
+                    self.add_error('email', msg)
 
     layout = Layout(
                     Fieldset("Create Account",
@@ -68,23 +72,24 @@ class LoginForm(forms.Form):
         cleaned_data = super(LoginForm, self).clean()
         email = self.cleaned_data.get('email')
         password = self.cleaned_data.get('password')
-        review = {
-            'email': email,
-            'password': password
-        }
-        mydata = urllib.parse.urlencode(review)
-        mydata = mydata.encode('utf-8')
-        path = 'https://simplifiapi.herokuapp.com/login'
-        req = urllib.request.Request(path, mydata)
-        try:
-            response = urllib.request.urlopen(req)
-            data = response.read().decode('utf-8')
-            data = json.loads(data)
-            self.cleaned_data['token'] = data['token']
-            self.cleaned_data['first_name'] = data['first_name']
-            return self.cleaned_data
-        except:
-            raise forms.ValidationError("Please check your credentials, and try again.")
+        if email and password:
+            review = {
+                'email': email,
+                'password': password
+            }
+            mydata = urllib.parse.urlencode(review)
+            mydata = mydata.encode('utf-8')
+            path = 'https://simplifiapi.herokuapp.com/login'
+            req = urllib.request.Request(path, mydata)
+            try:
+                response = urllib.request.urlopen(req)
+                data = response.read().decode('utf-8')
+                data = json.loads(data)
+                self.cleaned_data['token'] = data['token']
+                self.cleaned_data['first_name'] = data['first_name']
+                return self.cleaned_data
+            except:
+                raise forms.ValidationError("Please check your credentials, and try again.")
     layout = Layout(
                     Fieldset("Sign In",
                              Row('email'),
