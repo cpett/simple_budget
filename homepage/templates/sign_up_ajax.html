@@ -1,0 +1,15 @@
+{% load staticfiles %}
+{% load material_form %}
+<script src="{% static 'js/main_js.js' %}"></script>
+<form id="signupForm" method="POST" class="viewform">{% csrf_token %}
+      {% form %}
+          {% part form.first_name prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+          {% part form.last_name prefix %}<i class="material-icons prefix">account_box</i>{% endpart %}
+          {% part form.email prefix %}<i class="material-icons prefix">email</i>{% endpart %}
+          {% part form.password prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+          {% part form.password_confirmation prefix %}<i class="material-icons prefix">lock</i>{% endpart %}
+      {% endform %}
+      <div class="modal-footer">
+        <button id="btnCreateUser" type="submit" name="_submit" class="btn waves-effect waves-blue btn blue btn-lg">Submit</button>
+      </div>
+</form>

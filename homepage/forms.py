@@ -27,32 +27,33 @@ class UserForm(forms.Form):
             self.add_error('password', msg)
             self.add_error('password_confirmation', msg)
             clean = False
-        if password:
+        if password and password == password_confirmation:
             if str(first_name).lower() in str(password).lower() or str(last_name).lower() in str(password).lower():
                             msg = "Passwords should not contain your name"
                             self.add_error('password', msg)
                             self.add_error('password_confirmation', msg)
                             clean = False
-        if clean == True:
-            data = {
-                      "user": {
-                                "first_name": first_name,
-                                "last_name": last_name,
-                                "email": email,
-                                "password": password,
-                                "password_confirmation": password_confirmation
-                              }
-                     }
-            path = 'https://simplifiapi.herokuapp.com/users'
-            header = {'Content-type': 'application/json'}
-            req = requests.post(path, data=json.dumps(data), headers=header)
-            data = req.json()
-            if req.ok is True:
-                self.cleaned_data['token'] = data['token']
-            if 'email' in data:
-                if data['email'][0] == "has already been taken":
-                    msg = 'It looks like we already have an account with this email'
-                    self.add_error('email', msg)
+        if password and first_name and last_name and email:
+            if clean == True:
+                data = {
+                          "user": {
+                                    "first_name": first_name,
+                                    "last_name": last_name,
+                                    "email": email,
+                                    "password": password,
+                                    "password_confirmation": password_confirmation
+                                  }
+                         }
+                path = 'https://simplifiapi.herokuapp.com/users'
+                header = {'Content-type': 'application/json'}
+                req = requests.post(path, data=json.dumps(data), headers=header)
+                data = req.json()
+                if req.ok is True:
+                    self.cleaned_data['token'] = data['token']
+                if 'email' in data:
+                    if data['email'][0] == "has already been taken":
+                        msg = 'It looks like we already have an account with this email'
+                        self.add_error('email', msg)
 
     layout = Layout(
                     Fieldset("Create Account",

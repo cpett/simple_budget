@@ -1,0 +1,20 @@
+{% load staticfiles %}
+{% load material_form %}
+<script src="{% static 'js/goals.js' %}"></script>
+<h5>Remove Goal</h5>
+<div class="row">
+{% if goal %}
+  <p>
+    Are you sure you want to remove <span class='red-text'>{{ goal.goal_name}}</span>?
+    We hope you find a good goal soon!
+  </p>
+</div>
+<div class="modal-footer">
+  <a id='{{ goal.id }}' class="btnRemoveGoal waves-effect waves-red btn red">Remove Goal</a>
+</div>
+{% else %}
+  <p>
+    It looks like that goal doesn't exist. Please refresh the page and try again.
+  </p>
+</div>
+{% endif %}

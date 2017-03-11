@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from homepage import forms as frm
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_protect
 from django import forms
 from material import *
+from django.template.loader import render_to_string
 import urllib
 import requests
 import json
@@ -32,12 +33,13 @@ def sign_up(request):
             request.session['api_token'] = form.cleaned_data['token']
             request.session['first_name'] = form.cleaned_data['first_name']
             if request.session.get('api_token') is not None:
-                # TODO: FIX this hack with the AJAX success function
                 return HttpResponse('success')
+        else:
+            return render(request, 'sign_up_ajax.html', {'form': form})
     else:
         form = frm.UserForm()
-    context = {'form': form}
-    return render(request, 'sign_up.html', context)
+    return render(request, 'sign_up.html', {'form': form})
+
 
 @csrf_protect
 def login(request):
@@ -51,8 +53,9 @@ def login(request):
             request.session['api_token'] = form.cleaned_data['token']
             request.session['first_name'] = form.cleaned_data['first_name']
             if request.session.get('api_token') is not None:
-                # TODO: FIX this hack with the AJAX success function
                 return HttpResponse('success')
+        else:
+            return render(request, 'login_ajax.html', {'form': form})
     context = {'form': form}
     return render(request, 'login.html', context)
 

@@ -28,18 +28,17 @@ $(document).ready(function(){
           type: 'POST',
           data: $('#signupForm').serialize(),
           success : function(data) {
-            // TODO: On successful login, the modal page loads /budget/.
-            // need to figure out how to redirect the entire page
             if (data === 'success') {
-                window.location.replace('/budget/')
+              // call fakeLoader and redirect the page
+              loader()
             } else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              location.reload();
+            $('.modal-content').find('.ajaxForm').html(data);
+              // location.reload();
           }
       });
   });
@@ -64,22 +63,31 @@ $(document).ready(function(){
           type: 'POST',
           data: $('#LoginForm').serialize(),
           success : function(data) {
-            // TODO: On successful login, the modal page loads /budget/.
-            // need to figure out how to redirect the entire page
             if (data === 'success') {
-                window.location.replace('/budget/')
+              // call fakeLoader and redirect the page
+              loader()
             } else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
-              console.log('Error logging in')
+            $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
+
+  function loader() {
+    $('#modal').modal('close');
+      $("#fakeLoader").fakeLoader({
+        timeToHide:1500, //Time in milliseconds for fakeLoader disappear
+        zIndex:1000, // Default zIndex
+        spinner:"spinner" + (Math.floor(Math.random() * 6) + 1),//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#00C853" //Hex, RGB or RGBA colors
+        // imagePath:"yourPath/customizedImage.gif" //If you want can you insert your custom image
+      });
+      window.location.replace('/budget/')
+  }
 
   var colors = new Array(
     [33,150,243],

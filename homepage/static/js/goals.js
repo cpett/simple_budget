@@ -35,18 +35,16 @@ $(document).ready(function(){
           type: 'POST',
           data: $('#AddGoalForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               $('#modal').modal('close');
               window.location.replace('/budget/goals/')
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+              $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -58,7 +56,7 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/goals_edit/' + id,
+        url: '/budget/goals_edit/' + id + '/',
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
@@ -69,24 +67,22 @@ $(document).ready(function(){
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
-      var dest = '/budget/goals_edit/' + id;
+      var dest = '/budget/goals_edit/' + id + '/';
       $.ajax({
           url : dest,
           type: 'POST',
           data: $('#EditGoalsForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               $('#modal').modal('close');
               window.location.replace('/budget/goals/')
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+            $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -118,7 +114,7 @@ $(document).ready(function(){
             $('#modal').modal('close');
             window.location.replace('/budget/goals/')
           }else {
-            $('#modal').find('.modal-content').html(data);
+            $('.modal-content').find('.ajaxForm').html(data);
           }
         }
     });

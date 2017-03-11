@@ -24,18 +24,16 @@ $(document).ready(function(){
           type: 'POST',
           data: $('#AddAccountForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               $('#modal').modal('close');
-              window.location.replace('/budget/accounts/')
+              window.location.replace('/budget/accounts')
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+            $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -45,7 +43,6 @@ $(document).ready(function(){
   $('.btnEditAccount').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
-    console.log('herehehrerhe')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/accounts_edit/' + id,
@@ -59,24 +56,22 @@ $(document).ready(function(){
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
-      var dest = '/budget/accounts_edit/' + id;
+      var dest = '/budget/accounts_edit/' + id + '/';
       $.ajax({
           url : dest,
           type: 'POST',
           data: $('#EditAccountsForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               $('#modal').modal('close');
               window.location.replace('/budget/accounts/')
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+            $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -85,6 +80,7 @@ $(document).ready(function(){
   $('.btnConfirmAccount').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
+    console.log('confirm')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/accounts_remove_confirm/' + id + '/',
@@ -99,16 +95,16 @@ $(document).ready(function(){
   $('.btnRemoveAccount').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
+    console.log('remove')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/accounts_remove/' + id + '/',
         success : function(data) {
-          // TODO: FIX THIS HACK of AJAX success
           if (data === "success") {
             $('#modal').modal('close');
             window.location.replace('/budget/accounts/')
           }else {
-            $('#modal').find('.modal-content').html(data);
+            $('.modal-content').find('.ajaxForm').html(data);
           }
         }
     });
