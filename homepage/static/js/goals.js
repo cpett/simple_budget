@@ -14,7 +14,27 @@ $(document).ready(function(){
         }
     }
   });
-
+  // AJAX for reloading base page
+  function reloadBase() {
+    var type = 'ajax'
+    $.ajax({
+      url : '/budget/goals/',
+      type: 'GET',
+      data: {'type': type},
+      success : function(data) {
+        console.log('here')
+          $('#fakeLoader').attr('style', 'position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 200, 83); z-index: 1000; display: visible;');
+          $('#sort-me').find('.ajaxBody').html(data);
+          $('#modal').modal('close');
+          setTimeout(function (){
+            $('#fakeLoader').hide();
+          }, 1000);
+      },
+      // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+      }
+    });
+  };
   $('.btnAddGoals').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -35,18 +55,16 @@ $(document).ready(function(){
           type: 'POST',
           data: $('#AddGoalForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/goals/')
+              // Ajax reload base page
+              reloadBase();
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+              $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -58,7 +76,7 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/goals_edit/' + id,
+        url: '/budget/goals_edit/' + id + '/',
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
@@ -69,24 +87,22 @@ $(document).ready(function(){
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
-      var dest = '/budget/goals_edit/' + id;
+      var dest = '/budget/goals_edit/' + id + '/';
       $.ajax({
           url : dest,
           type: 'POST',
           data: $('#EditGoalsForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/goals/')
+              // Ajax reload base page
+              reloadBase();
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+            $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -115,10 +131,10 @@ $(document).ready(function(){
         success : function(data) {
           // TODO: FIX THIS HACK of AJAX success
           if (data === "success") {
-            $('#modal').modal('close');
-            window.location.replace('/budget/goals/')
+            // Ajax reload base page
+            reloadBase();
           }else {
-            $('#modal').find('.modal-content').html(data);
+            $('.modal-content').find('.ajaxForm').html(data);
           }
         }
     });

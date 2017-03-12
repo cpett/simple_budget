@@ -1,0 +1,14 @@
+{% load staticfiles %}
+{% load material_form %}
+<script src="{% static 'js/goals.js' %}"></script>
+<form id="AddGoalForm" method="POST" class="viewform">{% csrf_token %}
+  {% form form=form %}
+    {% part form.goal_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}
+    {% part form.goal_amount prefix %}<i class="material-icons prefix">attach_moneyx</i>{% endpart %}
+    {% part form.goal_date prefix %}<i class="material-icons prefix">today</i>{% endpart %}
+    {% part form.goal_notes prefix %}<i class="material-icons prefix"></i>{% endpart %}
+  {% endform %}
+  <div class="modal-footer">
+    <button type="submit" name="_submit" class="btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
+  </div>
+</form>

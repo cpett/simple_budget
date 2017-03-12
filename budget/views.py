@@ -52,8 +52,11 @@ def accounts(request):
     data = sorted(data, key=lambda x:x['institution_name'].upper())
     load_data = parser(data)
 
-    context = {'accounts': load_data['data'],}
-    return render(request, 'accounts.html', context)
+    context = {'accounts': load_data['data']}
+    if request.GET.get('type'):
+        return render(request, 'accounts_ajax.html', context)
+    else:
+        return render(request, 'accounts.html', context)
 
 
 # @login_required(login_url='/')
@@ -78,9 +81,9 @@ def accounts_add(request):
             req = requests.post(path, data=json.dumps(data), headers=header)
             if req.ok is False:
                 return render(request, 'accounts_edit.html', {'error':req.status_code})
-            # TODO: fix this hack -- passes success to the AJAX success function
-            # if it completed successfully
             return HttpResponse("success")
+        else:
+            return render(request, 'accounts_add_ajax.html', {'form':form})
     else:
         form = frm.AccountForm()
     context = {'form': form}
@@ -116,18 +119,19 @@ def accounts_edit(request, account_id):
             header = {'Content-type': 'application/json', 'Authorization': token}
             # Update db instance
             req = requests.put(path, data=json.dumps(data), headers=header)
-            # TODO: fix this hack -- passes success to the AJAX success function
-            # if it completed successfully
+            if req.ok is False:
+                return render(request, 'accounts_edit.html', {'error':req.status_code})
             return HttpResponse("success")
+        else:
+            context = {'form':form, 'account_id': account_id}
+            return render(request, 'accounts_edit_ajax.html', context)
     else:
         form = frm.AccountForm({'account_username': data['account_username'],
                                 'account_type': data['account_type'],
                                 'account_name': data['institution_name'],
                                 'account_password': data['account_password']
                                })
-    context = {'form': form,
-               'account_id': account_id
-              }
+    context = {'form': form, 'account_id': account_id}
     return render(request, 'accounts_edit.html', context)
 
 # @login_required(login_url='/')
@@ -143,13 +147,12 @@ def accounts_remove_confirm(request, account_id):
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
+        print('HEREREREREER')
         context = {'error': req.status_code}
     else:
         data = req.json()
         load_data = parser(data)
-        context = {'account': data['institution_name'],
-                   'account_id': data['id']
-                  }
+        context = {'account': load_data['data']}
     return render(request, 'accounts_remove.html', context)
 
 
@@ -166,7 +169,8 @@ def accounts_remove(request, account_id):
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
-        return render(request, 'accounts_remove.html', {'error': req.status_code})
+        print(req)
+        return render(request, 'accounts_remove_ajax.html', {'error': req.status_code})
     else:
         return HttpResponse("success")
 
@@ -188,8 +192,11 @@ def goals(request):
     data = sorted(data, key=lambda x:x['goal_name'].upper())
     load_data = parser(data)
 
-    context = {'goals': load_data['data'],}
-    return render(request, 'goals.html', context)
+    context = {'goals': load_data['data']}
+    if request.GET.get('type'):
+        return render(request, 'goals_ajax.html', context)
+    else:
+        return render(request, 'goals.html', context)
 
 # @login_required(login_url='/')
 def goals_add(request):
@@ -213,9 +220,9 @@ def goals_add(request):
             req = requests.post(path, data=json.dumps(data), headers=header)
             if req.ok is False:
                 return render(request, 'goals_edit.html', {'error':req.status_code})
-            # TODO: fix this hack -- passes success to the AJAX success function
-            # if it completed successfully
             return HttpResponse("success")
+        else:
+            return render(request, 'goals_add_ajax.html', {'form':form})
     else:
         form = frm.GoalForm()
     context = {'form': form}
@@ -252,18 +259,18 @@ def goals_edit(request, goal_id):
             header = {'Content-type': 'application/json', 'Authorization': token}
             req = requests.put(path, data=json.dumps(data), headers=header)
             if req.ok is False:
-                return HttpResponse("We're sorry, something went wrong. Please refresh the page and try again.")            # TODO: fix this hack -- passes success to the AJAX success function
-            # if it completed successfully
+                return render(request, 'goals_edit.html', {'error':req.status_code})
             return HttpResponse("success")
+        else:
+            context = {'form':form, 'goal_id': goal_id}
+            return render(request, 'goals_edit_ajax.html', context)
     else:
         form = frm.GoalForm({'goal_name': data['goal_name'],
                              'goal_amount': data['goal_amount'],
                              # 'goal_date': data['goal_date'],
                              # 'goal_notes': data['goal_notes']
                            })
-    context = {'form': form,
-               'goal_id': goal_id
-              }
+    context = {'form': form, 'goal_id': goal_id}
     return render(request, 'goals_edit.html', context)
 
 # @login_required(login_url='/')
@@ -299,7 +306,7 @@ def goals_remove(request, goal_id):
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
-        return render(request, 'goals_remove.html', {'error': req.status_code})
+        return render(request, 'goals_remove_ajax.html', {'error': req.status_code})
     else:
         return HttpResponse("success")
 
@@ -320,8 +327,12 @@ def transactions(request):
     data = req.json()
     data = sorted(data, key=lambda x:x['transaction_date'].upper())
     load_data = parser(data)
+
     context = {'transactions': load_data['data']}
-    return render(request, 'transactions.html', context)
+    if request.GET.get('type'):
+        return render(request, 'transactions_ajax.html', context)
+    else:
+        return render(request, 'transactions.html', context)
 
 
 # @login_required(login_url='/')
