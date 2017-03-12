@@ -14,7 +14,27 @@ $(document).ready(function(){
         }
     }
   });
-
+  // AJAX for reloading base page
+  function reloadBase() {
+    var type = 'ajax'
+    $.ajax({
+      url : '/budget/goals/',
+      type: 'GET',
+      data: {'type': type},
+      success : function(data) {
+        console.log('here')
+          $('#fakeLoader').attr('style', 'position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 200, 83); z-index: 1000; display: visible;');
+          $('#sort-me').find('.ajaxBody').html(data);
+          $('#modal').modal('close');
+          setTimeout(function (){
+            $('#fakeLoader').hide();
+          }, 1000);
+      },
+      // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+      }
+    });
+  };
   $('.btnAddGoals').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -36,8 +56,8 @@ $(document).ready(function(){
           data: $('#AddGoalForm').serialize(),
           success : function(data) {
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/goals/')
+              // Ajax reload base page
+              reloadBase();
             }else {
               $('.modal-content').find('.ajaxForm').html(data);
             }
@@ -74,8 +94,8 @@ $(document).ready(function(){
           data: $('#EditGoalsForm').serialize(),
           success : function(data) {
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/goals/')
+              // Ajax reload base page
+              reloadBase();
             }else {
               $('.modal-content').find('.ajaxForm').html(data);
             }
@@ -111,8 +131,8 @@ $(document).ready(function(){
         success : function(data) {
           // TODO: FIX THIS HACK of AJAX success
           if (data === "success") {
-            $('#modal').modal('close');
-            window.location.replace('/budget/goals/')
+            // Ajax reload base page
+            reloadBase();
           }else {
             $('.modal-content').find('.ajaxForm').html(data);
           }

@@ -28,66 +28,45 @@
               </a>
             </div>
           </div>
-          <table id="datatable">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Description</th>
-                <th>Long Description</th>
-                <th>Account</th>
-                <th>Category</th>
-                <th>Amount</th>
-                <th class="no_sort">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for transaction in transactions %}
+          <span class="ajaxBody">
+            <table id="datatable">
+              <thead>
                 <tr>
-                  <td>{{ transaction.transaction_date }}</td>
-                  <td>{{ transaction.description }}</td>
-                  <td>{{ transaction.original_description }}</td>
-                  <td>{{ transaction.account.account_name }}</td>
-                  <td>{{ transaction.category }}</td>
-                  <td>{{ transaction.amount }}</td>
-                  <td>
-                    <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
-                      data-delay="50" data-tooltip="Edit">
-                      <i class='material-icons yellow-text darken-4'>mode_edit</i>
-                    </a>
-                    <a id='{{ transaction.id }}' class='btnConfirm tooltipped btn-flat nopadding' data-position="bottom"
-                      data-delay="50" data-tooltip="Delete">
-                      <i class='material-icons red-text'>delete</i>
-                    </a>
-                  </td>
+                  <th>Date</th>
+                  <th>Description</th>
+                  <th>Long Description</th>
+                  <th>Account</th>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th class="no_sort">Actions</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {% for transaction in transactions %}
+                  <tr>
+                    <td>{{ transaction.transaction_date }}</td>
+                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.original_description }}</td>
+                    <td>{{ transaction.account.account_name }}</td>
+                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>
+                      <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
+                        data-delay="50" data-tooltip="Edit">
+                        <i class='material-icons yellow-text darken-4'>mode_edit</i>
+                      </a>
+                      <a id='{{ transaction.id }}' class='btnConfirm tooltipped btn-flat nopadding' data-position="bottom"
+                        data-delay="50" data-tooltip="Delete">
+                        <i class='material-icons red-text'>delete</i>
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </span>
         </div>
       </div>
     </div>
   </div>
-  <!-- ACTION BUTTON -->
-  <!-- <div class="fixed-action-btn left">
-    <a class="btn-floating btn-large orange tooltipped" data-position="left"
-    data-delay="50" data-tooltip="Manage transactions">
-      <i class="large material-icons">build</i>
-    </a>
-    <ul>
-      <li>
-        <a class="btn-floating green tooltipped" id="btnAddTransactions" data-position="left"
-          data-delay="50" data-tooltip="Add transactions"
-          href="{% url 'transactions_add' %}">
-          <i class="material-icons">add</i>
-        </a>
-      </li>
-      <li>
-        <a class="btn-floating red tooltipped" id="btnbtnRemoveAccounts" data-position="left"
-          data-delay="50" data-tooltip="Remove transactions"
-          href="">
-          <i class="material-icons">delete</i>
-        </a>
-      </li>
-    </ul>
-  </div> -->
 {% endblock %}

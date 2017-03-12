@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<script src="{% static 'js/goals.js' %}"></script>
+<script src="{% static 'js/filtercards.js' %}"></script>
+
+<div class="col s12 m6 l6 mix" data-value="0" data-category="#">
+  <div class="card small grey">
+    <div class="card-content white-text">
+      <span class="card-title">Add New Goal</span>
+      <p>Create a goal and start saving!</p>
+    </div>
+    <div class="card-action grey darken-1">
+      <a class="btnAddGoals">
+        Add Goal
+      </a>
+    </div>
+  </div>
+</div>
+{% for goal in goals %}
+  <div class="col s12 m6 l6 mix" data-value="{{ goal.goal_amount }}"
+   data-category="{{ goal.goal_name}}">
+    <div class="card small cyan lighten-3">
+      <div class="card-content white-text">
+        <span class="card-title activator">{{ goal.goal_name }}<i class="material-icons right">more_vert</i></span>
+        <span class="card_subtitle">
+          ${{ goal.goal_amount|floatformat:"0" }}
+          <span class="right">{{ goal.goal_date }}</span>
+        </span>
+      </div>
+      <div class="card-action grey darken-3">
+        <a id='{{ goal.id }}' class='btnEditGoal white-text'>
+          Edit Goal
+        </a>
+        <a id='{{ goal.id }}' class='btnConfirmGoal white-text'>
+          Remove Goal
+        </a>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4">{{ goal.goal_name }}<i class="material-icons right">close</i></span>
+        {% if goal.goal_notes %}
+          <p>{{ goal.goal_notes }}</p>
+        {% else %}
+          <p>
+            It looks like you haven't entered any more information about this goal.
+             Add more information in the
+             <a id="{{ goal.id }}" class="btnEditGoal" style="cursor: pointer">Notes</a>
+             section to help keep yourself motivated!
+           </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</span>
+</div>
+</div>
+</div>
+</div>
+</div>

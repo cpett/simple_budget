@@ -3,6 +3,27 @@ $(document).ready(function(){
   $('.modal').modal();
   // initialize dropdown select input element
   $('select').material_select();
+  // AJAX for reloading base page
+  function reloadBase() {
+    var type = 'ajax'
+    $.ajax({
+      url : '/budget/accounts/',
+      type: 'GET',
+      data: {'type': type},
+      success : function(data) {
+        console.log('here')
+          $('#fakeLoader').attr('style', 'position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 200, 83); z-index: 1000; display: visible;');
+          $('#sort-me').find('.ajaxBody').html(data);
+          $('#modal').modal('close');
+          setTimeout(function (){
+            $('#fakeLoader').hide();
+          }, 1000);
+      },
+      // handle a non-successful response
+      error : function(xhr,errmsg,err) {
+      }
+    });
+  };
 
   $('.btnAddAccounts').click(function(e){
     e.preventDefault();
@@ -25,8 +46,8 @@ $(document).ready(function(){
           data: $('#AddAccountForm').serialize(),
           success : function(data) {
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/accounts')
+              // Ajax reload base page
+              reloadBase();
             }else {
               $('.modal-content').find('.ajaxForm').html(data);
             }
@@ -63,8 +84,7 @@ $(document).ready(function(){
           data: $('#EditAccountsForm').serialize(),
           success : function(data) {
             if (data === "success") {
-              $('#modal').modal('close');
-              window.location.replace('/budget/accounts/')
+              reloadBase();
             }else {
               $('.modal-content').find('.ajaxForm').html(data);
             }
@@ -80,7 +100,6 @@ $(document).ready(function(){
   $('.btnConfirmAccount').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
-    console.log('confirm')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/accounts_remove_confirm/' + id + '/',
@@ -95,14 +114,12 @@ $(document).ready(function(){
   $('.btnRemoveAccount').click(function(e){
     e.preventDefault();
     e.stopImmediatePropagation();
-    console.log('remove')
     var id = $(this).attr('id')
     $.ajax({
         url: '/budget/accounts_remove/' + id + '/',
         success : function(data) {
           if (data === "success") {
-            $('#modal').modal('close');
-            window.location.replace('/budget/accounts/')
+            reloadBase();
           }else {
             $('.modal-content').find('.ajaxForm').html(data);
           }

@@ -35,54 +35,56 @@
           </div>
         </div>
         <div class="row boxes" id="sort-me">
-          <div class="col s12 m6 l6 mix">
-            <div class="card small grey">
-              <div class="card-content white-text">
-                <span class="card-title">Add New Account</span>
-                <p>Securely link your financial institutions here.</p>
-              </div>
-              <div class="card-action grey darken-1">
-                <a class="btnAddAccounts">
-                  Add Account
-                </a>
-              </div>
-            </div>
-          </div>
-          {% for account in accounts %}
-            <div class="col s12 m6 l6 mix {{ account.account_type }}" data-category="{{ account.account_type }}">
-              <div class="card small
-                {% if account.account_type == 'checking' %}
-                  purple lighten-3
-                {% elif account.account_type == 'credit' %}
-                  orange lighten-3
-                {% elif account.account_type == 'investment' %}
-                  teal accent-3
-                {% elif account.account_type == 'savings' %}
-                  light-blue lighten-3
-                {% elif account.account_type == 'loan' %}
-                  pink lighten-3
-                {% endif %}">
+          <span class="ajaxBody">
+            <div class="col s12 m6 l6 mix">
+              <div class="card small grey">
                 <div class="card-content white-text">
-                  <span class="card-title no_margin">
-                    {{ account.institution_name }}
-                    <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
-                  </span>
-                  <span class="card_subtitle">
-                    {{ account.account_type|capfirst }}
-                    <span class="right">Balance</span>
-                  </span>
+                  <span class="card-title">Add New Account</span>
+                  <p>Securely link your financial institutions here.</p>
                 </div>
-                <div class="card-action grey darken-3">
-                  <a id='{{ account.id }}' class='btnEditAccount white-text'>
-                    Edit Account
-                  </a>
-                  <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
-                    Remove Account
+                <div class="card-action grey darken-1">
+                  <a class="btnAddAccounts">
+                    Add Account
                   </a>
                 </div>
               </div>
             </div>
-          {% endfor %}
+            {% for account in accounts %}
+              <div class="col s12 m6 l6 mix {{ account.account_type }}" data-category="{{ account.account_type }}">
+                <div class="card small
+                  {% if account.account_type == 'checking' %}
+                    purple lighten-3
+                  {% elif account.account_type == 'credit' %}
+                    orange lighten-3
+                  {% elif account.account_type == 'investment' %}
+                    teal accent-3
+                  {% elif account.account_type == 'savings' %}
+                    light-blue lighten-3
+                  {% elif account.account_type == 'loan' %}
+                    pink lighten-3
+                  {% endif %}">
+                  <div class="card-content white-text">
+                    <span class="card-title no_margin">
+                      {{ account.institution_name }}
+                      <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
+                    </span>
+                    <span class="card_subtitle">
+                      {{ account.account_type|capfirst }}
+                      <span class="right">Balance</span>
+                    </span>
+                  </div>
+                  <div class="card-action grey darken-3">
+                    <a id='{{ account.id }}' class='btnEditAccount white-text'>
+                      Edit Account
+                    </a>
+                    <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
+                      Remove Account
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </span>
         </div>
       </div>
     </div>

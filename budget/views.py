@@ -52,8 +52,11 @@ def accounts(request):
     data = sorted(data, key=lambda x:x['institution_name'].upper())
     load_data = parser(data)
 
-    context = {'accounts': load_data['data'],}
-    return render(request, 'accounts.html', context)
+    context = {'accounts': load_data['data']}
+    if request.GET.get('type'):
+        return render(request, 'accounts_ajax.html', context)
+    else:
+        return render(request, 'accounts.html', context)
 
 
 # @login_required(login_url='/')
@@ -189,8 +192,11 @@ def goals(request):
     data = sorted(data, key=lambda x:x['goal_name'].upper())
     load_data = parser(data)
 
-    context = {'goals': load_data['data'],}
-    return render(request, 'goals.html', context)
+    context = {'goals': load_data['data']}
+    if request.GET.get('type'):
+        return render(request, 'goals_ajax.html', context)
+    else:
+        return render(request, 'goals.html', context)
 
 # @login_required(login_url='/')
 def goals_add(request):
@@ -321,8 +327,12 @@ def transactions(request):
     data = req.json()
     data = sorted(data, key=lambda x:x['transaction_date'].upper())
     load_data = parser(data)
+
     context = {'transactions': load_data['data']}
-    return render(request, 'transactions.html', context)
+    if request.GET.get('type'):
+        return render(request, 'transactions_ajax.html', context)
+    else:
+        return render(request, 'transactions.html', context)
 
 
 # @login_required(login_url='/')
