@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import requests
 import json
 import datetime
+from decimal import Decimal
 
 
 def parser(json_data):
@@ -147,7 +148,6 @@ def accounts_remove_confirm(request, account_id):
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
-        print('HEREREREREER')
         context = {'error': req.status_code}
     else:
         data = req.json()
@@ -169,7 +169,6 @@ def accounts_remove(request, account_id):
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
-        print(req)
         return render(request, 'accounts_remove_ajax.html', {'error': req.status_code})
     else:
         return HttpResponse("success")
@@ -213,8 +212,8 @@ def goals_add(request):
             data = {
                     "goal_name":form.cleaned_data['goal_name'],
                     "goal_amount":int(form.cleaned_data['goal_amount']),
-                    # "goal_date":str(form.cleaned_data['goal_date']),
-                    # "goal_notes":form.cleaned_data['goal_notes'],
+                    "goal_date":str(form.cleaned_data['goal_date']),
+                    "goal_note":form.cleaned_data['goal_note'],
                    }
             header = {'Content-type': 'application/json', 'Authorization': token}
             req = requests.post(path, data=json.dumps(data), headers=header)
@@ -253,8 +252,8 @@ def goals_edit(request, goal_id):
             data = {
                     "goal_name":form.cleaned_data['goal_name'],
                     "goal_amount":int(form.cleaned_data['goal_amount']),
-                    # "goal_date":str(form.cleaned_data['goal_date']),
-                    # "goal_notes":form.cleaned_data['goal_notes'],
+                    "goal_date":str(form.cleaned_data['goal_date']),
+                    "goal_note":form.cleaned_data['goal_note'],
                    }
             header = {'Content-type': 'application/json', 'Authorization': token}
             req = requests.put(path, data=json.dumps(data), headers=header)
@@ -267,8 +266,8 @@ def goals_edit(request, goal_id):
     else:
         form = frm.GoalForm({'goal_name': data['goal_name'],
                              'goal_amount': data['goal_amount'],
-                             # 'goal_date': data['goal_date'],
-                             # 'goal_notes': data['goal_notes']
+                             'goal_date': data['goal_date'],
+                             'goal_note': data['goal_note']
                            })
     context = {'form': form, 'goal_id': goal_id}
     return render(request, 'goals_edit.html', context)
@@ -334,7 +333,7 @@ def transactions(request):
     else:
         return render(request, 'transactions.html', context)
 
-
+from decimal import Decimal
 # @login_required(login_url='/')
 def transactions_add(request):
     '''
@@ -342,24 +341,35 @@ def transactions_add(request):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    if request.user.is_authenticated():
-        user = request.user
     if request.method == "POST":
-        form = frm.TransactionForm(user, request.POST)
+        form = frm.TransactionForm(request, request.POST)
         if form.is_valid():
-            transaction = form.save(commit=False)
-            transaction.account = form.cleaned_data['account']
-            transaction.category = form.cleaned_data['category']
-            transaction.description = form.cleaned_data['description']
-            transaction.original_description = form.cleaned_data['original_description']
-            transaction.date = form.cleaned_data['date']
-            transaction.amount = form.cleaned_data['amount']
-            transaction.save()
-            # TODO: fix this hack -- passes success to the AJAX success function
-            # if it completed successfully
+            amount = form.cleaned_data['transaction_amount']
+            transaction_type = form.cleaned_data['transaction_type']
+            if transaction_type == '1':
+                print(transaction_type, amount)
+                if amount >= 0.00:
+                    amount = amount * Decimal(-1)
+            else:
+                if amount < 0.00:
+                    amount = amount * Decimal(-1)
+            token = 'Token token=' + request.session.get('api_token')
+            path = 'https://simplifiapi.herokuapp.com/account_transactions'
+            data = {
+                    "transaction_date":str(form.cleaned_data['transaction_date']),
+                    "account_id":form.cleaned_data['account'],
+                    "category_id":form.cleaned_data['category'],
+                    "amount":str(amount)
+                   }
+            header = {'Content-type': 'application/json', 'Authorization': token}
+            req = requests.post(path, data=json.dumps(data), headers=header)
+            if req.ok is False:
+                return render(request, 'transactions_add_ajax.html', {'error':req.status_code})
             return HttpResponse("success")
+        else:
+            return render(request, 'transactions_add_ajax.html', {'form':form})
     else:
-        form = frm.TransactionForm(user)
+        form = frm.TransactionForm(request, initial={'transaction_type':'1'})
     context = {'form': form}
     return render(request, 'transactions_add.html', context)
 
@@ -371,13 +381,13 @@ def transactions_edit(request, transaction_id):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    if request.user.is_authenticated():
-        user = request.user
-    try:
-        trans = mod.Transaction.objects.get(id=transaction_id)
-    except ObjectDoesNotExist:
-        context = {'error': 'error'}
-        return render(request, 'transactions_edit.html', context)
+    # Get token and pre-populate form with API data
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    header = {'Content-type': 'application/json', 'Authorization': token}
+    req = requests.get(path, headers=header)
+    if req.ok is False:
+        return render(request, 'transactions_edit.html', {'error':req.status_code})
     if request.method == "POST":
         form = frm.TransactionForm(request.POST)
         if form.is_valid():
@@ -411,7 +421,6 @@ def transactions_remove_confirm(request, transaction_id):
         transaction = mod.Transaction.objects.get(id=transaction_id)
         context = {'transaction': transaction}
     except ObjectDoesNotExist:
-        print('The selected object does not exist')
         error = 'Error'
         context = {'error': error}
     return render(request, 'transactions_remove.html', context)
@@ -429,7 +438,6 @@ def transactions_remove(request, transaction_id):
         transaction.delete()
         return HttpResponse('success')
     except ObjectDoesNotExist:
-        print('The selected object does not exist')
         return HttpResponse('error')
     return render(request, 'transactions_remove.html')
 

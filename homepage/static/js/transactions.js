@@ -18,11 +18,10 @@ $(document).ready(function(){
   function reloadBase() {
     var type = 'ajax'
     $.ajax({
-      url : '/budget/accounts/',
+      url : '/budget/transactions/',
       type: 'GET',
       data: {'type': type},
       success : function(data) {
-        console.log('here')
           $('#fakeLoader').attr('style', 'position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 200, 83); z-index: 1000; display: visible;');
           $('#sort-me').find('.ajaxBody').html(data);
           $('#modal').modal('close');
@@ -50,25 +49,21 @@ $(document).ready(function(){
       e.preventDefault();
       e.stopImmediatePropagation();
       var dest = '/budget/transactions_add/';
-      var date = $('#id_date_root').val();
-      console.log(date)
       $.ajax({
           url : dest,
           type: 'POST',
           data: $('#AddTransactionsForm').serialize(),
           success : function(data) {
-            // TODO: FIX THIS HACK of AJAX success
             if (data === "success") {
               // Ajax reload base page
               reloadBase();
             }else {
-              $('#modal').find('.modal-content').html(data);
+              $('.modal-content').find('.ajaxForm').html(data);
             }
           },
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#modal').find('.modal-content').html(data);
-              // location.reload();
+              $('.modal-content').find('.ajaxForm').html(data);
           }
       });
   });
@@ -88,7 +83,6 @@ $(document).ready(function(){
     });
   });
   $('#EditTransactionsForm').on('submit', function(e){
-    console.log('here')
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
