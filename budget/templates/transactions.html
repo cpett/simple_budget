@@ -14,7 +14,6 @@
         <div class="card-content">
           <div class="table-header">
             <h4>My Spending</h4>
-            <!-- <span class="table-title">My Spending</span> -->
             <div class="actions">
               <a href="#" id="btnAddTransactions"
                 class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped"
@@ -28,6 +27,7 @@
               </a>
             </div>
           </div>
+          <span id="sort-me">
           <span class="ajaxBody">
             <table id="datatable">
               <thead>
@@ -44,11 +44,11 @@
               <tbody>
                 {% for transaction in transactions %}
                   <tr>
-                    <td>{{ transaction.transaction_date }}</td>
-                    <td>{{ transaction.description }}</td>
+                    <td>{{ transaction.clean_trans_date }}</td>
+                    <td>{{ transaction.transaction_description }}</td>
                     <td>{{ transaction.original_description }}</td>
-                    <td>{{ transaction.account.account_name }}</td>
-                    <td>{{ transaction.category }}</td>
+                    <td>{{ transaction.account_name }}</td>
+                    <td>{{ transaction.category_name }}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>
                       <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
@@ -65,6 +65,7 @@
               </tbody>
             </table>
           </span>
+        </span>
         </div>
       </div>
     </div>

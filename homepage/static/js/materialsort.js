@@ -8,6 +8,7 @@ $(document).ready(function(){
       $('.search-toggle').click(function() {
         if ($('.hiddensearch').css('display') == 'none') {
           $('.hiddensearch').slideDown();
+          $('.form-control.input-sm').focus();
           $(".search-toggle").html('<i class="white-text material-icons">close</i>');
         }
         else {

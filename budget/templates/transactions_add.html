@@ -1,14 +1,17 @@
-<head>
-  {% load staticfiles %}
-  {% load material_form %}
-  <script src="{% static 'js/transactions.js' %}"></script>
-</head>
+{% load staticfiles %}
+{% load material_form %}
+<script src="{% static 'js/transactions.js' %}"></script>
 <div class="modal-content">
-  <form id="AddTransactionsForm" method="POST" class="viewform">{% csrf_token %}
-      {% form form=form %}
-      {% endform %}
-      <div class="modal-footer">
-        <button type="submit" name="_submit" class="btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
-      </div>
-  </form>
+  <span class='ajaxForm'>
+    <form id="AddTransactionsForm" method="POST" class="viewform">{% csrf_token %}
+        {% form form=form %}
+          {% part form.transaction_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}
+          {% part form.transaction_amount prefix %}<i class="material-icons prefix">attach_moneyx</i>{% endpart %}
+          {% part form.transaction_date prefix %}<i class="material-icons prefix">today</i>{% endpart %}
+        {% endform %}
+        <div class="modal-footer">
+          <button type="submit" name="_submit" class="btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
+        </div>
+    </form>
+  </span>
 </div>

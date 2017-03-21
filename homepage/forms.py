@@ -120,27 +120,56 @@ class AccountForm(forms.Form):
                              )
                     )
 
-class TransactionForm(forms.Form):
-    transaction_name = forms.CharField(max_length=25, label="Name")
-    transaction_amount = forms.DecimalField(decimal_places=2, label="Amount")
-    transaction_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
-    transaction_notes = forms.CharField(max_length=255, required=False)
 
+def get_cat_choices(request):
+    token = 'Token token=' + request
+    path = 'https://simplifiapi.herokuapp.com/categories'
+    req = requests.get(path, headers={'Authorization': token})
+    data = req.json()
+    choices = []
+    for d in data:
+        choices.append((d['id'], d['name']))
+    return choices
+def get_acc_choices(request):
+    token = 'Token token=' + request
+    path = 'https://simplifiapi.herokuapp.com/accounts'
+    req = requests.get(path, headers={'Authorization': token})
+    data = req.json()
+    choices = []
+    for d in data:
+        choices.append((d['id'], d['institution_name']))
+    return choices
+
+class TransactionForm(forms.Form):
+    transaction_name = forms.CharField(max_length=25, label="Transaction name")
+    transaction_amount = forms.DecimalField(decimal_places=2, label="Amount")
+    transaction_date = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Transaction date")
+    transaction_description = forms.CharField(max_length=255, required=False)
+    type_choices = (('1', 'Expense',),('2', 'Income',))
+    transaction_type = forms.ChoiceField(widget=forms.RadioSelect, choices=type_choices)
+    def __init__(self,request,*args,**kwargs):
+        super (TransactionForm,self).__init__(*args,**kwargs)
+        self.fields['category'] = forms.ChoiceField(choices=get_cat_choices(request.session.get('api_token')))
+        self.fields['account'] = forms.ChoiceField(choices=get_acc_choices(request.session.get('api_token')))
+    layout = Layout(
+                    Fieldset('New Transaction',
+                             Row('transaction_name', 'transaction_type'),
+                             Row('transaction_amount', 'transaction_date'),
+                             Row('account', 'category'),
+                             Row('transaction_description')
+                            )
+                   )
 
 class GoalForm(forms.Form):
     goal_name = forms.CharField(max_length=25, label="Name")
     goal_amount = forms.DecimalField(decimal_places=2, label="Amount")
     goal_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
-    goal_notes = forms.CharField(max_length=255, required=False)
-    # widgets = {
-    #     'goal_date': DateInput(attrs={'class': 'datepicker', 'type': 'date'}),
-    #     'goal_type': forms.RadioSelect(),
-    # }
+    goal_note = forms.CharField(max_length=255, required=False)
 
     layout = Layout(
                     Fieldset("Goal Information",
                              Row('goal_name'),
                              Row('goal_amount', 'goal_date'),
-                             Row('goal_notes')
+                             Row('goal_note')
                             )
                     )
