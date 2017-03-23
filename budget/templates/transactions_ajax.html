@@ -23,7 +23,7 @@
         <td>{{ transaction.original_description }}</td>
         <td>{{ transaction.account_name }}</td>
         <td>{{ transaction.category_name }}</td>
-        <td>{{ transaction.amount }}</td>
+        <td>${{ transaction.amount|floatformat:2 }}</td>
         <td>
           <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
             data-delay="50" data-tooltip="Edit">

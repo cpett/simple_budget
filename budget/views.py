@@ -346,7 +346,6 @@ def transactions_add(request):
             amount = form.cleaned_data['transaction_amount']
             transaction_type = form.cleaned_data['transaction_type']
             if transaction_type == '1':
-                print(transaction_type, amount)
                 if amount >= 0.00:
                     amount = amount * Decimal(-1)
             else:
@@ -387,20 +386,20 @@ def transactions_edit(request, transaction_id):
     req = requests.get(path, headers=header)
     if req.ok is False:
         return render(request, 'transactions_edit.html', {'error':req.status_code})
+    data = req.json()
     if request.method == "POST":
         form = frm.TransactionForm(request, request.POST)
         if form.is_valid():
             amount = form.cleaned_data['transaction_amount']
             transaction_type = form.cleaned_data['transaction_type']
             if transaction_type == '1':
-                print(transaction_type, amount)
                 if amount >= 0.00:
                     amount = amount * Decimal(-1)
             else:
                 if amount < 0.00:
                     amount = amount * Decimal(-1)
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/account_transactions'
+            path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
             data = {
                     "transaction_date":str(form.cleaned_data['transaction_date']),
                     "account_id":form.cleaned_data['account'],
@@ -408,14 +407,28 @@ def transactions_edit(request, transaction_id):
                     "amount":str(amount)
                    }
             header = {'Content-type': 'application/json', 'Authorization': token}
-            req = requests.post(path, data=json.dumps(data), headers=header)
+            req = requests.put(path, data=json.dumps(data), headers=header)
             if req.ok is False:
                 return render(request, 'transactions_edit_ajax.html', {'error':req.status_code})
             return HttpResponse("success")
         else:
-            return render(request, 'transactions_edit_ajax.html', {'form':form})
+            return render(request, 'transactions_edit_ajax.html', {'form': form,'transaction_id': transaction_id})
     else:
-        form = frm.TransactionForm(request, initial={'transaction_type':'1'})
+        import dateutil.parser
+        date = dateutil.parser.parse(data['transaction_date'])
+        if Decimal(data['amount']) < 0:
+            transaction_type = '1'
+        else:
+            transaction_type = '2'
+        form = frm.TransactionForm(request,
+                                   initial={
+                                            'transaction_type':transaction_type,
+                                            'transaction_date':date,
+                                            'transaction_amount':data['amount'],
+                                            'category':62,# data['category_name'],
+                                            'account':322# data['account_name']
+                                           }
+                                  )
     context = {'form': form,'transaction_id': transaction_id}
     return render(request, 'transactions_edit.html', context)
 
@@ -427,12 +440,17 @@ def transactions_remove_confirm(request, transaction_id):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    try:
-        transaction = mod.Transaction.objects.get(id=transaction_id)
-        context = {'transaction': transaction}
-    except ObjectDoesNotExist:
-        error = 'Error'
-        context = {'error': error}
+    # Get token and transaction for deletion
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    header = {'Content-type': 'application/json', 'Authorization': token}
+    req = requests.get(path, headers=header)
+    if req.ok is False:
+        context = {'error': req.status_code}
+    else:
+        data = req.json()
+        load_data = parser(data)
+        context = {'transaction': load_data['data']}
     return render(request, 'transactions_remove.html', context)
 
 
@@ -443,13 +461,15 @@ def transactions_remove(request, transaction_id):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    try:
-        transaction = mod.Transaction.objects.get(id=transaction_id)
-        transaction.delete()
-        return HttpResponse('success')
-    except ObjectDoesNotExist:
-        return HttpResponse('error')
-    return render(request, 'transactions_remove.html')
+    # Get token and transaction for deletion
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    header = {'Content-type': 'application/json', 'Authorization': token}
+    req = requests.delete(path, headers=header)
+    if req.ok is False:
+        return render(request, 'transactions_remove_ajax.html', {'error': req.status_code})
+    else:
+        return HttpResponse("success")
 
 
 # @login_required(login_url='/')

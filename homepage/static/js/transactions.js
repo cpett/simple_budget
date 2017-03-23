@@ -75,7 +75,7 @@ $(document).ready(function(){
     e.stopImmediatePropagation();
     var id = $(this).attr('id')
     $.ajax({
-        url: '/budget/transactions_edit/' + id,
+        url: '/budget/transactions_edit/' + id + '/',
         success: function(data) {
           $('#modal').find('.modal_container').html(data);
           $('#modal').modal('open');
@@ -86,7 +86,7 @@ $(document).ready(function(){
       e.preventDefault();
       e.stopImmediatePropagation();
       var id = $('.submit_button').attr('id');
-      var dest = '/budget/transactions_edit/' + id;
+      var dest = '/budget/transactions_edit/' + id + '/';
       $.ajax({
           url : dest,
           type: 'POST',
