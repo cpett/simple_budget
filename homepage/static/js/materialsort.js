@@ -5,7 +5,9 @@ $(document).ready(function(){
     var factory = function($, DataTable) {
       "use strict";
 
-      $('.search-toggle').click(function() {
+      $('.search-toggle').click(function(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         if ($('.hiddensearch').css('display') == 'none') {
           $('.hiddensearch').slideDown();
           $('.form-control.input-sm').focus();
