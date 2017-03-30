@@ -13,7 +13,7 @@ $(document).ready(function(){
       success : function(data) {
         console.log('here')
           $('#fakeLoader').attr('style', 'position: fixed; width: 100%; height: 100%; top: 0px; left: 0px; background-color: rgb(0, 200, 83); z-index: 1000; display: visible;');
-          $('#sort-me').find('.ajaxBody').html(data);
+          $('#admin').find('.ajaxBody').html(data);
           $('#modal').modal('close');
           setTimeout(function (){
             $('#fakeLoader').hide();
