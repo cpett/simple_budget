@@ -8,6 +8,7 @@ import requests
 import json
 import datetime
 from decimal import Decimal
+from plaid import Client
 
 
 def parser(json_data):
@@ -450,7 +451,6 @@ def transactions_remove(request, transaction_id):
     except ObjectDoesNotExist:
         return HttpResponse('error')
     return render(request, 'transactions_remove.html')
-
 
 # @login_required(login_url='/')
 def settings(request):
