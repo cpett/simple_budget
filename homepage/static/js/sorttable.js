@@ -304,11 +304,6 @@ sorttable = {
 
   shaker_sort: function(list, comp_func) {
     // A stable sort function to allow multi-level sorting of data
-<<<<<<< HEAD
-    // see: https://en.wikipedia.org/wiki/Cocktail_sort
-=======
-    // see: http://en.wikipedia.org/wiki/Cocktail_sort
->>>>>>> origin/development
     // thanks to Joseph Nahmias
     var b = 0;
     var t = list.length - 1;
@@ -376,11 +371,6 @@ window.onload = sorttable.init;
 // written by Dean Edwards, 2005
 // with input from Tino Zijdel, Matthias Miller, Diego Perini
 
-<<<<<<< HEAD
-// https://dean.edwards.name/weblog/2005/10/add-event/
-=======
-// http://dean.edwards.name/weblog/2005/10/add-event/
->>>>>>> origin/development
 
 function dean_addEvent(element, type, handler) {
 	if (element.addEventListener) {
@@ -448,20 +438,7 @@ fixEvent.stopPropagation = function() {
   this.cancelBubble = true;
 }
 
-<<<<<<< HEAD
-// Dean's forEach: https://dean.edwards.name/base/forEach.js
-/*
-	forEach, version 1.0
-	Copyright 2006, Dean Edwards
-	License: https://www.opensource.org/licenses/mit-license.php
-=======
-// Dean's forEach: http://dean.edwards.name/base/forEach.js
-/*
-	forEach, version 1.0
-	Copyright 2006, Dean Edwards
-	License: http://www.opensource.org/licenses/mit-license.php
->>>>>>> origin/development
-*/
+
 
 // array-like enumeration
 if (!Array.forEach) { // mozilla already supports this
