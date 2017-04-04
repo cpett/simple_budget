@@ -8,24 +8,26 @@
 {% block title %}Accounts{% endblock %}
 {% block content %}
 <div class="row">
+<<<<<<< HEAD
   <button id="link-button">Link Account</button>
+=======
+  <!-- <button id="link-button">Link Account</button> -->
+>>>>>>> plaid_cp
   <div id="admin" class="col s12">
     <span class="ajaxBody">
       <div class="card material-table">
         <div class="card-content">
           <div class="table-header">
-            <h4 class="">My Accounts</h4>
+            <h4>My Accounts</h4>
             <div class="actions">
               {% if accounts|length >= 1 %}
                 <div id="filter_input" class="input-field">
                   <select id="filter_list" class="col m12">
                     <option value="" disabled selected>Filter accounts</option>
                     <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
-                    <option value="checking" id="button" class="filter" data-filter="checking" role="button">Checking</option>
-                    <option value="credit" id="button" class="filter" data-filter="credit" role="button">Credit Cards</option>
-                    <option value="investment" id="button" class="filter" data-filter="investment" role="button">Investments</option>
-                    <option value="savings" id="button" class="filter" data-filter="savings" role="button">Savings</option>
-                    <option value="loan" id="button" class="filter" data-filter="loan" role="button">Loan</option>
+                    {% for account in accounts %}
+                      <option value="{{ account.institution_name }}" id="button" class="filter" data-filter="{{ account.institution_name }}" role="button">{{ account.institution_name }}</option>
+                    {% endfor %}
                   </select>
                 </div>
               {% endif %}
@@ -37,54 +39,32 @@
             </div>
           </div>
           <div class="row boxes" id="sort-me">
-              <div class="col s12 m6 l6 mix">
+            <div class="col s12 m6 l6 mix">
+              <a id="link-button">
                 <div class="card small grey">
                   <div class="card-content white-text">
-                    <span class="card-title">Add New Account</span>
-                    <p>Securely link your financial institutions here.</p>
+                    <span class="card-title">Link New Account</span>
+                    <p>Securely link your financial institutions here.
+                      We use the latest standards of encryption,
+                      and we will never store your credentials.
+                      Your information is safe with us.</p>
                   </div>
-                  <div class="card-action grey darken-1">
-                    <a class="btnAddAccounts">
-                      Add Account
-                    </a>
-                  </div>
+                </div>
+              </a>
+            </div>
+            <div class="col s12 m6 l6 mix">
+              <div class="card small grey">
+                <div class="card-content white-text">
+                  <span class="card-title">Accounts Overview</span>
+                  <p>
+                    Accounts Linked: 7
+                  </p>
+                  <p>
+                    Accounts Balance: $12,342.12
+                  </p>
                 </div>
               </div>
-              {% for account in accounts %}
-                <div class="col s12 m6 l6 mix {{ account.account_type }}" data-category="{{ account.account_type }}">
-                  <div class="card small
-                    {% if account.account_type == 'checking' %}
-                      purple lighten-3
-                    {% elif account.account_type == 'credit' %}
-                      orange lighten-3
-                    {% elif account.account_type == 'investment' %}
-                      teal accent-3
-                    {% elif account.account_type == 'savings' %}
-                      light-blue lighten-3
-                    {% elif account.account_type == 'loan' %}
-                      pink lighten-3
-                    {% endif %}">
-                    <div class="card-content white-text">
-                      <span class="card-title no_margin">
-                        {{ account.institution_name }}
-                        <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
-                      </span>
-                      <span class="card_subtitle">
-                        {{ account.account_type|capfirst }}
-                        <span class="right">Balance</span>
-                      </span>
-                    </div>
-                    <div class="card-action grey darken-3">
-                      <a id='{{ account.id }}' class='btnEditAccount white-text'>
-                        Edit Account
-                      </a>
-                      <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
-                        Remove Account
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
@@ -93,34 +73,6 @@
 </div>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script type="text/javascript">
-// used to return a csrf cookie through ajax. TODO Ask Cody if there is a better way to do this
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-var csrftoken = getCookie('csrftoken');
-function csrfSafeMethod(method) {
-    // these HTTP methods do not require CSRF protection
-    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
 var handler = Plaid.create({
   clientName: 'Test',
   env: 'sandbox',
