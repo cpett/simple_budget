@@ -8,7 +8,6 @@ import requests
 import json
 import datetime
 from decimal import Decimal
-from plaid import Client
 
 
 def parser(json_data):
@@ -53,7 +52,7 @@ def accounts(request):
     data = req.json()
     data = sorted(data, key=lambda x:x['institution_name'].upper())
     load_data = parser(data)
-
+    print(load_data['data'])
     context = {'accounts': load_data['data']}
     if request.GET.get('type'):
         return render(request, 'accounts_ajax.html', context)
