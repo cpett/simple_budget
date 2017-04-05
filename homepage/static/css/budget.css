@@ -52,6 +52,9 @@ main, footer {
   width: 160px;
   height: 160px;
 }
+#link-button {
+  cursor: pointer;
+}
 /*Helps line up the button and the drop down filter on accounts*/
 #filter_input {
   margin: 0px;

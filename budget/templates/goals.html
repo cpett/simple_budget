@@ -9,81 +9,81 @@
 {% block content %}
   <div class="row">
     <div id="admin" class="col s12">
-      <div class="card material-table">
-        <div class="card-content">
-          <div class="table-header">
-            <h4 class="">My Goals</h4>
-            <div class="actions">
-              {% if goals|length >= 1 %}
-                <div id="filter_input" class="input-field">
-                  <select id="sort_list" class="col m12">
-                    <option value="" disabled selected>Sort goals</option>
-                    <option value="alph" id="button" class="filter" data-filter="alph" role="button">Goal name</option>
-                    <option value="num" id="button" class="filter" data-filter="num" role="button">Goal amount</option>
-                  </select>
+      <span class="ajaxBody">
+        <div class="card material-table">
+          <div class="card-content">
+            <div class="table-header">
+              <h4 class="">My Goals</h4>
+              <div class="actions">
+                {% if goals|length >= 1 %}
+                  <div id="filter_input" class="input-field">
+                    <select id="sort_list" class="col m12">
+                      <option value="" disabled selected>Sort goals</option>
+                      <option value="alph" id="button" class="filter" data-filter="alph" role="button">Goal name</option>
+                      <option value="num" id="button" class="filter" data-filter="num" role="button">Goal amount</option>
+                    </select>
+                  </div>
+                {% endif %}
+                <a href="#"
+                  class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddGoals"
+                  data-position="bottom" data-delay="50" data-tooltip="Add goal">
+                  <i class="white-text material-icons">add</i>
+                </a>
+              </div>
+            </div>
+            <div class="row boxes" id="sort-me">
+                <div class="col s12 m6 l6 mix" data-value="0" data-category="#">
+                  <div class="card small grey">
+                    <div class="card-content white-text">
+                      <span class="card-title">Add New Goal</span>
+                      <p>Create a goal and start saving!</p>
+                    </div>
+                    <div class="card-action grey darken-1">
+                      <a class="btnAddGoals">
+                        Add Goal
+                      </a>
+                    </div>
+                  </div>
                 </div>
-              {% endif %}
-              <a href="#"
-                class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddGoals"
-                data-position="bottom" data-delay="50" data-tooltip="Add goal">
-                <i class="white-text material-icons">add</i>
-              </a>
+                {% for goal in goals %}
+                  <div class="col s12 m6 l6 mix" data-value="{{ goal.goal_amount }}"
+                   data-category="{{ goal.goal_name}}">
+                    <div class="card small cyan lighten-3">
+                      <div class="card-content white-text">
+                        <span class="card-title activator">{{ goal.goal_name }}<i class="material-icons right">more_vert</i></span>
+                        <span class="card_subtitle">
+                          ${{ goal.goal_amount|floatformat:"0" }}
+                          <span class="right">{{ goal.goal_date }}</span>
+                        </span>
+                      </div>
+                      <div class="card-action grey darken-3">
+                        <a id='{{ goal.id }}' class='btnEditGoal white-text'>
+                          Edit Goal
+                        </a>
+                        <a id='{{ goal.id }}' class='btnConfirmGoal white-text'>
+                          Remove Goal
+                        </a>
+                      </div>
+                      <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4">{{ goal.goal_name }}<i class="material-icons right">close</i></span>
+                        {% if goal.goal_note %}
+                          <p>{{ goal.goal_note }}</p>
+                        {% else %}
+                          <p>
+                            It looks like you haven't entered any more information about this goal.
+                             Add more information in the
+                             <a id="{{ goal.id }}" class="btnEditGoal" style="cursor: pointer">Notes</a>
+                             section to help keep yourself motivated!
+                           </p>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
             </div>
           </div>
-          <div class="row boxes" id="sort-me">
-            <span class="ajaxBody">
-              <div class="col s12 m6 l6 mix" data-value="0" data-category="#">
-                <div class="card small grey">
-                  <div class="card-content white-text">
-                    <span class="card-title">Add New Goal</span>
-                    <p>Create a goal and start saving!</p>
-                  </div>
-                  <div class="card-action grey darken-1">
-                    <a class="btnAddGoals">
-                      Add Goal
-                    </a>
-                  </div>
-                </div>
-              </div>
-              {% for goal in goals %}
-                <div class="col s12 m6 l6 mix" data-value="{{ goal.goal_amount }}"
-                 data-category="{{ goal.goal_name}}">
-                  <div class="card small cyan lighten-3">
-                    <div class="card-content white-text">
-                      <span class="card-title activator">{{ goal.goal_name }}<i class="material-icons right">more_vert</i></span>
-                      <span class="card_subtitle">
-                        ${{ goal.goal_amount|floatformat:"0" }}
-                        <span class="right">{{ goal.goal_date }}</span>
-                      </span>
-                    </div>
-                    <div class="card-action grey darken-3">
-                      <a id='{{ goal.id }}' class='btnEditGoal white-text'>
-                        Edit Goal
-                      </a>
-                      <a id='{{ goal.id }}' class='btnConfirmGoal white-text'>
-                        Remove Goal
-                      </a>
-                    </div>
-                    <div class="card-reveal">
-                      <span class="card-title grey-text text-darken-4">{{ goal.goal_name }}<i class="material-icons right">close</i></span>
-                      {% if goal.goal_note %}
-                        <p>{{ goal.goal_note }}</p>
-                      {% else %}
-                        <p>
-                          It looks like you haven't entered any more information about this goal.
-                           Add more information in the
-                           <a id="{{ goal.id }}" class="btnEditGoal" style="cursor: pointer">Notes</a>
-                           section to help keep yourself motivated!
-                         </p>
-                      {% endif %}
-                    </div>
-                  </div>
-                </div>
-              {% endfor %}
-            </span>
-          </div>
         </div>
-      </div>
+      </span>
     </div>
   </div>
 {% endblock %}
