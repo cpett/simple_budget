@@ -7,104 +7,165 @@
 {% load material_form %}
 {% block title %}Accounts{% endblock %}
 {% block content %}
-<div class="row">
-  <div id="admin" class="col s12">
-    <span class="ajaxBody">
-      <div class="card material-table">
-        <div class="card-content">
-          <div class="table-header">
-            <h4>My Accounts</h4>
-            <div class="actions">
-              {% if accounts|length >= 1 %}
-                <div id="filter_input" class="input-field">
-                  <select id="filter_list" class="col m12">
-                    <option value="" disabled selected>Filter accounts</option>
-                    <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
-                    {% for account in accounts %}
-                      <option value="{{ account.institution_name }}" id="button" class="filter" data-filter="{{ account.institution_name }}" role="button">{{ account.institution_name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              {% endif %}
-              <a href="#"
-                class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
-                data-position="bottom" data-delay="50" data-tooltip="Add account">
-                <i class="white-text material-icons">add</i>
-              </a>
+<span id="ajaxID">
+  <span class="ajaxBody">
+    <div class="row">
+      <div id="admin" class="col s12">
+        <div class="card material-table">
+          <div class="card-content">
+            <div class="table-header">
+              <h4>My Accounts</h4>
+              <div class="actions">
+                {% if accounts|length >= 1 %}
+                  <div id="filter_input" class="input-field">
+                    <select id="filter_list" class="col m12">
+                      <option value="" disabled selected>Filter accounts</option>
+                      <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
+                      {% for account in accounts %}
+                        <option value="{{ account.institution_name }}" id="button" class="filter" data-filter="{{ account.institution_name }}" role="button">{{ account.institution_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+                <a href="#"
+                  class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+                  data-position="bottom" data-delay="50" data-tooltip="Add account">
+                  <i class="white-text material-icons">add</i>
+                </a>
+              </div>
             </div>
-          </div>
-          <div class="row boxes" id="sort-me">
-            <div class="col s12 m6 l6 mix">
-              <a id="link-button">
+            <div class="row" id="sort-me">
+              <div class="col s12 m6 l6">
+                <a id="link-button">
+                  <div class="card small grey">
+                    <div class="card-content white-text">
+                      <span class="card-title">Link New Account</span>
+                      <p>Securely link your financial institutions here.
+                        We use the latest standards of encryption,
+                        and we will never store your credentials.
+                        Your information is safe with us.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col s12 m6 l6">
                 <div class="card small grey">
                   <div class="card-content white-text">
-                    <span class="card-title">Link New Account</span>
-                    <p>Securely link your financial institutions here.
-                      We use the latest standards of encryption,
-                      and we will never store your credentials.
-                      Your information is safe with us.</p>
+                    <span class="card-title">Accounts Overview</span>
+                    <p>
+                      Accounts Linked: 7
+                    </p>
+                    <p>
+                      Accounts Balance: $12,342.12
+                    </p>
                   </div>
-                </div>
-              </a>
-            </div>
-            <div class="col s12 m6 l6 mix">
-              <div class="card small grey">
-                <div class="card-content white-text">
-                  <span class="card-title">Accounts Overview</span>
-                  <p>
-                    Accounts Linked: 7
-                  </p>
-                  <p>
-                    Accounts Balance: $12,342.12
-                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <span class="boxes">
+    {% for account in accounts %}
+      <div class="row mix {{account.institution_name}}"  data-category="{{ account.institution_name }}">
+        <div id="admin" class="col s12">
+          <div class="card material-table">
+            <div class="card-content">
+              <div class="table-header">
+                <h4>{{ account.institution_name }}</h4>
+                <div class="actions">
+                  <a href="#"
+                    class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+                    data-position="bottom" data-delay="50" data-tooltip="Add account">
+                    <i class="white-text material-icons">add</i>
+                  </a>
+                </div>
+              </div>
+              <div class="row boxes" id="sort-me">
+                {% for account in accounts %}
+                  <div class="col s12 m6 l6">
+                    <div class="card small
+                      {% if account.account_type == 'checking' %}
+                        purple lighten-3
+                      {% elif account.account_type == 'credit' %}
+                        orange lighten-3
+                      {% elif account.account_type == 'investment' %}
+                        teal accent-3
+                      {% elif account.account_type == 'savings' %}
+                        light-blue lighten-3
+                      {% elif account.account_type == 'loan' %}
+                        pink lighten-3
+                      {% endif %}">
+                      <div class="card-content white-text">
+                        <span class="card-title no_margin">
+                          {{ account.institution_name }}
+                          <span class="right {% if account.amount < 0 %}red-text{% endif %}">${{ account.amount|floatformat:2 }}</span>
+                        </span>
+                        <span class="card_subtitle">
+                          {{ account.account_type|capfirst }}
+                          <span class="right">Balance</span>
+                        </span>
+                      </div>
+                      <div class="card-action grey darken-3">
+                        <a id='{{ account.id }}' class='btnEditAccount white-text'>
+                          Edit Account
+                        </a>
+                        <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
+                          Remove Account
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
     </span>
-  </div>
-</div>
-<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-<script type="text/javascript">
-var handler = Plaid.create({
-  clientName: 'Test',
-  env: 'sandbox',
-  key: '4181b5e7e3476f2974824d3a1d4e52', // Replace with your public_key to test with live credentials
-  product: ['auth', 'transactions'],
-  // webhook: '[]', // Optional – use webhooks to get transaction and error updates
-  selectAccount: false, // Optional – trigger the Select Account
-  onLoad: function() {
-    // Optional, called when Link loads
-  },
-  onSuccess: function(public_token, metadata) {
-    // Send the public_token to your app server.
-    // The metadata object contains info about the institution the
-    // user selected and the account ID, if `selectAccount` is enabled.
-    $.post('https://simplifiapi.herokuapp.com/get_access_token', {
-      public_token: public_token,
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script type="text/javascript">
+    var handler = Plaid.create({
+      clientName: 'Test',
+      env: 'sandbox',
+      key: '4181b5e7e3476f2974824d3a1d4e52', // Replace with your public_key to test with live credentials
+      product: ['auth', 'transactions'],
+      // webhook: '[]', // Optional – use webhooks to get transaction and error updates
+      selectAccount: false, // Optional – trigger the Select Account
+      onLoad: function() {
+        // Optional, called when Link loads
+      },
+      onSuccess: function(public_token, metadata) {
+        // Send the public_token to your app server.
+        // The metadata object contains info about the institution the
+        // user selected and the account ID, if `selectAccount` is enabled.
+        $.post('https://simplifiapi.herokuapp.com/get_access_token', {
+          public_token: public_token,
+        });
+      },
+      onExit: function(err, metadata) {
+        // The user exited the Link flow.
+        if (err != null) {
+          // The user encountered a Plaid API error prior to exiting.
+        }
+        // metadata contains information about the institution
+        // that the user selected and the most recent API request IDs.
+        // Storing this information can be helpful for support.
+      }
     });
-  },
-  onExit: function(err, metadata) {
-    // The user exited the Link flow.
-    if (err != null) {
-      // The user encountered a Plaid API error prior to exiting.
-    }
-    // metadata contains information about the institution
-    // that the user selected and the most recent API request IDs.
-    // Storing this information can be helpful for support.
-  }
-});
 
-$('#link-button').on('click', function(e) {
-  handler.open();
-  // Alternatively, you can have a specific institution
-  // prompt for authentication. Example:
-  //
-  // handler.open('ins_100000');
-  //
-  // This will open Link with Union Bank as the institution.
-});
-</script>
+    $('#link-button').on('click', function(e) {
+      handler.open();
+      // Alternatively, you can have a specific institution
+      // prompt for authentication. Example:
+      //
+      // handler.open('ins_100000');
+      //
+      // This will open Link with Union Bank as the institution.
+    });
+    </script>
+  </span>
+</span>
 {% endblock %}
