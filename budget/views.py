@@ -26,7 +26,26 @@ def budget(request):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    return render(request, 'budget.html')
+
+    data = []
+    donations = ["Donations",10]
+    education = ["Education",10]
+    entertainment = ["Entertainment",10]
+    fees = ["Fees",10]
+    food = ["Food", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8]
+    health = ["Health",10]
+    home = ["Home", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3]
+    insurance = ["Insurance",10]
+    payments = ["Payments",10]
+    professional = ["Professional Services",10]
+    miscellaneous = ["Miscellaneous",10]
+    shopping = ["Shopping",10]
+    subscriptions = ["Subscriptions",10]
+    travel = ["Travel", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2]
+    other = ["Other",10]
+    doughnutData = [donations, education, entertainment, fees, food, health, home, insurance, payments, professional, miscellaneous, shopping, subscriptions, travel, other]
+    context = {"doughnutData" : doughnutData}
+    return render(request, 'budget.html', context)
 
 # @login_required(login_url='/')
 def envelopes(request):

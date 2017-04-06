@@ -6,127 +6,575 @@
       <div class="col m12">
         <div class="card">
           <div class="card-content">
-            <h4>Progress</h4>
             <div class="row">
-              <p>Envelope 1</p>
-              <div id="chart"></div>
-              <div id="test"></div>
+              <div class="col s12 m5 l5">
+                <h5 class='center'>Current Month</h5>
+                <div id="month"></div>
+              </div>
+              <div class="col m1 l1"></div>
+              <div class="col s12 m5 l5">
+                <h5 class='center'>Year Expenses</h5>
+                <div id="year"></div>
+              </div>
             </div>
+            <div class="row"></div>
+            <div class="row"></div>
             <div class="row">
-                <p>Envelope 2</p>
-                <div id="chart"></div>
-                <div id="test"></div>
+              <h4 class="center">Envelopes</h4>
             </div>
+
+            <!-- ROW ONE OF ENVELOPES -->
             <div class="row">
-              <p>Envelope 3</p>
-              <div id="chart"></div>
-              <div id="test"></div>
-          </div>
+              <div class="col s12 m1 l1"></div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Food</strong></p>
+                <div id="food"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Home</strong></p>
+                <div id="home"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Entertainment</strong></p>
+                <div id="entertainment"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Shopping</strong></p>
+                <div id="shopping"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Subscriptions</strong></p>
+                <div id="subscriptions"></div>
+              </div>
+            </div>
+
+            <!-- ROW TWO OF ENVELOPES -->
+            <div class="row">
+              <div class="col s12 m1 l1"></div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Travel</strong></p>
+                <div id="travel"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Insurance</strong></p>
+                <div id="insurance"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Health</strong></p>
+                <div id="health"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Education</strong></p>
+                <div id="education"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Payments</strong></p>
+                <div id="payments"></div>
+              </div>
+            </div>
+
+            <!-- ROW THREE OF ENVELOPES -->
+            <div class="row">
+              <div class="col s12 m1 l1"></div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Dontations</strong></p>
+                <div id="donations"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Fees</strong></p>
+                <div id="fees"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Miscellaneous</strong></p>
+                <div id="miscellaneous"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Professional Services</strong></p>
+                <div id="professional"></div>
+              </div>
+              <div class="col s12 m2 l2">
+                <p class='center'><strong>Other</strong></p>
+                <div id="other"></div>
+              </div>
+            </div>
         </div>
       </div>
     </div>
   </div>
   <script>
-  var chart = c3.generate({
-    data: {
-        bindto: '#chart',
-        columns: [
-            ['data', 91.4]
-        ],
-        type: 'gauge',
-        onclick: function (d, i) { console.log("onclick", d, i); },
-        onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-        onmouseout: function (d, i) { console.log("onmouseout", d, i); }
-    },
-    gauge: {
-//        label: {
-//            format: function(value, ratio) {
-//                return value;
-//            },
-//            show: false // to turn off the min/max labels.
-//        },
-//    min: 0, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
-//    max: 100, // 100 is default
-//    units: ' %',
-//    width: 39 // for adjusting arc thickness
-    },
-    color: {
-        pattern: ['#FF0000', '#F97600', '#F6C600', '#60B044'], // the three color levels for the percentage values.
-        threshold: {
-//            unit: 'value', // percentage is default
-//            max: 200, // 100 is default
-            values: [30, 60, 90, 100]
-        }
-    },
-    size: {
-        height: 180
-    }
-});
-
-setTimeout(function () {
-    chart.load({
-        columns: [['data', 10]]
-    });
-}, 1000);
-
-setTimeout(function () {
-    chart.load({
-        columns: [['data', 50]]
-    });
-}, 2000);
-
-setTimeout(function () {
-    chart.load({
-        columns: [['data', 70]]
-    });
-}, 3000);
-
-setTimeout(function () {
-    chart.load({
-        columns: [['data', 0]]
-    });
-}, 4000);
-
-setTimeout(function () {
-    chart.load({
-        columns: [['data', 100]]
-    });
-}, 5000);
-
-  var test = c3.generate({
-      bindto: '#test',
+  var month = c3.generate({
+      bindto: '#month',
       data: {
           columns: [
-              ['data1', 30],
-              ['data2', 120],
+            {{ doughnutData.0|safe }} ,
+            {{ doughnutData.1|safe }} ,
+            {{ doughnutData.2|safe }},
+            {{ doughnutData.3|safe }},
+            {{ doughnutData.4|safe }},
+            {{ doughnutData.5|safe }},
+            {{ doughnutData.6|safe }},
+            {{ doughnutData.7|safe }},
+            {{ doughnutData.8|safe }},
+            {{ doughnutData.9|safe }},
+            {{ doughnutData.10|safe }},
+            {{ doughnutData.11|safe }},
+            {{ doughnutData.12|safe }},
+            {{ doughnutData.13|safe }},
+            {{ doughnutData.14|safe }},
           ],
           type : 'donut',
-          onclick: function (d, i) { console.log("onclick", d, i); },
-          onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-          onmouseout: function (d, i) { console.log("onmouseout", d, i); }
       },
       donut: {
-          title: "Iris Petal Width"
+          title: "Budget Expenditures"
       }
   });
 
-  setTimeout(function () {
-      test.load({
+  var year = c3.generate({
+      bindto: '#year',
+      data: {
           columns: [
-              ["setosa", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2],
-              ["versicolor", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3],
-              ["virginica", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8],
-          ]
+            ['Travel', 30, 200, 100, 400, 150, 250, 30, 200, 100, 400, 150, 250, 300, 100],
+            ['Home', 130, 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150],
+            ['Groceries', 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150, 130],
+            ['Entertainment', 200, 100, 400, 150, 250, 30, 200, 100, 400, 150, 250, 300, 100,230],
+            ['Fun', 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150,140],
+          ],
+          type: 'spline'
+      }
+  });
+// Row 1
+  var food = c3.generate({
+      bindto: '#food',
+      data: {
+          columns: [
+              ['Food', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      food.load({
+          columns: [['Food', 9]]
+      });
+  }, 1000);
+
+  var home = c3.generate({
+      bindto: '#home',
+      data: {
+          columns: [
+              ['Home', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+        pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+        threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      home.load({
+          columns: [['Home',  37.9]]
       });
   }, 1500);
 
-  setTimeout(function () {
-      test.unload({
-          ids: 'data1'
+  var entertainment = c3.generate({
+      bindto: '#entertainment',
+      data: {
+          columns: [
+              ['Entertainment', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      entertainment.load({
+          columns: [['Entertainment',  91.4]]
       });
-      test.unload({
-          ids: 'data2'
+  }, 2000);
+
+  var shopping = c3.generate({
+      bindto: '#shopping',
+      data: {
+          columns: [
+              ['Shopping', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      shopping.load({
+          columns: [['Shopping', 0]]
       });
   }, 2500);
+
+  var subscriptions = c3.generate({
+      bindto: '#subscriptions',
+      data: {
+          columns: [
+              ['Subscriptions', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      subscriptions.load({
+          columns: [['Subscriptions', 100]]
+      });
+  }, 3000);
+
+// Row 2
+  var travel = c3.generate({
+      bindto: '#travel',
+      data: {
+          columns: [
+              ['Travel', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      travel.load({
+          columns: [['Travel', 46]]
+      });
+  }, 1000);
+
+  var insurance = c3.generate({
+      bindto: '#insurance',
+      data: {
+          columns: [
+              ['Insurance', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      insurance.load({
+          columns: [['Insurance', 20]]
+      });
+  }, 1500);
+
+  var health = c3.generate({
+      bindto: '#health',
+      data: {
+          columns: [
+              ['Health', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      health.load({
+          columns: [['Health', 78]]
+      });
+  }, 2000);
+
+  var education = c3.generate({
+      bindto: '#education',
+      data: {
+          columns: [
+              ['Education', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      education.load({
+          columns: [['Education', 57]]
+      });
+  }, 2500);
+
+  var payments = c3.generate({
+      bindto: '#payments',
+      data: {
+          columns: [
+              ['Payments', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      payments.load({
+          columns: [['Payments', 4]]
+      });
+  }, 3000);
+
+// Row 3
+  var donations = c3.generate({
+      bindto: '#donations',
+      data: {
+          columns: [
+              ['Donations', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      donations.load({
+          columns: [['Donations', 63]]
+      });
+  }, 1000);
+
+  var fees = c3.generate({
+      bindto: '#fees',
+      data: {
+          columns: [
+              ['Fees', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      fees.load({
+          columns: [['Fees', 97]]
+      });
+  }, 1500);
+
+  var miscellaneous = c3.generate({
+      bindto: '#miscellaneous',
+      data: {
+          columns: [
+              ['Miscellaneous', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      miscellaneous.load({
+          columns: [['Miscellaneous', 100]]
+      });
+  }, 2000);
+
+  var professional = c3.generate({
+      bindto: '#professional',
+      data: {
+          columns: [
+              ['Professional Services', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      professional.load({
+          columns: [['Professional Services', 20]]
+      });
+  }, 2500);
+
+  var other = c3.generate({
+      bindto: '#other',
+      data: {
+          columns: [
+              ['Other', 0]
+          ],
+          type: 'gauge',
+      },
+      gauge: {
+
+      },
+      color: {
+          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          threshold: {
+
+              values: [30, 60, 90, 100]
+          }
+      },
+      size: {
+          height: 100
+      }
+  });
+
+  setTimeout(function() {
+      other.load({
+          columns: [['Other', 46]]
+      });
+  }, 3000);
 </script>
 {% endblock %}
