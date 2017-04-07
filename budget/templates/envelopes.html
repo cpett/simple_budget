@@ -1,18 +1,231 @@
 {% extends "budget_base.html" %}
+{% load staticfiles %}
+{% block extrajs %}
+  <script src="{% static 'js/accounts.js' %}"></script>
+  <script src="{% static 'js/filtercards.js' %}"></script>
+{% endblock %}
 {% load material_form %}
 {% block title %}Envelopes{% endblock %}
 {% block content %}
+<span id="ajaxID">
+  <span class="ajaxBody">
     <div class="row">
-      <div class="col m12">
-        <div class="card">
+      <div id="admin" class="col s12">
+        <div class="card material-table">
           <div class="card-content">
-            <h4>Envelopes</h4>
-            <div class="row">
-              [Insert View of All Envelops]
-              <i class="material-icons large">email</i>
+            <div class="table-header">
+              <h4>My Envelopes</h4>
+              <div class="actions">
+                {% if envelopes|length >= 1 %}
+                  <div id="filter_input" class="input-field">
+                    <select id="filter_list" class="col m12">
+                      <option value="" disabled selected>Filter envelopes</option>
+                      <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
+                      {% for envelope in envelopes %}
+                        <option value="{{ envelope.name }}" id="button" class="filter" data-filter="{{ envelope.institution_name }}" role="button">{{ envelope.institution_name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+                <a href="#"
+                  class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+                  data-position="bottom" data-delay="50" data-tooltip="Add envelope">
+                  <i class="white-text material-icons">add</i>
+                </a>
+              </div>
+            </div>
+            <div class="row" id="sort-me">
+              <div class="col s12 m6 l6">
+                <a id="newEnvelope">
+                  <div class="card small grey">
+                    <div class="card-content white-text">
+                      <span class="card-title">Create New Envelope</span>
+                      <p>Create a new envelope to better track your finances!</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col s12 m6 l6">
+                <div class="card small grey">
+                  <div class="card-content white-text">
+                    <span class="card-title">Envelopes Overview</span>
+                    <p>
+                      Envelopes Created: 7
+                    </p>
+                    <p>
+                      Envelopes Balance: $345.12
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <span class="boxes">
+      <div class="row mix {{envelope.name}}"  data-category="{{ envelope.name }}">
+        <div id="admin" class="col s12">
+          <div class="card material-table">
+            <div class="card-content">
+              <div class="table-header">
+                <h4>Housing</h4>
+                <div class="actions">
+                  <a href="#"
+                    class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+                    data-position="bottom" data-delay="50" data-tooltip="Add envelope">
+                    <i class="white-text material-icons">add</i>
+                  </a>
+                </div>
+              </div>
+              <div class="row boxes" id="sort-me">
+                <div class="col s12 m6 l6">
+                  <div style="height:150px">
+                    <p>
+                      Envelope Amount: $300
+                    </p>
+                    <p>
+                      Envelope Spent: $250
+                    </p>
+                    <p>
+                      Envelope Remaining: $50
+                    </p>
+                  </div>
+                  <svg class="housing"></svg>
+                </div>
+                <div class="col s12 m6 l6">
+                  <table class="scroll">
+                    <thead class="scroll">
+                      <tr class="scroll">
+                        <th>Category</th>
+                        <th>Total Spent</th>
+                      </tr>
+                    </thead>
+                    <tbody class="scroll">
+                      <tr class="scroll">
+                        <td>Rent</td>
+                        <td>$640</td>
+                      </tr>
+                      <tr class="scroll">
+                        <td>Utilities</td>
+                        <td>$56.12</td>
+                      </tr>
+                      <tr class="scroll">
+                        <td>Renter's Insurance</td>
+                        <td>$45</td>
+                      </tr>
+                      <tr class="scroll">
+                        <td>Renter's Insurance</td>
+                        <td>$45</td>
+                      </tr>
+                      <tr class="scroll">
+                        <td>Renter's Insurance</td>
+                        <td>$45</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% comment %}
+    {% for envelope in envelopes %}
+      <div class="row mix {{envelope.name}}"  data-category="{{ envelope.name }}">
+        <div id="admin" class="col s12">
+          <div class="card material-table">
+            <div class="card-content">
+              <div class="table-header">
+                <h4>{{ envelope.name }}</h4>
+                <div class="actions">
+                  <a href="#"
+                    class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
+                    data-position="bottom" data-delay="50" data-tooltip="Add envelope">
+                    <i class="white-text material-icons">add</i>
+                  </a>
+                </div>
+              </div>
+              <div class="row boxes" id="sort-me">
+                {% for envelope in envelopes %}
+                  <div class="col s12 m6 l6">
+                    <div class="card small">
+                      <div class="card-content white-text">
+                        <span class="card-title no_margin">
+                          {{ envelope.name }}
+                          <span class="right {% if envelope.amount < 0 %}red-text{% endif %}">${{ envelope.amount|floatformat:2 }}</span>
+                        </span>
+                        <span class="card_subtitle">
+                          {{ envelope.name|capfirst }}
+                          <span class="right">Balance</span>
+                        </span>
+                      </div>
+                      <div class="card-action grey darken-3">
+                        <a id='{{ envelope.id }}' class='btnEditAccount white-text'>
+                          Edit Account
+                        </a>
+                        <a id='{{ envelope.id }}' class='btnConfirmAccount white-text'>
+                          Remove Account
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    {% endcomment %}
+    </span>
+  </span>
+</span>
+<script>
+console.log('here')
+var housing = c3.generate({
+    padding: {
+      bottom: 0,
+    },
+    bindto: d3.select('.housing'),
+    data: {
+        // bindto: '#chart',
+        columns: [
+            ['data1', 250],
+            ['data2', 50]
+        ],
+        type: 'bar',
+        colors: {
+          data1: '#2196f3',
+          data2: '#90caf9'
+        },
+        groups: [
+            ['data1', 'data2']
+        ],
+        order: null,
+        labels: {
+                  position: 'inner-center',
+                  format: {
+                            data2: d3.format('$'),
+                            data1: d3.format('$')
+                          }
+                }
+    },
+    legend: {show: false},
+    grid: {
+        y: {
+            lines: [{value:0}]
+        }
+    },
+    axis: {
+      rotated: true,
+      y: {show: false},
+      x: {show: false}
+    },
+    tooltip: {show: false},
+    grid: {
+        y: {show: false}
+    }
+});
+</script>
 {% endblock %}
