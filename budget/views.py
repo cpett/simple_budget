@@ -8,7 +8,6 @@ import requests
 import json
 import datetime
 from decimal import Decimal
-from plaid import Client
 
 
 def parser(json_data):

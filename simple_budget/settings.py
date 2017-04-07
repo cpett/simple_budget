@@ -140,7 +140,7 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Uncomment for debugging on heroku server
+# # Uncomment for debugging on heroku server
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
