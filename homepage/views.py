@@ -63,7 +63,7 @@ def login(request):
 def sign_out(request):
     token = request.session.get('api_token')
     token = 'Token token=' + token
-    path = 'https://simplifiapi.herokuapp.com/logout'
+    path = 'https://simplifiapi2.herokuapp.com/logout'
     req = requests.get(path, headers={'Authorization': token})
     del request.session['api_token']
     del request.session['first_name']
