@@ -44,7 +44,7 @@ class UserForm(forms.Form):
                                     "password_confirmation": password_confirmation
                                   }
                          }
-                path = 'https://simplifiapi.herokuapp.com/users'
+                path = 'https://simplifiapi2.herokuapp.com/users'
                 header = {'Content-type': 'application/json'}
                 req = requests.post(path, data=json.dumps(data), headers=header)
                 data = req.json()
@@ -80,7 +80,7 @@ class LoginForm(forms.Form):
             }
             mydata = urllib.parse.urlencode(review)
             mydata = mydata.encode('utf-8')
-            path = 'https://simplifiapi.herokuapp.com/login'
+            path = 'https://simplifiapi2.herokuapp.com/login'
             req = urllib.request.Request(path, mydata)
             try:
                 response = urllib.request.urlopen(req)
@@ -123,7 +123,7 @@ class AccountForm(forms.Form):
 
 def get_cat_choices(request):
     token = 'Token token=' + request
-    path = 'https://simplifiapi.herokuapp.com/categories'
+    path = 'https://simplifiapi2.herokuapp.com/categories'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
     choices = []
@@ -132,7 +132,7 @@ def get_cat_choices(request):
     return choices
 def get_acc_choices(request):
     token = 'Token token=' + request
-    path = 'https://simplifiapi.herokuapp.com/accounts'
+    path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
     choices = []

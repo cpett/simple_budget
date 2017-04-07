@@ -26,6 +26,18 @@ def budget(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
 
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi2.herokuapp.com/accounts'
+    req = requests.get(path, headers={'Authorization': token})
+    print(req)
+    data = req.json()
+    load_data = parser(data)
+    total = 0
+    for d in load_data['data']:
+        if d['available_balance'] != None:
+            total += d['available_balance']
+            print(total)
+
     data = []
     donations = ["Donations",10]
     education = ["Education",10]
@@ -43,7 +55,7 @@ def budget(request):
     travel = ["Travel", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2]
     other = ["Other",10]
     doughnutData = [donations, education, entertainment, fees, food, health, home, insurance, payments, professional, miscellaneous, shopping, subscriptions, travel, other]
-    context = {"doughnutData" : doughnutData}
+    context = {"doughnutData" : doughnutData, "total" : total}
     return render(request, 'budget.html', context)
 
 # @login_required(login_url='/')
@@ -66,7 +78,7 @@ def accounts(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/accounts'
+    path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
     data = sorted(data, key=lambda x:x['institution_name'].upper())
@@ -90,7 +102,7 @@ def accounts_add(request):
         form = frm.AccountForm(request.POST)
         if form.is_valid():
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/accounts'
+            path = 'https://simplifiapi2.herokuapp.com/accounts'
             data = {
                     "institution_name":form.cleaned_data['account_name'],
                     "account_type":form.cleaned_data['account_type'],
@@ -119,7 +131,7 @@ def accounts_edit(request, account_id):
         return HttpResponseRedirect('/')
     # Get token and pre-populate form with API data
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/accounts/' + account_id
+    path = 'https://simplifiapi2.herokuapp.com/accounts/' + account_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -129,7 +141,7 @@ def accounts_edit(request, account_id):
         form = frm.AccountForm(request.POST)
         if form.is_valid():
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/accounts/' + account_id
+            path = 'https://simplifiapi2.herokuapp.com/accounts/' + account_id
             data = {
                     "institution_name":form.cleaned_data['account_name'],
                     "account_type":form.cleaned_data['account_type'],
@@ -163,7 +175,7 @@ def accounts_remove_confirm(request, account_id):
         return HttpResponseRedirect('/')
     # Get token and account for deletion
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/accounts/' + account_id
+    path = 'https://simplifiapi2.herokuapp.com/accounts/' + account_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -184,7 +196,7 @@ def accounts_remove(request, account_id):
         return HttpResponseRedirect('/')
     # Get token and account for deletion
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/accounts/' + account_id
+    path = 'https://simplifiapi2.herokuapp.com/accounts/' + account_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
@@ -204,7 +216,7 @@ def goals(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/goals'
+    path = 'https://simplifiapi2.herokuapp.com/goals'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
     data = sorted(data, key=lambda x:x['goal_name'].upper())
@@ -227,7 +239,7 @@ def goals_add(request):
         form = frm.GoalForm(request.POST)
         if form.is_valid():
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/goals'
+            path = 'https://simplifiapi2.herokuapp.com/goals'
             data = {
                     "goal_name":form.cleaned_data['goal_name'],
                     "goal_amount":int(form.cleaned_data['goal_amount']),
@@ -259,7 +271,7 @@ def goals_edit(request, goal_id):
         return HttpResponseRedirect('/')
     # Get token and pre-populate form with API data
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/goals/' + goal_id
+    path = 'https://simplifiapi2.herokuapp.com/goals/' + goal_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -299,7 +311,7 @@ def goals_remove_confirm(request, goal_id):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/goals/' + goal_id
+    path = 'https://simplifiapi2.herokuapp.com/goals/' + goal_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -320,7 +332,7 @@ def goals_remove(request, goal_id):
         return HttpResponseRedirect('/')
     # Get token and goal for deletion
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/goals/' + goal_id
+    path = 'https://simplifiapi2.herokuapp.com/goals/' + goal_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
@@ -340,7 +352,7 @@ def transactions(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/account_transactions'
+    path = 'https://simplifiapi2.herokuapp.com/account_transactions'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
     data = sorted(data, key=lambda x:x['transaction_date'].upper())
@@ -371,7 +383,7 @@ def transactions_add(request):
                 if amount < 0.00:
                     amount = amount * Decimal(-1)
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/account_transactions'
+            path = 'https://simplifiapi2.herokuapp.com/account_transactions'
             data = {
                     "transaction_date":str(form.cleaned_data['transaction_date']),
                     "account_id":form.cleaned_data['account'],
@@ -400,7 +412,7 @@ def transactions_edit(request, transaction_id):
         return HttpResponseRedirect('/')
     # Get token and pre-populate form with API data
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    path = 'https://simplifiapi2.herokuapp.com/account_transactions/' + transaction_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -418,7 +430,7 @@ def transactions_edit(request, transaction_id):
                 if amount < 0.00:
                     amount = amount * Decimal(-1)
             token = 'Token token=' + request.session.get('api_token')
-            path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+            path = 'https://simplifiapi2.herokuapp.com/account_transactions/' + transaction_id
             data = {
                     "transaction_date":str(form.cleaned_data['transaction_date']),
                     "account_id":form.cleaned_data['account'],
@@ -461,7 +473,7 @@ def transactions_remove_confirm(request, transaction_id):
         return HttpResponseRedirect('/')
     # Get token and transaction for deletion
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    path = 'https://simplifiapi2.herokuapp.com/account_transactions/' + transaction_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.get(path, headers=header)
     if req.ok is False:
@@ -482,7 +494,7 @@ def transactions_remove(request, transaction_id):
         return HttpResponseRedirect('/')
     # Get token and transaction for deletion
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi.herokuapp.com/account_transactions/' + transaction_id
+    path = 'https://simplifiapi2.herokuapp.com/account_transactions/' + transaction_id
     header = {'Content-type': 'application/json', 'Authorization': token}
     req = requests.delete(path, headers=header)
     if req.ok is False:
