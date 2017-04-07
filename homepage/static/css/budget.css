@@ -56,7 +56,7 @@ main, footer {
   cursor: pointer;
 }
 /*Sets the responsiveness for SVG charts -- Envelopes page*/
-svg {
+svg.envelopes {
   width: 100%;
   height: 50px;
 }
