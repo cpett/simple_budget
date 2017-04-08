@@ -161,15 +161,15 @@ class TransactionForm(forms.Form):
                    )
 
 class GoalForm(forms.Form):
-    goal_name = forms.CharField(max_length=25, label="Name")
-    goal_amount = forms.DecimalField(decimal_places=2, label="Amount")
-    goal_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
-    goal_note = forms.CharField(max_length=255, required=False)
+    name = forms.CharField(max_length=25, label="Name")
+    amount = forms.DecimalField(decimal_places=2, label="Amount")
+    date = forms.DateField(required=False, widget=forms.DateInput(attrs={'class': 'datepicker', 'type': 'date'}), label="Completion date")
+    note = forms.CharField(max_length=255, required=False)
 
     layout = Layout(
                     Fieldset("Goal Information",
-                             Row('goal_name'),
-                             Row('goal_amount', 'goal_date'),
-                             Row('goal_note')
+                             Row('name'),
+                             Row('amount', 'date'),
+                             Row('note')
                             )
                     )

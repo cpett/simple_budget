@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^transactions_remove_confirm/(\d+)/', views.transactions_remove_confirm, name='transactions_remove_confirm'),
     url(r'^transactions_remove/(\d+)/', views.transactions_remove, name='transactions_remove'),
     url(r'^settings/', views.settings, name='settings'),
+    url(r'^premium/', views.premium, name='premium'),
 ]

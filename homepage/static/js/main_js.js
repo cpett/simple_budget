@@ -89,6 +89,19 @@ $(document).ready(function(){
       window.location.replace('/budget/')
   }
 
+  $('.btnPremium').click(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: '/budget/premium',
+        success: function(data) {
+          $('#modal').find('.modal_container').html(data);
+          $('#modal').modal('open');
+        }
+    });
+  });
+  $('.close_modal').click(function(){
+    $('#modal').modal('close');
+  });
   var colors = new Array(
     [33,150,243],
     [76,175,80],

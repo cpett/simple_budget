@@ -25,7 +25,7 @@ def budget(request):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-
+    print(request.session.get('api_token'))
     token = 'Token token=' + request.session.get('api_token')
     path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
@@ -65,7 +65,18 @@ def envelopes(request):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    return render(request, 'envelopes.html')
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi2.herokuapp.com/envelopes'
+    req = requests.get(path, headers={'Authorization': token})
+    data = req.json()
+    data = sorted(data, key=lambda x:x['name'].upper())
+    load_data = parser(data)
+    data = json.dumps(load_data['data'])
+    print('>>>>>>>>>>>>>>>>...')
+    print(type(load_data['data']))
+
+    context = {'envelopes': load_data['data'], 'data':data}
+    return render(request, 'envelopes.html', context)
 
 ################################
 ########## ACCOUNTS ###########
@@ -81,9 +92,20 @@ def accounts(request):
     path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['institution_name'].upper())
+    data = sorted(data, key=lambda x:x['name'].upper())
     load_data = parser(data)
-    context = {'accounts': load_data['data']}
+    balance = 0
+    for d in load_data['data']:
+        if d['account_subtype'] != 'credit':
+            if d['available_balance'] != None:
+                balance += d['available_balance']
+            elif d['current_balance']:
+                balance += d['current_balance']
+        else:
+            balance -= d['current_balance']
+
+
+    context = {'accounts': load_data['data'], 'balance': balance}
     if request.GET.get('type'):
         return render(request, 'accounts_ajax.html', context)
     else:
@@ -103,7 +125,7 @@ def accounts_add(request):
             token = 'Token token=' + request.session.get('api_token')
             path = 'https://simplifiapi2.herokuapp.com/accounts'
             data = {
-                    "institution_name":form.cleaned_data['account_name'],
+                    "name":form.cleaned_data['account_name'],
                     "account_type":form.cleaned_data['account_type'],
                     "account_username":form.cleaned_data['account_username'],
                     "account_password":form.cleaned_data['account_password'],
@@ -142,7 +164,7 @@ def accounts_edit(request, account_id):
             token = 'Token token=' + request.session.get('api_token')
             path = 'https://simplifiapi2.herokuapp.com/accounts/' + account_id
             data = {
-                    "institution_name":form.cleaned_data['account_name'],
+                    "name":form.cleaned_data['account_name'],
                     "account_type":form.cleaned_data['account_type'],
                     "account_username":form.cleaned_data['account_username'],
                     "account_password":form.cleaned_data['account_password'],
@@ -159,7 +181,7 @@ def accounts_edit(request, account_id):
     else:
         form = frm.AccountForm({'account_username': data['account_username'],
                                 'account_type': data['account_type'],
-                                'account_name': data['institution_name'],
+                                'account_name': data['name'],
                                 'account_password': data['account_password']
                                })
     context = {'form': form, 'account_id': account_id}
@@ -218,7 +240,7 @@ def goals(request):
     path = 'https://simplifiapi2.herokuapp.com/goals'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['goal_name'].upper())
+    data = sorted(data, key=lambda x:x['name'].upper())
     load_data = parser(data)
 
     context = {'goals': load_data['data']}
@@ -240,10 +262,10 @@ def goals_add(request):
             token = 'Token token=' + request.session.get('api_token')
             path = 'https://simplifiapi2.herokuapp.com/goals'
             data = {
-                    "goal_name":form.cleaned_data['goal_name'],
-                    "goal_amount":int(form.cleaned_data['goal_amount']),
-                    "goal_date":str(form.cleaned_data['goal_date']),
-                    "goal_note":form.cleaned_data['goal_note'],
+                    "name":form.cleaned_data['name'],
+                    "amount":int(form.cleaned_data['amount']),
+                    "date":str(form.cleaned_data['date']),
+                    "note":form.cleaned_data['note'],
                    }
             header = {'Content-type': 'application/json', 'Authorization': token}
             req = requests.post(path, data=json.dumps(data), headers=header)
@@ -280,10 +302,10 @@ def goals_edit(request, goal_id):
         form = frm.GoalForm(request.POST)
         if form.is_valid():
             data = {
-                    "goal_name":form.cleaned_data['goal_name'],
-                    "goal_amount":int(form.cleaned_data['goal_amount']),
-                    "goal_date":str(form.cleaned_data['goal_date']),
-                    "goal_note":form.cleaned_data['goal_note'],
+                    "name":form.cleaned_data['name'],
+                    "amount":int(form.cleaned_data['amount']),
+                    "date":str(form.cleaned_data['date']),
+                    "note":form.cleaned_data['note'],
                    }
             header = {'Content-type': 'application/json', 'Authorization': token}
             req = requests.put(path, data=json.dumps(data), headers=header)
@@ -294,10 +316,10 @@ def goals_edit(request, goal_id):
             context = {'form':form, 'goal_id': goal_id}
             return render(request, 'goals_edit_ajax.html', context)
     else:
-        form = frm.GoalForm({'goal_name': data['goal_name'],
-                             'goal_amount': data['goal_amount'],
-                             'goal_date': data['goal_date'],
-                             'goal_note': data['goal_note']
+        form = frm.GoalForm({'name': data['name'],
+                             'amount': data['amount'],
+                             'date': data['date'],
+                             'note': data['note']
                            })
     context = {'form': form, 'goal_id': goal_id}
     return render(request, 'goals_edit.html', context)
@@ -509,3 +531,9 @@ def settings(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     return render(request, 'settings.html')
+
+def premium(request):
+    '''Warns about a premium feature'''
+    if not request.session.get('api_token'):
+        return HttpResponseRedirect('/')
+    return render(request, 'premium.html')

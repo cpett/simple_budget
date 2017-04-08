@@ -37,14 +37,14 @@
           </div>
         </div>
         {% for goal in goals %}
-          <div class="col s12 m6 l6 mix" data-value="{{ goal.goal_amount }}"
-           data-category="{{ goal.goal_name}}">
+          <div class="col s12 m6 l6 mix" data-value="{{ goal.amount }}"
+           data-category="{{ goal.name}}">
             <div class="card small cyan lighten-3">
               <div class="card-content white-text">
-                <span class="card-title activator">{{ goal.goal_name }}<i class="material-icons right">more_vert</i></span>
+                <span class="card-title activator">{{ goal.name }}<i class="material-icons right">more_vert</i></span>
                 <span class="card_subtitle">
-                  ${{ goal.goal_amount|floatformat:"0" }}
-                  <span class="right">{{ goal.goal_date }}</span>
+                  ${{ goal.amount|floatformat:"0" }}
+                  <span class="right">{{ goal.date }}</span>
                 </span>
               </div>
               <div class="card-action grey darken-3">
@@ -56,9 +56,9 @@
                 </a>
               </div>
               <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">{{ goal.goal_name }}<i class="material-icons right">close</i></span>
-                {% if goal.goal_note %}
-                  <p>{{ goal.goal_note }}</p>
+                <span class="card-title grey-text text-darken-4">{{ goal.name }}<i class="material-icons right">close</i></span>
+                {% if goal.note %}
+                  <p>{{ goal.note }}</p>
                 {% else %}
                   <p>
                     It looks like you haven't entered any more information about this goal.

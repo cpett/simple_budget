@@ -22,21 +22,16 @@
                       <option value="" disabled selected>Filter envelopes</option>
                       <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
                       {% for envelope in envelopes %}
-                        <option value="{{ envelope.name }}" id="button" class="filter" data-filter="{{ envelope.institution_name }}" role="button">{{ envelope.institution_name }}</option>
+                        <option value="{{ envelope.name }}" id="button" class="filter" data-filter="{{ envelope.name }}" role="button">{{ envelope.name }}</option>
                       {% endfor %}
                     </select>
                   </div>
                 {% endif %}
-                <a href="#"
-                  class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
-                  data-position="bottom" data-delay="50" data-tooltip="Add envelope">
-                  <i class="white-text material-icons">add</i>
-                </a>
               </div>
             </div>
             <div class="row" id="sort-me">
               <div class="col s12 m6 l6">
-                <a id="newEnvelope">
+                <a id="link-button" class="btnPremium">
                   <div class="card small grey">
                     <div class="card-content white-text">
                       <span class="card-title">Create New Envelope</span>
@@ -50,7 +45,7 @@
                   <div class="card-content white-text">
                     <span class="card-title">Envelopes Overview</span>
                     <p>
-                      Envelopes Created: 7
+                      Envelopes Created: {{envelopes|length}}
                     </p>
                     <p>
                       Envelopes Balance: $345.12
@@ -64,17 +59,18 @@
       </div>
     </div>
     <span class="boxes">
+    {% for envelope in envelopes %}
       <div class="row mix {{envelope.name}}"  data-category="{{ envelope.name }}">
         <div id="admin" class="col s12">
           <div class="card material-table">
             <div class="card-content">
               <div class="table-header">
-                <h4>Housing</h4>
+                <h4>{{ envelope.name }}</h4>
                 <div class="actions">
                   <a href="#"
-                    class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
-                    data-position="bottom" data-delay="50" data-tooltip="Add envelope">
-                    <i class="white-text material-icons">add</i>
+                    class="waves-effect waves-yellow btn-flat yellow darken-4 nopadding tooltipped btnEditEnvelopes"
+                    data-position="bottom" data-delay="50" data-tooltip="Edit envelopes">
+                    <i class="white-text material-icons">mode_edit</i>
                   </a>
                 </div>
               </div>
@@ -91,7 +87,7 @@
                       Envelope Remaining: $50
                     </p>
                   </div>
-                  <svg class="envelopes housing"></svg>
+                  <svg class="envelopes {{ envelope.name|lower }}"></svg>
                 </div>
                 <div class="col s12 m6 l6">
                   <table class="scroll">
@@ -130,102 +126,60 @@
           </div>
         </div>
       </div>
-    {% comment %}
-    {% for envelope in envelopes %}
-      <div class="row mix {{envelope.name}}"  data-category="{{ envelope.name }}">
-        <div id="admin" class="col s12">
-          <div class="card material-table">
-            <div class="card-content">
-              <div class="table-header">
-                <h4>{{ envelope.name }}</h4>
-                <div class="actions">
-                  <a href="#"
-                    class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
-                    data-position="bottom" data-delay="50" data-tooltip="Add envelope">
-                    <i class="white-text material-icons">add</i>
-                  </a>
-                </div>
-              </div>
-              <div class="row boxes" id="sort-me">
-                {% for envelope in envelopes %}
-                  <div class="col s12 m6 l6">
-                    <div class="card small">
-                      <div class="card-content white-text">
-                        <span class="card-title no_margin">
-                          {{ envelope.name }}
-                          <span class="right {% if envelope.amount < 0 %}red-text{% endif %}">${{ envelope.amount|floatformat:2 }}</span>
-                        </span>
-                        <span class="card_subtitle">
-                          {{ envelope.name|capfirst }}
-                          <span class="right">Balance</span>
-                        </span>
-                      </div>
-                      <div class="card-action grey darken-3">
-                        <a id='{{ envelope.id }}' class='btnEditAccount white-text'>
-                          Edit Account
-                        </a>
-                        <a id='{{ envelope.id }}' class='btnConfirmAccount white-text'>
-                          Remove Account
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     {% endfor %}
-    {% endcomment %}
     </span>
   </span>
 </span>
 <script>
-console.log('here')
-var housing = c3.generate({
-    padding: {
-      bottom: 0,
-    },
-    bindto: d3.select('.housing'),
-    data: {
-        // bindto: '#chart',
-        columns: [
+  var envelopes = {{ data|safe }};
+
+  function makeChart(envelopes) {
+    for (i = 0; i < envelopes.length; ++i) {
+      var envChart = c3.generate({
+        padding: {
+          bottom: 0,
+        },
+        bindto: d3.select('.' + String(envelopes[i].name).toLowerCase()),
+        data: {
+          columns: [
             ['data1', 250],
             ['data2', 50]
-        ],
-        type: 'bar',
-        colors: {
-          data1: '#2196f3',
-          data2: '#90caf9'
-        },
-        groups: [
+          ],
+          type: 'bar',
+          colors: {
+            data1: '#2196f3',
+            data2: '#90caf9'
+          },
+          groups: [
             ['data1', 'data2']
-        ],
-        order: null,
-        labels: {
-                  position: 'inner-center',
-                  format: {
-                            data2: d3.format('$'),
-                            data1: d3.format('$')
-                          }
-                }
-    },
-    legend: {show: false},
-    grid: {
-        y: {
+          ],
+          order: null,
+          labels: {
+            position: 'inner-center',
+            format: {
+              data2: d3.format('$'),
+              data1: d3.format('$')
+            }
+          }
+        },
+        legend: {show: false},
+        grid: {
+          y: {
             lines: [{value:0}]
+          }
+        },
+        axis: {
+          rotated: true,
+          y: {show: false},
+          x: {show: false}
+        },
+        tooltip: {show: false},
+        grid: {
+          y: {show: false}
         }
-    },
-    axis: {
-      rotated: true,
-      y: {show: false},
-      x: {show: false}
-    },
-    tooltip: {show: false},
-    grid: {
-        y: {show: false}
-    }
-});
+      });
+    };
+  };
+  makeChart(envelopes);
 </script>
 {% endblock %}
