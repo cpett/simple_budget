@@ -128,7 +128,7 @@ def get_cat_choices(request):
     data = req.json()
     choices = []
     for d in data:
-        choices.append((d['id'], d['name']))
+        choices.append((d['id'], d['hierarchy_1']))
     return choices
 def get_acc_choices(request):
     token = 'Token token=' + request
@@ -137,7 +137,7 @@ def get_acc_choices(request):
     data = req.json()
     choices = []
     for d in data:
-        choices.append((d['id'], d['institution_name']))
+        choices.append((d['id'], d['name']))
     return choices
 
 class TransactionForm(forms.Form):

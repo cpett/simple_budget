@@ -8,7 +8,6 @@
     <tr>
       <th>Date</th>
       <th>Description</th>
-      <th>Long Description</th>
       <th>Account</th>
       <th>Category</th>
       <th>Amount</th>
@@ -18,11 +17,10 @@
   <tbody>
     {% for transaction in transactions %}
       <tr>
-        <td>{{ transaction.clean_trans_date }}</td>
-        <td>{{ transaction.transaction_description }}</td>
-        <td>{{ transaction.original_description }}</td>
-        <td>{{ transaction.account_name }}</td>
-        <td>{{ transaction.category_name }}</td>
+        <td>{{ transaction.date }}</td>
+        <td>{{ transaction.name }}</td>
+        <td>{{ transaction.account_id }}</td>
+        <td>{{ transaction.category_id }}</td>
         <td>${{ transaction.amount|floatformat:2 }}</td>
         <td>
           <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"

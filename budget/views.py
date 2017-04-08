@@ -354,7 +354,7 @@ def transactions(request):
     path = 'https://simplifiapi2.herokuapp.com/account_transactions'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['transaction_date'].upper())
+    data = sorted(data, key=lambda x:x['date'].upper())
     load_data = parser(data)
 
     context = {'transactions': load_data['data']}
@@ -384,7 +384,7 @@ def transactions_add(request):
             token = 'Token token=' + request.session.get('api_token')
             path = 'https://simplifiapi2.herokuapp.com/account_transactions'
             data = {
-                    "transaction_date":str(form.cleaned_data['transaction_date']),
+                    "date":str(form.cleaned_data['transaction_date']),
                     "account_id":form.cleaned_data['account'],
                     "category_id":form.cleaned_data['category'],
                     "amount":str(amount)
@@ -431,7 +431,7 @@ def transactions_edit(request, transaction_id):
             token = 'Token token=' + request.session.get('api_token')
             path = 'https://simplifiapi2.herokuapp.com/account_transactions/' + transaction_id
             data = {
-                    "transaction_date":str(form.cleaned_data['transaction_date']),
+                    "date":str(form.cleaned_data['transaction_date']),
                     "account_id":form.cleaned_data['account'],
                     "category_id":form.cleaned_data['category'],
                     "amount":str(amount)
@@ -444,8 +444,8 @@ def transactions_edit(request, transaction_id):
         else:
             return render(request, 'transactions_edit_ajax.html', {'form': form,'transaction_id': transaction_id})
     else:
-        import dateutil.parser
-        date = dateutil.parser.parse(data['transaction_date'])
+        # import dateutil.parser
+        # date = dateutil.parser.parse(data['date'])
         if Decimal(data['amount']) < 0:
             transaction_type = '1'
         else:
@@ -453,7 +453,7 @@ def transactions_edit(request, transaction_id):
         form = frm.TransactionForm(request,
                                    initial={
                                             'transaction_type':transaction_type,
-                                            'transaction_date':date,
+                                            'transaction_date':data['date'],
                                             'transaction_amount':data['amount'],
                                             'category':62,# data['category_name'],
                                             'account':322# data['account_name']
