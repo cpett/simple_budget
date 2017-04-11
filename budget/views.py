@@ -69,10 +69,13 @@ def budget(request):
         envelope_data = [name,d["envelope_amount_spent"]]
 
         envelope_data_spent = []
-        percent_spent = (d["envelope_amount_spent"] / d["amount"]) * 100
-        if percent_spent > 100:
-            percent_spent = 100
-        envelope_data_spent = [name, percent_spent]
+        try:
+            percent_spent = (d["envelope_amount_spent"] / d["amount"]) * 100
+            if percent_spent > 100:
+                percent_spent = 100
+            envelope_data_spent = [name, percent_spent]
+        except:
+            envelope_data_spent = [name, 0]
 
         envelopes_data.append(envelope_data)
         doughnutData.append(envelope_data)
@@ -164,7 +167,7 @@ def accounts(request):
         else:
             balance -= d['current_balance']
 
-    context = {'accounts': load_data['data'], 'balance': balance}
+    context = {'accounts': load_data['data'], 'balance': balance, "token" : token}
     if request.GET.get('type'):
         return render(request, 'accounts_ajax.html', context)
     else:
