@@ -19,26 +19,7 @@ def parser(json_data):
     return json.loads(dump_data)
 
 
-def check_login(function):
-  def wrap(request, *args, **kwargs):
-    if not request.session.get('api_token'):
-        print('No token in the session')
-        return HttpResponseRedirect('/')
-    else:
-        token = 'Token token=' + request.session.get('api_token')
-        path = 'https://simplifiapi2.herokuapp.com/users'
-        req = requests.get(path, headers={'Authorization': token})
-        if req.ok is False:
-            print('token exists, but expired')
-            return HttpResponseRedirect('/sign_out/')
-        else:
-            print('All good in the hood')
-            return function(request, *args, **kwargs)
-  wrap.__doc__=function.__doc__
-  wrap.__name__=function.__name__
-  return wrap
-
-@check_login
+# @login_required(login_url='/')
 def budget(request):
     '''
         Loads the progress/landing page for budget
@@ -54,8 +35,6 @@ def budget(request):
     for d in load_data['data']:
         if d['available_balance'] != None:
             total += d['available_balance']
-
-<<<<<<< HEAD
     # User Envelopes data call for the monthly expenditure doughnut chart
     path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
     req = requests.get(path, headers={'Authorization': token})
@@ -85,33 +64,15 @@ def budget(request):
     budget_difference = budget_amount - budget_spent
 
     context = {"doughnutData" : doughnutData, "total" : total, "envelopes_data" : envelopes_data, "budget_amount" : budget_amount, "budget_spent" : budget_spent, "budget_difference" : budget_difference}
-=======
-    data = []
-    donations = ["Donations",10]
-    education = ["Education",10]
-    entertainment = ["Entertainment",10]
-    fees = ["Fees",10]
-    food = ["Food", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8]
-    health = ["Health",10]
-    home = ["Home", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3]
-    insurance = ["Insurance",10]
-    payments = ["Payments",10]
-    professional = ["Professional Services",10]
-    miscellaneous = ["Miscellaneous",10]
-    shopping = ["Shopping",10]
-    subscriptions = ["Subscriptions",10]
-    travel = ["Travel", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2]
-    other = ["Other",10]
-    doughnutData = [donations, education, entertainment, fees, food, health, home, insurance, payments, professional, miscellaneous, shopping, subscriptions, travel, other]
-    context = {"doughnutData" : doughnutData, "total" : total}
->>>>>>> a65a305... Adds envelopes and minor changes to accounts, goals
     return render(request, 'budget.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def envelopes(request):
     '''
         Loads the envelopes page
     '''
+    if not request.session.get('api_token'):
+        return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
     path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
     req = requests.get(path, headers={'Authorization': token})
@@ -126,7 +87,6 @@ def envelopes(request):
     else:
         return render(request, 'envelopes.html', context)
 
-@check_login
 def envelopes_edit(request, env_id):
     '''
         Edit Envelope amount
@@ -163,7 +123,7 @@ def envelopes_edit(request, env_id):
 ################################
 ########## ACCOUNTS ###########
 ###############################
-@check_login
+# @login_required(login_url='/')
 def accounts(request):
     '''
         Loads the accounts page
@@ -193,7 +153,7 @@ def accounts(request):
         return render(request, 'accounts.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def accounts_add(request):
     '''
         Loads the the modal to add new account
@@ -224,7 +184,7 @@ def accounts_add(request):
     return render(request, 'accounts_add.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def accounts_edit(request, account_id):
     '''
         Loads the the modal to edit an account
@@ -268,7 +228,7 @@ def accounts_edit(request, account_id):
     context = {'form': form, 'account_id': account_id}
     return render(request, 'accounts_edit.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def accounts_remove_confirm(request, account_id):
     '''
         Loads the the modal to delete an account
@@ -289,7 +249,7 @@ def accounts_remove_confirm(request, account_id):
     return render(request, 'accounts_remove.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def accounts_remove(request, account_id):
     '''
         Deletes the selected account
@@ -310,7 +270,7 @@ def accounts_remove(request, account_id):
 ################################
 ############ GOALS ############
 ###############################
-@check_login
+# @login_required(login_url='/')
 def goals(request):
     '''
         Loads the goals page
@@ -330,7 +290,7 @@ def goals(request):
     else:
         return render(request, 'goals.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def goals_add(request):
     '''
         Loads the the modal to add new goal
@@ -360,7 +320,7 @@ def goals_add(request):
     context = {'form': form}
     return render(request, 'goals_add.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def goals_edit(request, goal_id):
     '''
         Loads the the modal to edit a goal
@@ -402,7 +362,7 @@ def goals_edit(request, goal_id):
     context = {'form': form, 'goal_id': goal_id}
     return render(request, 'goals_edit.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def goals_remove_confirm(request, goal_id):
     '''
         Loads the the modal to remove goal
@@ -422,7 +382,7 @@ def goals_remove_confirm(request, goal_id):
     return render(request, 'goals_remove.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def goals_remove(request, goal_id):
     '''
         Loads the the modal to remove goal
@@ -443,7 +403,7 @@ def goals_remove(request, goal_id):
 ################################
 ######## Transactions #########
 ###############################
-@check_login
+# @login_required(login_url='/')
 def transactions(request):
     '''
         Loads the my spending page
@@ -463,7 +423,7 @@ def transactions(request):
     else:
         return render(request, 'transactions.html', context)
 
-@check_login
+# @login_required(login_url='/')
 def transactions_add(request):
     '''
         Loads the the modal to add new transaction
@@ -502,7 +462,7 @@ def transactions_add(request):
     return render(request, 'transactions_add.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def transactions_edit(request, transaction_id):
     '''
         Loads the the modal to edit an account
@@ -568,7 +528,7 @@ def transactions_edit(request, transaction_id):
     return render(request, 'transactions_edit.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def transactions_remove_confirm(request, transaction_id):
     '''
         Loads the the modal to add new account
@@ -589,7 +549,7 @@ def transactions_remove_confirm(request, transaction_id):
     return render(request, 'transactions_remove.html', context)
 
 
-@check_login
+# @login_required(login_url='/')
 def transactions_remove(request, transaction_id):
     '''
         Loads the the modal to add new account
@@ -606,7 +566,7 @@ def transactions_remove(request, transaction_id):
     else:
         return HttpResponse("success")
 
-@check_login
+# @login_required(login_url='/')
 def settings(request):
     '''
         Loads the my spending page
