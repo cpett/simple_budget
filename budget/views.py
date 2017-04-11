@@ -19,7 +19,26 @@ def parser(json_data):
     return json.loads(dump_data)
 
 
-# @login_required(login_url='/')
+def check_login(function):
+  def wrap(request, *args, **kwargs):
+    if not request.session.get('api_token'):
+        print('No token in the session')
+        return HttpResponseRedirect('/')
+    else:
+        token = 'Token token=' + request.session.get('api_token')
+        path = 'https://simplifiapi2.herokuapp.com/users'
+        req = requests.get(path, headers={'Authorization': token})
+        if req.ok is False:
+            print('token exists, but expired')
+            return HttpResponseRedirect('/sign_out/')
+        else:
+            print('All good in the hood')
+            return function(request, *args, **kwargs)
+  wrap.__doc__=function.__doc__
+  wrap.__name__=function.__name__
+  return wrap
+
+@check_login
 def budget(request):
     '''
         Loads the progress/landing page for budget
@@ -88,13 +107,11 @@ def budget(request):
 >>>>>>> a65a305... Adds envelopes and minor changes to accounts, goals
     return render(request, 'budget.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def envelopes(request):
     '''
         Loads the envelopes page
     '''
-    if not request.session.get('api_token'):
-        return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
     path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
     req = requests.get(path, headers={'Authorization': token})
@@ -109,6 +126,7 @@ def envelopes(request):
     else:
         return render(request, 'envelopes.html', context)
 
+@check_login
 def envelopes_edit(request, env_id):
     '''
         Edit Envelope amount
@@ -145,7 +163,7 @@ def envelopes_edit(request, env_id):
 ################################
 ########## ACCOUNTS ###########
 ###############################
-# @login_required(login_url='/')
+@check_login
 def accounts(request):
     '''
         Loads the accounts page
@@ -175,7 +193,7 @@ def accounts(request):
         return render(request, 'accounts.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def accounts_add(request):
     '''
         Loads the the modal to add new account
@@ -206,7 +224,7 @@ def accounts_add(request):
     return render(request, 'accounts_add.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def accounts_edit(request, account_id):
     '''
         Loads the the modal to edit an account
@@ -250,7 +268,7 @@ def accounts_edit(request, account_id):
     context = {'form': form, 'account_id': account_id}
     return render(request, 'accounts_edit.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def accounts_remove_confirm(request, account_id):
     '''
         Loads the the modal to delete an account
@@ -271,7 +289,7 @@ def accounts_remove_confirm(request, account_id):
     return render(request, 'accounts_remove.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def accounts_remove(request, account_id):
     '''
         Deletes the selected account
@@ -292,7 +310,7 @@ def accounts_remove(request, account_id):
 ################################
 ############ GOALS ############
 ###############################
-# @login_required(login_url='/')
+@check_login
 def goals(request):
     '''
         Loads the goals page
@@ -312,7 +330,7 @@ def goals(request):
     else:
         return render(request, 'goals.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def goals_add(request):
     '''
         Loads the the modal to add new goal
@@ -342,7 +360,7 @@ def goals_add(request):
     context = {'form': form}
     return render(request, 'goals_add.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def goals_edit(request, goal_id):
     '''
         Loads the the modal to edit a goal
@@ -384,7 +402,7 @@ def goals_edit(request, goal_id):
     context = {'form': form, 'goal_id': goal_id}
     return render(request, 'goals_edit.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def goals_remove_confirm(request, goal_id):
     '''
         Loads the the modal to remove goal
@@ -404,7 +422,7 @@ def goals_remove_confirm(request, goal_id):
     return render(request, 'goals_remove.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def goals_remove(request, goal_id):
     '''
         Loads the the modal to remove goal
@@ -425,7 +443,7 @@ def goals_remove(request, goal_id):
 ################################
 ######## Transactions #########
 ###############################
-# @login_required(login_url='/')
+@check_login
 def transactions(request):
     '''
         Loads the my spending page
@@ -445,7 +463,7 @@ def transactions(request):
     else:
         return render(request, 'transactions.html', context)
 
-# @login_required(login_url='/')
+@check_login
 def transactions_add(request):
     '''
         Loads the the modal to add new transaction
@@ -484,7 +502,7 @@ def transactions_add(request):
     return render(request, 'transactions_add.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def transactions_edit(request, transaction_id):
     '''
         Loads the the modal to edit an account
@@ -550,7 +568,7 @@ def transactions_edit(request, transaction_id):
     return render(request, 'transactions_edit.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def transactions_remove_confirm(request, transaction_id):
     '''
         Loads the the modal to add new account
@@ -571,7 +589,7 @@ def transactions_remove_confirm(request, transaction_id):
     return render(request, 'transactions_remove.html', context)
 
 
-# @login_required(login_url='/')
+@check_login
 def transactions_remove(request, transaction_id):
     '''
         Loads the the modal to add new account
@@ -588,7 +606,7 @@ def transactions_remove(request, transaction_id):
     else:
         return HttpResponse("success")
 
-# @login_required(login_url='/')
+@check_login
 def settings(request):
     '''
         Loads the my spending page
