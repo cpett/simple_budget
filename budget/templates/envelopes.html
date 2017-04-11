@@ -1,7 +1,10 @@
 {% extends "budget_base.html" %}
 {% load staticfiles %}
 {% block extrajs %}
-  <script src="{% static 'js/accounts.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+  <script src="{% static 'js/envelopes.js' %}"></script>
   <script src="{% static 'js/filtercards.js' %}"></script>
 {% endblock %}
 {% load material_form %}
@@ -22,7 +25,7 @@
                       <option value="" disabled selected>Filter envelopes</option>
                       <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
                       {% for envelope in envelopes %}
-                        <option value="{{ envelope.name }}" id="button" class="filter" data-filter="{{ envelope.name }}" role="button">{{ envelope.name }}</option>
+                        <option value="{{ envelope.envelope_name }}" id="button" class="filter" data-filter="{{ envelope.envelope_name }}" role="button">{{ envelope.envelope_name }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -60,16 +63,16 @@
     </div>
     <span class="boxes">
     {% for envelope in envelopes %}
-      <div class="row mix {{envelope.name}}"  data-category="{{ envelope.name }}">
+      <div class="row mix {{envelope.envelope_name}}"  data-category="{{ envelope.envelope_name }}">
         <div id="admin" class="col s12">
           <div class="card material-table">
             <div class="card-content">
               <div class="table-header">
-                <h4>{{ envelope.name }}</h4>
+                <h4>{{ envelope.envelope_name }}</h4>
                 <div class="actions">
                   <a href="#"
                     class="waves-effect waves-yellow btn-flat yellow darken-4 nopadding tooltipped btnEditEnvelopes"
-                    data-position="bottom" data-delay="50" data-tooltip="Edit envelopes">
+                    data-position="bottom" data-delay="50" id="{{ envelope.id}}" data-tooltip="Edit envelopes">
                     <i class="white-text material-icons">mode_edit</i>
                   </a>
                 </div>
@@ -78,16 +81,16 @@
                 <div class="col s12 m6 l6">
                   <div style="height:150px">
                     <p>
-                      Envelope Amount: $300
+                      Envelope Amount: ${{ envelope.amount|floatformat:2 }}
                     </p>
                     <p>
-                      Envelope Spent: $250
+                      Envelope Spent: ${{ envelope.envelope_amount_spent|floatformat:2 }}
                     </p>
                     <p>
-                      Envelope Remaining: $50
+                      Envelope Remaining: ${{ envelope.enevelope_amount_left|floatformat:2 }}
                     </p>
                   </div>
-                  <svg class="envelopes {{ envelope.name|lower }}"></svg>
+                  <svg class="envelopes {{ envelope.envelope_name|lower }}"></svg>
                 </div>
                 <div class="col s12 m6 l6">
                   <table class="scroll">
@@ -98,26 +101,14 @@
                       </tr>
                     </thead>
                     <tbody class="scroll">
+                    {% for cat in envelope.categories_amount_spent %}
                       <tr class="scroll">
-                        <td>Rent</td>
-                        <td>$640</td>
+                        {% if cat.amount != 0 %}
+                          <td>{{ cat.name }}</td>
+                          <td>${{ cat.amount|floatformat:2 }}</td>
+                        {% endif %}
                       </tr>
-                      <tr class="scroll">
-                        <td>Utilities</td>
-                        <td>$56.12</td>
-                      </tr>
-                      <tr class="scroll">
-                        <td>Renter's Insurance</td>
-                        <td>$45</td>
-                      </tr>
-                      <tr class="scroll">
-                        <td>Renter's Insurance</td>
-                        <td>$45</td>
-                      </tr>
-                      <tr class="scroll">
-                        <td>Renter's Insurance</td>
-                        <td>$45</td>
-                      </tr>
+                    {% endfor %}
                     </tbody>
                   </table>
                 </div>
@@ -135,30 +126,46 @@
 
   function makeChart(envelopes) {
     for (i = 0; i < envelopes.length; ++i) {
+      // Data for transition animation
+      // initialData=[
+      //   ['data1',0],
+      //   ['data2',50],
+      // ]
+      // chartData=[
+      //   ['data1',250],
+      //   ['data2',50],
+      // ]
+      var total = envelopes[i].amount;
       var envChart = c3.generate({
         padding: {
           bottom: 0,
         },
-        bindto: d3.select('.' + String(envelopes[i].name).toLowerCase()),
+        bindto: d3.select('.' + String(envelopes[i].envelope_name.split(" ")[0]).toLowerCase()),
+        // bindto: d3.select('.donations'),
         data: {
           columns: [
-            ['data1', 250],
-            ['data2', 50]
+            ['data1',(envelopes[i].envelope_amount_spent).toFixed(2)],
+            ['data2',(envelopes[i].enevelope_amount_left).toFixed(2)]
           ],
           type: 'bar',
           colors: {
             data1: '#2196f3',
             data2: '#90caf9'
           },
+          names:{
+            data1:'spent',
+            data2:'remaining',
+          },
           groups: [
             ['data1', 'data2']
           ],
           order: null,
           labels: {
-            position: 'inner-center',
             format: {
-              data2: d3.format('$'),
-              data1: d3.format('$')
+              data1: d3.format('$'),
+              data2: function (v, id, i, j) {
+               return "$"+total;
+              },
             }
           }
         },
@@ -176,10 +183,27 @@
         tooltip: {show: false},
         grid: {
           y: {show: false}
+        },
+        oninit: function () {
+            this.main.append('rect')
+                .style('fill', 'white')
+                .attr('x', 0.5)
+                .attr('y', -0.5)
+                .attr('width', this.width)
+                .attr('height', this.height)
+              .transition().duration(4000)
+                .attr('x', this.width)
+                .attr('width', 0)
+              .remove();
         }
       });
+      // setTimeout(function () {
+      //   console.log('here')
+      //   envChart.load ({columns: chartData});
+      // }, 500)
     };
   };
+
   makeChart(envelopes);
 </script>
 {% endblock %}

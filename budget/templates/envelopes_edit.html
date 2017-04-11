@@ -1,0 +1,52 @@
+{% load staticfiles %}
+{% load material_form %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+<script src="{% static 'js/envelopes.js' %}"></script>
+<div class="modal-content">
+  <span class="ajaxForm">
+    <h4>Edit {{ name }}</h4>
+    {% if error %}
+      <p>
+        We're sorry, but that didn't seem to work. Please refresh the page and try again.
+      </p>
+    {% else %}
+      <form id="EditEnvelopesForm" method="POST" class="viewform">{% csrf_token %}
+          {% form form=form %}
+            {% part form.amount prefix %}<i class="material-icons prefix">attach_moneyx</i>{% endpart %}
+          {% endform %}
+          <div id="env_slider"></div>
+          <div class="modal-footer">
+            <button type="submit" name="_submit" id='{{ envelope_id }}' class="submit_button btn waves-effect waves-green btn green accent-4 btn-lg">Submit</button>
+          </div>
+      </form>
+    {% endif %}
+  </span>
+</div>
+<script>
+  var slider = document.getElementById('env_slider');
+  noUiSlider.create(slider, {
+    start: {{amount}},
+    connect: [true, false],
+    step: 1,
+    // tooltips: true,
+    range: {
+     'min': 0,
+     'max': 2000
+    },
+    format: wNumb({
+     decimals: 0
+    })
+  });
+  var envAmount = document.getElementById('id_amount');
+  slider.noUiSlider.on('update', function ( values, handle ) {
+  	if ( values ) {
+  		envAmount.value = values[handle];
+  	}
+  });
+  envAmount.addEventListener('change', function(){
+    console.log(this.value)
+  	slider.noUiSlider.set([this.value]);
+  });
+</script>

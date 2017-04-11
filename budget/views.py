@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 import requests
 import json
 import datetime
+import dateutil.parser
 from decimal import Decimal
 
 
@@ -25,18 +26,15 @@ def budget(request):
     '''
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
-    print(request.session.get('api_token'))
     token = 'Token token=' + request.session.get('api_token')
     path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
-    print(req)
     data = req.json()
     load_data = parser(data)
     total = 0
     for d in load_data['data']:
         if d['available_balance'] != None:
             total += d['available_balance']
-            print(total)
 
     data = []
     donations = ["Donations",10]
@@ -66,17 +64,51 @@ def envelopes(request):
     if not request.session.get('api_token'):
         return HttpResponseRedirect('/')
     token = 'Token token=' + request.session.get('api_token')
-    path = 'https://simplifiapi2.herokuapp.com/envelopes'
+    path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['name'].upper())
+    data = sorted(data, key=lambda x:x['envelope_name'].upper())
     load_data = parser(data)
     data = json.dumps(load_data['data'])
-    print('>>>>>>>>>>>>>>>>...')
-    print(type(load_data['data']))
 
     context = {'envelopes': load_data['data'], 'data':data}
-    return render(request, 'envelopes.html', context)
+    if request.GET.get('type'):
+        return render(request, 'envelopes_ajax.html', context)
+    else:
+        return render(request, 'envelopes.html', context)
+
+def envelopes_edit(request, env_id):
+    '''
+        Edit Envelope amount
+    '''
+    if not request.session.get('api_token'):
+        return HttpResponseRedirect('/')
+    token = 'Token token=' + request.session.get('api_token')
+    path = 'https://simplifiapi2.herokuapp.com/user_envelopes/' + env_id
+    req = requests.get(path, headers={'Authorization': token})
+    data = req.json()
+
+    if request.method == "POST":
+        form = frm.EnvelopeForm(request.POST)
+        if form.is_valid():
+            token = 'Token token=' + request.session.get('api_token')
+            path = 'https://simplifiapi2.herokuapp.com/user_envelopes/' + env_id
+            data = {
+                    "amount":float(form.cleaned_data['amount']),
+                    "id":env_id
+                   }
+            header = {'Content-type': 'application/json', 'Authorization': token}
+            req = requests.put(path, data=json.dumps(data), headers=header)
+            if req.ok is False:
+                return render(request, 'envelopes_edit.html', {'error':req.status_code})
+            return HttpResponse("success")
+        else:
+            context = {'form':form, 'name': data['envelope_name'], 'amount':data['amount']}
+            return render(request, 'envelopes_add_ajax.html', )
+    else:
+        form = frm.EnvelopeForm({'amount': data['amount']})
+    context = {'form': form, 'name': data['envelope_name'], 'amount':data['amount'], 'envelope_id': env_id}
+    return render(request, 'envelopes_edit.html', context)
 
 ################################
 ########## ACCOUNTS ###########
@@ -103,7 +135,6 @@ def accounts(request):
                 balance += d['current_balance']
         else:
             balance -= d['current_balance']
-
 
     context = {'accounts': load_data['data'], 'balance': balance}
     if request.GET.get('type'):
@@ -279,10 +310,6 @@ def goals_add(request):
     context = {'form': form}
     return render(request, 'goals_add.html', context)
 
-    context = {'goals': goals}
-    return render(request, 'goals.html', context)
-
-
 # @login_required(login_url='/')
 def goals_edit(request, goal_id):
     '''
@@ -316,9 +343,10 @@ def goals_edit(request, goal_id):
             context = {'form':form, 'goal_id': goal_id}
             return render(request, 'goals_edit_ajax.html', context)
     else:
+        date = dateutil.parser.parse(data['date']).strftime('%Y-%m-%d')
         form = frm.GoalForm({'name': data['name'],
                              'amount': data['amount'],
-                             'date': data['date'],
+                             'date': date,
                              'note': data['note']
                            })
     context = {'form': form, 'goal_id': goal_id}
