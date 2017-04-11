@@ -98,6 +98,13 @@ class LoginForm(forms.Form):
                             )
                     )
 
+class EnvelopeForm(forms.Form):
+    amount = forms.DecimalField(decimal_places=2)
+    
+    layout = Layout(
+        Row('amount')
+    )
+
 class AccountForm(forms.Form):
     account_name = forms.CharField(max_length=25)
     account_types = (

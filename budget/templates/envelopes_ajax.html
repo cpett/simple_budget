@@ -1,0 +1,198 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.2.0/nouislider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+<script src="{% static 'js/envelopes.js' %}"></script>
+<script src="{% static 'js/filtercards.js' %}"></script>
+<div class="row">
+  <div id="admin" class="col s12">
+    <div class="card material-table">
+      <div class="card-content">
+        <div class="table-header">
+          <h4>My Envelopes</h4>
+          <div class="actions">
+            {% if envelopes|length >= 1 %}
+              <div id="filter_input" class="input-field">
+                <select id="filter_list" class="col m12">
+                  <option value="" disabled selected>Filter envelopes</option>
+                  <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
+                  {% for envelope in envelopes %}
+                    <option value="{{ envelope.envelope_name }}" id="button" class="filter" data-filter="{{ envelope.envelope_name }}" role="button">{{ envelope.envelope_name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row" id="sort-me">
+          <div class="col s12 m6 l6">
+            <a id="link-button" class="btnPremium">
+              <div class="card small grey">
+                <div class="card-content white-text">
+                  <span class="card-title">Create New Envelope</span>
+                  <p>Create a new envelope to better track your finances!</p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col s12 m6 l6">
+            <div class="card small grey">
+              <div class="card-content white-text">
+                <span class="card-title">Envelopes Overview</span>
+                <p>
+                  Envelopes Created: {{envelopes|length}}
+                </p>
+                <p>
+                  Envelopes Balance: $345.12
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<span class="boxes">
+{% for envelope in envelopes %}
+  <div class="row mix {{envelope.envelope_name}}"  data-category="{{ envelope.envelope_name }}">
+    <div id="admin" class="col s12">
+      <div class="card material-table">
+        <div class="card-content">
+          <div class="table-header">
+            <h4>{{ envelope.envelope_name }}</h4>
+            <div class="actions">
+              <a href="#"
+                class="waves-effect waves-yellow btn-flat yellow darken-4 nopadding tooltipped btnEditEnvelopes"
+                data-position="bottom" data-delay="50" id="{{ envelope.id}}" data-tooltip="Edit envelopes">
+                <i class="white-text material-icons">mode_edit</i>
+              </a>
+            </div>
+          </div>
+          <div class="row boxes" id="sort-me">
+            <div class="col s12 m6 l6">
+              <div style="height:150px">
+                <p>
+                  Envelope Amount: ${{ envelope.amount|floatformat:2 }}
+                </p>
+                <p>
+                  Envelope Spent: ${{ envelope.envelope_amount_spent|floatformat:2 }}
+                </p>
+                <p>
+                  Envelope Remaining: ${{ envelope.enevelope_amount_left|floatformat:2 }}
+                </p>
+              </div>
+              <svg class="envelopes {{ envelope.envelope_name|lower }}"></svg>
+            </div>
+            <div class="col s12 m6 l6">
+              <table class="scroll">
+                <thead class="scroll">
+                  <tr class="scroll">
+                    <th>Category</th>
+                    <th>Total Spent</th>
+                  </tr>
+                </thead>
+                <tbody class="scroll">
+                {% for cat in envelope.categories_amount_spent %}
+                  <tr class="scroll">
+                    {% if cat.amount != 0 %}
+                      <td>{{ cat.name }}</td>
+                      <td>${{ cat.amount|floatformat:2 }}</td>
+                    {% endif %}
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+</span>
+<script>
+  var envelopes = {{ data|safe }};
+
+  function makeChart(envelopes) {
+    for (i = 0; i < envelopes.length; ++i) {
+      // Data for transition animation
+      // initialData=[
+      //   ['data1',0],
+      //   ['data2',50],
+      // ]
+      // chartData=[
+      //   ['data1',250],
+      //   ['data2',50],
+      // ]
+      var total = envelopes[i].amount;
+      var envChart = c3.generate({
+        padding: {
+          bottom: 0,
+        },
+        bindto: d3.select('.' + String(envelopes[i].envelope_name.split(" ")[0]).toLowerCase()),
+        // bindto: d3.select('.donations'),
+        data: {
+          columns: [
+            ['data1',(envelopes[i].envelope_amount_spent).toFixed(2)],
+            ['data2',(envelopes[i].enevelope_amount_left).toFixed(2)]
+          ],
+          type: 'bar',
+          colors: {
+            data1: '#2196f3',
+            data2: '#90caf9'
+          },
+          names:{
+            data1:'spent',
+            data2:'remaining',
+          },
+          groups: [
+            ['data1', 'data2']
+          ],
+          order: null,
+          labels: {
+            format: {
+              data1: d3.format('$'),
+              data2: function (v, id, i, j) {
+               return "$"+total;
+              },
+            }
+          }
+        },
+        legend: {show: false},
+        grid: {
+          y: {
+            lines: [{value:0}]
+          }
+        },
+        axis: {
+          rotated: true,
+          y: {show: false},
+          x: {show: false}
+        },
+        tooltip: {show: false},
+        grid: {
+          y: {show: false}
+        },
+        oninit: function () {
+            this.main.append('rect')
+                .style('fill', 'white')
+                .attr('x', 0.5)
+                .attr('y', -0.5)
+                .attr('width', this.width)
+                .attr('height', this.height)
+              .transition().duration(4000)
+                .attr('x', this.width)
+                .attr('width', 0)
+              .remove();
+        }
+      });
+      // setTimeout(function () {
+      //   console.log('here')
+      //   envChart.load ({columns: chartData});
+      // }, 500)
+    };
+  };
+
+  makeChart(envelopes);
+</script>

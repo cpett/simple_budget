@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.budget, name='budget'),
     url(r'^envelopes/', views.envelopes, name='envelopes'),
+    url(r'^envelopes_edit/(\d+)/', views.envelopes_edit, name='envelopes_edit'),
     url(r'^accounts_add/', views.accounts_add, name='accounts_add'),
     url(r'^accounts_edit/(\d+)/', views.accounts_edit, name='accounts_edit'),
     url(r'^accounts_remove_confirm/(\d+)/', views.accounts_remove_confirm, name='accounts_remove_confirm'),
