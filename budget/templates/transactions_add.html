@@ -2,6 +2,7 @@
 {% load material_form %}
 <script src="{% static 'js/transactions.js' %}"></script>
 <div class="modal-content">
+  <h4>Add Transaction</h4>
   <span class='ajaxForm'>
     <form id="AddTransactionsForm" method="POST" class="viewform">{% csrf_token %}
         {% form form=form %}

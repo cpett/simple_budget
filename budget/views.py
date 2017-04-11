@@ -36,26 +36,36 @@ def budget(request):
     for d in load_data['data']:
         if d['available_balance'] != None:
             total += d['available_balance']
-            print(total)
 
-    data = []
-    donations = ["Donations",10]
-    education = ["Education",10]
-    entertainment = ["Entertainment",10]
-    fees = ["Fees",10]
-    food = ["Food", 2.5, 1.9, 2.1, 1.8, 2.2, 2.1, 1.7, 1.8, 1.8, 2.5, 2.0, 1.9, 2.1, 2.0, 2.4, 2.3, 1.8, 2.2, 2.3, 1.5, 2.3, 2.0, 2.0, 1.8, 2.1, 1.8, 1.8, 1.8, 2.1, 1.6, 1.9, 2.0, 2.2, 1.5, 1.4, 2.3, 2.4, 1.8, 1.8, 2.1, 2.4, 2.3, 1.9, 2.3, 2.5, 2.3, 1.9, 2.0, 2.3, 1.8]
-    health = ["Health",10]
-    home = ["Home", 1.4, 1.5, 1.5, 1.3, 1.5, 1.3, 1.6, 1.0, 1.3, 1.4, 1.0, 1.5, 1.0, 1.4, 1.3, 1.4, 1.5, 1.0, 1.5, 1.1, 1.8, 1.3, 1.5, 1.2, 1.3, 1.4, 1.4, 1.7, 1.5, 1.0, 1.1, 1.0, 1.2, 1.6, 1.5, 1.6, 1.5, 1.3, 1.3, 1.3, 1.2, 1.4, 1.2, 1.0, 1.3, 1.2, 1.3, 1.3, 1.1, 1.3]
-    insurance = ["Insurance",10]
-    payments = ["Payments",10]
-    professional = ["Professional Services",10]
-    miscellaneous = ["Miscellaneous",10]
-    shopping = ["Shopping",10]
-    subscriptions = ["Subscriptions",10]
-    travel = ["Travel", 0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.3, 0.2, 0.2, 0.1, 0.2, 0.2, 0.1, 0.1, 0.2, 0.4, 0.4, 0.3, 0.3, 0.3, 0.2, 0.4, 0.2, 0.5, 0.2, 0.2, 0.4, 0.2, 0.2, 0.2, 0.2, 0.4, 0.1, 0.2, 0.2, 0.2, 0.2, 0.1, 0.2, 0.2, 0.3, 0.3, 0.2, 0.6, 0.4, 0.3, 0.2, 0.2, 0.2, 0.2]
-    other = ["Other",10]
-    doughnutData = [donations, education, entertainment, fees, food, health, home, insurance, payments, professional, miscellaneous, shopping, subscriptions, travel, other]
-    context = {"doughnutData" : doughnutData, "total" : total}
+    # User Envelopes data call for the monthly expenditure doughnut chart
+    path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
+    req = requests.get(path, headers={'Authorization': token})
+    data = req.json()
+    load_data = parser(data)
+    budget_spent = 0
+    budget_amount = 0
+    doughnutData = []
+    envelopes_data = []
+    for d in load_data['data']:
+        envelope_data = []
+        name = d["envelope_name"]
+        envelope_data = [name,d["envelope_amount_spent"]]
+
+        envelope_data_spent = []
+        percent_spent = (d["envelope_amount_spent"] / d["amount"]) * 100
+        if percent_spent > 100:
+            percent_spent = 100
+        envelope_data_spent = [name, percent_spent]
+
+        envelopes_data.append(envelope_data)
+        doughnutData.append(envelope_data)
+
+        budget_spent += d["envelope_amount_spent"]
+        budget_amount += d["amount"]
+
+    budget_difference = budget_amount - budget_spent
+
+    context = {"doughnutData" : doughnutData, "total" : total, "envelopes_data" : envelopes_data, "budget_amount" : budget_amount, "budget_spent" : budget_spent, "budget_difference" : budget_difference}
     return render(request, 'budget.html', context)
 
 # @login_required(login_url='/')
@@ -466,16 +476,21 @@ def transactions_edit(request, transaction_id):
         else:
             return render(request, 'transactions_edit_ajax.html', {'form': form,'transaction_id': transaction_id})
     else:
-        # import dateutil.parser
-        # date = dateutil.parser.parse(data['date'])
+        import dateutil.parser
+        date = dateutil.parser.parse(data['date'])
+        date = date.strftime('%Y-%m-%d')
+        print('>>>>>>>>>>>>>>>>>')
+        print(date)
+
         if Decimal(data['amount']) < 0:
             transaction_type = '1'
         else:
             transaction_type = '2'
         form = frm.TransactionForm(request,
                                    initial={
+                                            'transaction_name':data['name'],
                                             'transaction_type':transaction_type,
-                                            'transaction_date':data['date'],
+                                            'transaction_date':date,
                                             'transaction_amount':data['amount'],
                                             'category':62,# data['category_name'],
                                             'account':322# data['account_name']

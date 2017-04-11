@@ -1,6 +1,7 @@
 {% load staticfiles %}
 {% load material_form %}
 <script src="{% static 'js/transactions.js' %}"></script>
+
 <form id="AddTransactionsForm" method="POST" class="viewform">{% csrf_token %}
     {% form form=form %}
       {% part form.transaction_name prefix %}<i class="material-icons prefix">label_outline</i>{% endpart %}

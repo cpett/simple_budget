@@ -3,101 +3,148 @@
 {% block title %}Dashboard{% endblock %}
 {% block content %}
     <div class="row">
-      <div class="col m12">
+      <div class="col m6">
         <div class="card">
           <div class="card-content">
             <div class="row">
-              <div class="col s12 m5 l5">
-                <h1>{{total}}</h1>
+              <div class = "col m1">
+                <i class="material-icons medium">today</i>
+              </div>
+              <div class="col m10">
                 <h5 class='center'>Current Month</h5>
-                <div id="month"></div>
               </div>
-              <div class="col m1 l1"></div>
-              <div class="col s12 m5 l5">
-                <h5 class='center'>Year Expenses</h5>
-                <div id="year"></div>
-              </div>
+              <div class = "col m1"></div>
             </div>
-            <div class="row"></div>
-            <div class="row"></div>
             <div class="row">
-              <h4 class="center">Envelopes</h4>
+              <div id="month"></div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- ROW ONE OF ENVELOPES -->
-            <div class="row">
-              <div class="col s12 m1 l1"></div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Food</strong></p>
-                <div id="food"></div>
+        <div class="col m6">
+          <div class="card">
+            <div class="card-content">
+              <div class="row">
+                <div class ='col m1'>
+                  <i class="material-icons medium">attach_money</i>
+                </div>
+                <div class='col m10'>
+                  <h5 class='center'>Summary</h5>
+                </div>
               </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Home</strong></p>
-                <div id="home"></div>
+              <div class="row">
+                <div class="Information col m4">
+                  <p>Total Assets:</p>
+                  <br>
+                  <p>Total Budget: </p>
+                  <p>Total Expenditures: </p>
+                  <hr>
+                  <p>Amount Remaining:</p>
+                </div>
+                <div class="col m2"></div>
+                <div class="col m2">
+                  <p>$ {{total}}</p>
+                  <br>
+                  <p>$ {{budget_amount}}</p>
+                  <p>$ {{budget_spent}}</p>
+                  <hr>
+                  <p>$ {{budget_difference}}</p>
+                </div>
               </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Entertainment</strong></p>
-                <div id="entertainment"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Shopping</strong></p>
-                <div id="shopping"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Subscriptions</strong></p>
-                <div id="subscriptions"></div>
+              <div class="row">
+                <div id="budget"></div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
 
-            <!-- ROW TWO OF ENVELOPES -->
-            <div class="row">
-              <div class="col s12 m1 l1"></div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Travel</strong></p>
-                <div id="travel"></div>
+        <div class="row">
+          <div class="col m12">
+            <div class="card">
+              <div class="card-content">
+              <div class="row">
+                <div class="col m1"><i class="material-icons medium">mail</i></div>
+                <div class="col m10"><h4 class="center">Envelopes</h4></div>
               </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Insurance</strong></p>
-                <div id="insurance"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Health</strong></p>
-                <div id="health"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Education</strong></p>
-                <div id="education"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Payments</strong></p>
-                <div id="payments"></div>
-              </div>
-            </div>
 
-            <!-- ROW THREE OF ENVELOPES -->
-            <div class="row">
-              <div class="col s12 m1 l1"></div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Dontations</strong></p>
-                <div id="donations"></div>
+              <!-- ROW ONE OF ENVELOPES -->
+              <div class="row">
+                <div class="col s12 m1 l1"></div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Food</strong></p>
+                  <div id="food"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Home</strong></p>
+                  <div id="home"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Entertainment</strong></p>
+                  <div id="entertainment"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Shopping</strong></p>
+                  <div id="shopping"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Subscriptions</strong></p>
+                  <div id="subscriptions"></div>
+                </div>
               </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Fees</strong></p>
-                <div id="fees"></div>
+
+              <!-- ROW TWO OF ENVELOPES -->
+              <div class="row">
+                <div class="col s12 m1 l1"></div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Travel</strong></p>
+                  <div id="travel"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Insurance</strong></p>
+                  <div id="insurance"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Health</strong></p>
+                  <div id="health"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Education</strong></p>
+                  <div id="education"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Payments</strong></p>
+                  <div id="payments"></div>
+                </div>
               </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Miscellaneous</strong></p>
-                <div id="miscellaneous"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Professional Services</strong></p>
-                <div id="professional"></div>
-              </div>
-              <div class="col s12 m2 l2">
-                <p class='center'><strong>Other</strong></p>
-                <div id="other"></div>
+
+              <!-- ROW THREE OF ENVELOPES -->
+              <div class="row">
+                <div class="col s12 m1 l1"></div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Dontations</strong></p>
+                  <div id="donations"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Fees</strong></p>
+                  <div id="fees"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Miscellaneous</strong></p>
+                  <div id="miscellaneous"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Professional Services</strong></p>
+                  <div id="professional"></div>
+                </div>
+                <div class="col s12 m2 l2">
+                  <p class='center'><strong>Other</strong></p>
+                  <div id="other"></div>
+                </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -121,27 +168,60 @@
             {{ doughnutData.11|safe }},
             {{ doughnutData.12|safe }},
             {{ doughnutData.13|safe }},
-            {{ doughnutData.14|safe }},
+            {{ doughnutData.14|safe }}
           ],
           type : 'donut',
       },
       donut: {
           title: "Budget Expenditures"
-      }
+      },
+      legend: {
+        position: 'right'
+    }
   });
 
-  var year = c3.generate({
-      bindto: '#year',
+  var budget = c3.generate({
+      bindto: '#budget',
       data: {
           columns: [
-            ['Travel', 30, 200, 100, 400, 150, 250, 30, 200, 100, 400, 150, 250, 300, 100],
-            ['Home', 130, 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150],
-            ['Groceries', 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150, 130],
-            ['Entertainment', 200, 100, 400, 150, 250, 30, 200, 100, 400, 150, 250, 300, 100,230],
-            ['Fun', 100, 140, 200, 150, 50, 130, 100, 140, 200, 150, 50, 200, 150,140],
+            ['Budget Amount', {{budget_amount}}],
+            ['Budget Spent', {{budget_spent}}],
           ],
-          type: 'spline'
-      }
+          type: 'bar',
+          colors: {
+            "Budget Amount": '#b5b6b7',
+            "Budget Spent": '#d62728'
+          },
+          groups: [
+            ['Budget Amount', 'Budget Spent']
+          ],
+          labels: {
+            position: 'inner-center',
+            format: {
+              "Budget Amount": d3.format('$'),
+              "Budget Spent": d3.format('$')
+            }
+          }
+        },
+          legend: {show: false},
+          order: null,
+          grid: {
+            y: {
+              lines: [{value:0}]
+            }
+          },
+          axis: {
+            rotated: true,
+            y: {show: false},
+            x: {show: false}
+          },
+          size: {
+            height: 80
+          },
+          tooltip: {show: false},
+          grid: {
+            y: {show: false}
+          }
   });
 // Row 1
   var food = c3.generate({
@@ -156,7 +236,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
               values: [30, 60, 90, 100]
           }
@@ -168,7 +248,7 @@
 
   setTimeout(function() {
       food.load({
-          columns: [['Food', 9]]
+          columns: [ {{envelopes_data.4|safe}} ]
       });
   }, 1000);
 
@@ -184,7 +264,7 @@
 
       },
       color: {
-        pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+        pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
         threshold: {
 
               values: [30, 60, 90, 100]
@@ -197,7 +277,7 @@
 
   setTimeout(function() {
       home.load({
-          columns: [['Home',  37.9]]
+          columns: [ {{envelopes_data.6|safe}} ]
       });
   }, 1500);
 
@@ -213,7 +293,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
               values: [30, 60, 90, 100]
           }
@@ -225,7 +305,7 @@
 
   setTimeout(function() {
       entertainment.load({
-          columns: [['Entertainment',  91.4]]
+          columns: [ {{envelopes_data.2|safe}} ]
       });
   }, 2000);
 
@@ -241,7 +321,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
               values: [30, 60, 90, 100]
           }
@@ -253,7 +333,7 @@
 
   setTimeout(function() {
       shopping.load({
-          columns: [['Shopping', 0]]
+          columns: [ {{envelopes_data.11|safe}} ]
       });
   }, 2500);
 
@@ -269,7 +349,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -282,7 +362,7 @@
 
   setTimeout(function() {
       subscriptions.load({
-          columns: [['Subscriptions', 100]]
+          columns: [ {{envelopes_data.12|safe}} ]
       });
   }, 3000);
 
@@ -299,7 +379,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -312,7 +392,7 @@
 
   setTimeout(function() {
       travel.load({
-          columns: [['Travel', 46]]
+          columns: [ {{envelopes_data.13|safe}} ]
       });
   }, 1000);
 
@@ -328,7 +408,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -341,7 +421,7 @@
 
   setTimeout(function() {
       insurance.load({
-          columns: [['Insurance', 20]]
+          columns: [ {{envelopes_data.7|safe}} ]
       });
   }, 1500);
 
@@ -357,7 +437,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -370,7 +450,7 @@
 
   setTimeout(function() {
       health.load({
-          columns: [['Health', 78]]
+          columns: [ {{envelopes_data.5|safe}} ]
       });
   }, 2000);
 
@@ -386,7 +466,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -399,7 +479,7 @@
 
   setTimeout(function() {
       education.load({
-          columns: [['Education', 57]]
+          columns: [ {{envelopes_data.1|safe}} ]
       });
   }, 2500);
 
@@ -415,7 +495,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -428,7 +508,7 @@
 
   setTimeout(function() {
       payments.load({
-          columns: [['Payments', 4]]
+          columns: [ {{envelopes_data.8|safe}} ]
       });
   }, 3000);
 
@@ -445,7 +525,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -458,7 +538,7 @@
 
   setTimeout(function() {
       donations.load({
-          columns: [['Donations', 63]]
+          columns: [ {{envelopes_data.0|safe}} ]
       });
   }, 1000);
 
@@ -474,7 +554,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -487,7 +567,7 @@
 
   setTimeout(function() {
       fees.load({
-          columns: [['Fees', 97]]
+          columns: [ {{envelopes_data.3|safe}} ]
       });
   }, 1500);
 
@@ -503,7 +583,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -516,7 +596,7 @@
 
   setTimeout(function() {
       miscellaneous.load({
-          columns: [['Miscellaneous', 100]]
+          columns: [ {{envelopes_data.10|safe}} ]
       });
   }, 2000);
 
@@ -532,7 +612,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]
@@ -545,7 +625,7 @@
 
   setTimeout(function() {
       professional.load({
-          columns: [['Professional Services', 20]]
+          columns: [ {{envelopes_data.9|safe}} ]
       });
   }, 2500);
 
@@ -561,7 +641,7 @@
 
       },
       color: {
-          pattern: [ '#60B044', '#F6C600', '#F97600', '#FF0000' ], // the three color levels for the percentage values.
+          pattern: [ '#00c853', '#F6C600', '#F97600', '#d62728' ], // the three color levels for the percentage values.
           threshold: {
 
               values: [30, 60, 90, 100]

@@ -128,7 +128,14 @@ def get_cat_choices(request):
     data = req.json()
     choices = []
     for d in data:
-        choices.append((d['id'], d['hierarchy_1']))
+        hierarchy = ''
+        if d['hierarchy_3'] != 'Null':
+            hierarchy = d['hierarchy_3']
+        elif d['hierarchy_2'] != 'Null':
+            hierarchy = d['hierarchy_2']
+        else:
+            hierarchy = d['hierarchy_1']
+        choices.append((d['id'], hierarchy))
     return choices
 def get_acc_choices(request):
     token = 'Token token=' + request
@@ -152,13 +159,11 @@ class TransactionForm(forms.Form):
         self.fields['category'] = forms.ChoiceField(choices=get_cat_choices(request.session.get('api_token')))
         self.fields['account'] = forms.ChoiceField(choices=get_acc_choices(request.session.get('api_token')))
     layout = Layout(
-                    Fieldset('New Transaction',
-                             Row('transaction_name', 'transaction_type'),
-                             Row('transaction_amount', 'transaction_date'),
-                             Row('account', 'category'),
-                             Row('transaction_description')
-                            )
-                   )
+                        Row('transaction_name', 'transaction_type'),
+                        Row('transaction_amount', 'transaction_date'),
+                        Row('account', 'category')
+                    )
+
 
 class GoalForm(forms.Form):
     name = forms.CharField(max_length=25, label="Name")
