@@ -540,7 +540,6 @@ def transactions_edit(request, transaction_id):
         else:
             return render(request, 'transactions_edit_ajax.html', {'form': form,'transaction_id': transaction_id})
     else:
-        import dateutil.parser
         date = dateutil.parser.parse(data['date'])
         date = date.strftime('%Y-%m-%d')
         print('>>>>>>>>>>>>>>>>>')
