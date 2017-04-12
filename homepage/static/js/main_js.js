@@ -55,6 +55,14 @@ $(document).ready(function(){
     });
   });
   $('#LoginForm').on('submit', function(e){
+    $('#modal').modal('close')
+    $("#fakeLoader1").fakeLoader({
+          timeToHide:6500, //Time in milliseconds for fakeLoader disappear
+          zIndex:1000, // Default zIndex
+          spinner:"spinner" + (Math.floor(Math.random() * 6) + 1),//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+          bgColor:"#00C853" //Hex, RGB or RGBA colors
+          // imagePath:"yourPath/customizedImage.gif" //If you want can you insert your custom image
+    });
       e.preventDefault();
       e.stopImmediatePropagation();
       var dest = '/login/';
@@ -67,6 +75,7 @@ $(document).ready(function(){
               // call fakeLoader and redirect the page
               loader()
             } else {
+              $('#modal').modal('open')
               $('.modal-content').find('.ajaxForm').html(data);
             }
           },
@@ -80,7 +89,7 @@ $(document).ready(function(){
   function loader() {
     $('#modal').modal('close');
       $("#fakeLoader").fakeLoader({
-        timeToHide:1500, //Time in milliseconds for fakeLoader disappear
+        timeToHide:15000, //Time in milliseconds for fakeLoader disappear
         zIndex:1000, // Default zIndex
         spinner:"spinner" + (Math.floor(Math.random() * 6) + 1),//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
         bgColor:"#00C853" //Hex, RGB or RGBA colors
@@ -110,5 +119,4 @@ $(document).ready(function(){
       $('#sub-nav').fadeOut(500);
     }
   });
-
 });
