@@ -34,8 +34,6 @@
                 <tr>
                   <th>Date</th>
                   <th>Name</th>
-                  <th>Account</th>
-                  <th>Category</th>
                   <th>Amount</th>
                   <th class="no_sort">Actions</th>
                 </tr>
@@ -45,8 +43,6 @@
                   <tr>
                     <td>{{ transaction.clean_trans_date }}</td>
                     <td>{{ transaction.name }}</td>
-                    <td>{{ transaction.account_id }}</td>
-                    <td>{{ transaction.category_id }}</td>
                     <td>${{ transaction.amount|floatformat:2 }}</td>
                     <td>
                       <a id='{{ transaction.id }}' class='btnEditTransactions tooltipped btn-flat nopadding' data-position="bottom"
