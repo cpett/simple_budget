@@ -1,6 +1,7 @@
 {% load staticfiles %}
 <script src="{% static 'js/accounts.js' %}"></script>
 <script src="{% static 'js/filtercards.js' %}"></script>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <div class="row">
   <div id="admin" class="col s12">
     <div class="card material-table">
@@ -14,7 +15,7 @@
                   <option value="" disabled selected>Filter accounts</option>
                   <option value="all" id="button" class="filter" data-filter="all" role="button">All</option>
                   {% for account in accounts %}
-                    <option value="{{ account.name }}" id="button" class="filter" data-filter="{{ account.name }}" role="button">{{ account.name }}</option>
+                    <option value="{{ account }}" id="button" class="filter" data-filter="{{ account }}" role="button">{{ account }}</option>
                   {% endfor %}
                 </select>
               </div>
@@ -59,13 +60,13 @@
   </div>
 </div>
 <span class="boxes">
-{% for account in accounts %}
-  <div class="row mix {{account.name}}"  data-category="{{ account.name }}">
+{% for account, value in accounts.items %}
+  <div class="row mix {{account}}"  data-category="{{ account }}">
     <div id="admin" class="col s12">
       <div class="card material-table">
         <div class="card-content">
           <div class="table-header">
-            <h4>{{ account.name }}</h4>
+            <h4>{{ account }}</h4>
             <div class="actions">
               <!-- <a href="#"
                 class="waves-effect waves-green accent-4 btn-flat green nopadding tooltipped btnAddAccounts"
@@ -75,41 +76,41 @@
             </div>
           </div>
           <div class="row boxes" id="sort-me">
-            {% for account in accounts %}
+            {% for a, val in value.items %}
               <div class="col s12 m6 l6">
                 <div class="card small
-                  {% if account.account_subtype == 'checking' %}
+                  {% if val.account_subtype == 'checking' %}
                     purple lighten-3
-                  {% elif account.account_subtype == 'credit' %}
+                  {% elif val.account_subtype == 'credit' %}
                     orange lighten-3
-                  {% elif account.account_subtype == 'investment' %}
+                  {% elif val.account_subtype == 'investment' %}
                     teal accent-3
-                  {% elif account.account_subtype == 'savings' %}
+                  {% elif val.account_subtype == 'savings' %}
                     light-blue lighten-3
-                  {% elif account.account_subtype == 'loan' %}
+                  {% elif val.account_subtype == 'loan' %}
                     pink lighten-3
-                  {% elif account.account_subtype == 'cd' %}
+                  {% elif val.account_subtype == 'cd' %}
                     pink lighten-3
                   {% endif %}">
                   <div class="card-content white-text">
                     <span class="card-title no_margin">
-                      {{ account.name }}
-                      {% if account.available_balance %}
-                        <span class="right {% if account.available_balance < 0 %}red-text{% endif %}">${{ account.available_balance|floatformat:2 }}</span>
+                      {{ val.name }}
+                      {% if val.available_balance %}
+                        <span class="right {% if val.available_balance < 0 %}red-text{% endif %}">${{ account.available_balance|floatformat:2 }}</span>
                       {% else %}
-                        <span class="right {% if account.current_balance < 0 %}red-text{% endif %}">${{ account.current_balance|floatformat:2 }}</span>
+                        <span class="right {% if val.current_balance < 0 %}red-text{% endif %}">${{ account.current_balance|floatformat:2 }}</span>
                       {% endif %}
                     </span>
                     <span class="card_subtitle">
-                      {{ account.account_subtype|capfirst }}
+                      {{ val.account_subtype|capfirst }}
                       <span class="right">Balance</span>
                     </span>
                   </div>
                   <div class="card-action grey darken-3">
-                    <a id='{{ account.id }}' class='btnEditAccount white-text'>
+                    <a id='{{ val.id }}' class='btnEditAccount white-text'>
                       Edit Account
                     </a>
-                    <a id='{{ account.id }}' class='btnConfirmAccount white-text'>
+                    <a id='{{ val.id }}' class='btnConfirmAccount white-text'>
                       Remove Account
                     </a>
                   </div>
@@ -123,44 +124,55 @@
   </div>
 {% endfor %}
 </span>
-<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 <script type="text/javascript">
-var handler = Plaid.create({
-  clientName: 'SimpliFi',
-  env: 'sandbox',
-  key: '4181b5e7e3476f2974824d3a1d4e52', // Replace with your public_key to test with live credentials
-  product: ['auth', 'transactions'],
-  // webhook: '[]', // Optional – use webhooks to get transaction and error updates
-  selectAccount: false, // Optional – trigger the Select Account
-  onLoad: function() {
-    // Optional, called when Link loads
-  },
-  onSuccess: function(public_token, metadata) {
-    // Send the public_token to your app server.
-    // The metadata object contains info about the institution the
-    // user selected and the account ID, if `selectAccount` is enabled.
-    $.post('https://simplifiapi.herokuapp.com/get_access_token', {
-      public_token: public_token,
-    });
-  },
-  onExit: function(err, metadata) {
-    // The user exited the Link flow.
-    if (err != null) {
-      // The user encountered a Plaid API error prior to exiting.
+  var handler = Plaid.create({
+    clientName: 'SimpliFi',
+    env: 'sandbox',
+    key: '4181b5e7e3476f2974824d3a1d4e52', // Replace with your public_key to test with live credentials
+    product: ['auth', 'transactions'],
+    // webhook: '[]', // Optional – use webhooks to get transaction and error updates
+    selectAccount: false, // Optional – trigger the Select Account
+    onLoad: function() {
+    },
+    onSuccess: function(public_token, metadata) {
+      // Send the public_token to your app server.
+      // The metadata object contains info about the institution the
+      // user selected and the account ID, if `selectAccount` is enabled.
+      // $.post('https://simplifiapi2.herokuapp.com/get_access_token', {
+      //   public_token: public_token,
+      // });
+      $.ajax({
+         type : "POST",
+         url : "https://simplifiapi2.herokuapp.com/get_access_token",
+         beforeSend: function(xhr){xhr.setRequestHeader('Authorization', '{{token}}');},
+         data : {"public_token" : public_token},
+         success : function(result) {
+             //set your variable to the result
+             window.location.replace('/budget/accounts/')
+         },
+         error : function(result) {
+           //handle the error
+         }
+       });
+    },
+    onExit: function(err, metadata) {
+      // The user exited the Link flow.
+      if (err != null) {
+        // The user encountered a Plaid API error prior to exiting.
+      }
+      // metadata contains information about the institution
+      // that the user selected and the most recent API request IDs.
+      // Storing this information can be helpful for support.
     }
-    // metadata contains information about the institution
-    // that the user selected and the most recent API request IDs.
-    // Storing this information can be helpful for support.
-  }
-});
+  });
 
-$('#link-button').on('click', function(e) {
-  handler.open();
-  // Alternatively, you can have a specific institution
-  // prompt for authentication. Example:
-  //
-  // handler.open('ins_100000');
-  //
-  // This will open Link with Union Bank as the institution.
-});
+  $('#link-button').on('click', function(e) {
+    handler.open();
+    // Alternatively, you can have a specific institution
+    // prompt for authentication. Example:
+    //
+    // handler.open('ins_100000');
+    //
+    // This will open Link with Union Bank as the institution.
+  });
 </script>

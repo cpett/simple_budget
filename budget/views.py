@@ -155,9 +155,10 @@ def accounts(request):
     path = 'https://simplifiapi2.herokuapp.com/accounts'
     req = requests.get(path, headers={'Authorization': token})
     data = req.json()
-    data = sorted(data, key=lambda x:x['name'].upper())
+    data = sorted(data, key=lambda x:x['institution_name'].upper())
     load_data = parser(data)
     balance = 0
+    accounts = {}
     for d in load_data['data']:
         if d['account_subtype'] != 'credit':
             if d['available_balance'] != None:
@@ -166,8 +167,13 @@ def accounts(request):
                 balance += d['current_balance']
         else:
             balance -= d['current_balance']
+        if d['institution_name'] in accounts:
+            accounts[d['institution_name']][d['name']] = d
+        else:
+            accounts[d['institution_name']] = {}
+            accounts[d['institution_name']][d['name']] = d
 
-    context = {'accounts': load_data['data'], 'balance': balance, "token" : token}
+    context = {'accounts': accounts, 'balance': balance, "token" : token}
     if request.GET.get('type'):
         return render(request, 'accounts_ajax.html', context)
     else:
