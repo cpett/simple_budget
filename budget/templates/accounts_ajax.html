@@ -96,9 +96,9 @@
                     <span class="card-title no_margin">
                       {{ val.name }}
                       {% if val.available_balance %}
-                        <span class="right {% if val.available_balance < 0 %}red-text{% endif %}">${{ account.available_balance|floatformat:2 }}</span>
+                        <span class="right {% if val.available_balance < 0 %}red-text{% endif %}">${{ val.available_balance|floatformat:2 }}</span>
                       {% else %}
-                        <span class="right {% if val.current_balance < 0 %}red-text{% endif %}">${{ account.current_balance|floatformat:2 }}</span>
+                        <span class="right {% if val.current_balance < 0 %}red-text{% endif %}">${{ val.current_balance|floatformat:2 }}</span>
                       {% endif %}
                     </span>
                     <span class="card_subtitle">
