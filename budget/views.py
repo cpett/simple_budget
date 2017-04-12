@@ -52,8 +52,13 @@ def budget(request):
     load_data = parser(data)
     total = 0
     for d in load_data['data']:
-        if d['available_balance'] != None:
-            total += d['available_balance']
+        if d['account_type'] == 'credit':
+            total -= d['current_balance']
+        else:
+            if d['current_balance'] != None:
+                total += d['current_balance']
+    total = round(Decimal(total),2)
+
     # User Envelopes data call for the monthly expenditure doughnut chart
     path = 'https://simplifiapi2.herokuapp.com/user_envelopes'
     req = requests.get(path, headers={'Authorization': token})
@@ -66,14 +71,14 @@ def budget(request):
     for d in load_data['data']:
         envelope_data = []
         name = d["envelope_name"]
-        envelope_data = [name,d["envelope_amount_spent"]]
+        envelope_data = [name,round(d["envelope_amount_spent"],2)]
 
         envelope_data_spent = []
         try:
             percent_spent = (d["envelope_amount_spent"] / d["amount"]) * 100
             if percent_spent > 100:
                 percent_spent = 100
-            envelope_data_spent = [name, percent_spent]
+            envelope_data_spent = [name, round(percent_spent,2)]
         except:
             envelope_data_spent = [name, 0]
 
@@ -84,6 +89,9 @@ def budget(request):
         budget_amount += d["amount"]
 
     budget_difference = budget_amount - budget_spent
+    budget_difference = round(Decimal(budget_difference),2)
+    budget_spent = round(Decimal(budget_spent),2)
+    budget_amount = round(Decimal(budget_amount),2)
 
     context = {"doughnutData" : doughnutData, "total" : total, "envelopes_data" : envelopes_data, "budget_amount" : budget_amount, "budget_spent" : budget_spent, "budget_difference" : budget_difference}
     return render(request, 'budget.html', context)
