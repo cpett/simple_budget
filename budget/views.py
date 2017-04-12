@@ -555,8 +555,8 @@ def transactions_edit(request, transaction_id):
                                             'transaction_type':transaction_type,
                                             'transaction_date':date,
                                             'transaction_amount':data['amount'],
-                                            'category':62,# data['category_name'],
-                                            'account':322# data['account_name']
+                                            'category':data['category_id'],
+                                            'account':data['account_id']
                                            }
                                   )
     context = {'form': form,'transaction_id': transaction_id}
