@@ -57,7 +57,7 @@ $(document).ready(function(){
   $('#LoginForm').on('submit', function(e){
     $('#modal').modal('close')
     $("#fakeLoader1").fakeLoader({
-          timeToHide:6500, //Time in milliseconds for fakeLoader disappear
+          timeToHide:15000, //Time in milliseconds for fakeLoader disappear
           zIndex:1000, // Default zIndex
           spinner:"spinner" + (Math.floor(Math.random() * 6) + 1),//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
           bgColor:"#00C853" //Hex, RGB or RGBA colors
